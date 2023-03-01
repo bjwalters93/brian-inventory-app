@@ -2,13 +2,16 @@ import "./UserInput.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import { useState } from "react";
 
 function UserInput() {
-  const [itemName, setItemName] = useState("ITEM-NAME");
-  const [itemCode, setItemCode] = useState("ITEM-CODE");
+  const [itemName, setItemName] = useState("ITEM NAME");
+  const [itemCode, setItemCode] = useState("00000000");
   const [itemQuantity, setItemQuantity] = useState(10);
   const [itemPrice, setItemPrice] = useState(1.99);
+  const [successAlert, setSuccessAlert] = useState("");
 
   function user_input() {
     setItemName(document.getElementById("item-name").value);
@@ -42,8 +45,8 @@ function UserInput() {
       itemEl.ariaInvalid === "false" &&
       quantityEl.ariaInvalid === "false" &&
       priceEl.ariaInvalid === "false" &&
-      nameEl.value !== "ITEM-NAME" &&
-      itemEl.value !== "ITEM-CODE"
+      nameEl.value !== "ITEM NAME" &&
+      itemEl.value !== "00000000"
     ) {
       inventoryItemList.push(
         new InventoryItem(
@@ -53,15 +56,18 @@ function UserInput() {
           Number(priceEl.value).toFixed(2)
         )
       );
-      setItemName("ITEM-NAME");
-      setItemCode("ITEM-CODE");
+      setSuccessAlert(itemName);
+      setItemName("ITEM NAME");
+      setItemCode("00000000");
       setItemQuantity(10);
       setItemPrice(1.99);
       console.log("Success");
+      document.getElementById("success-alert").style.display = "flex";
+      document.getElementById("error-alert").style.display = "none";
     } else {
-      console.log("Error");
+      document.getElementById("error-alert").style.display = "flex";
+      document.getElementById("success-alert").style.display = "none";
     }
-    console.log(inventoryItemList);
   }
 
   return (
@@ -77,16 +83,21 @@ function UserInput() {
                 : ""
             }
             id="item-name"
-            label="Item-Name"
-            placeholder="Item-Name"
+            label="Item Name"
+            placeholder="Item Name"
             className="text-field"
             color="secondary"
             onChange={(event) => {
               user_input();
               setItemName(event.target.value.toUpperCase());
             }}
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ maxLength: 20, autoComplete: "off" }}
             value={itemName}
+            onKeyDown={(event) => {
+              if (!event.key.match(/[a-zA-Z0-9\s]/)) {
+                event.preventDefault();
+              }
+            }}
           />
           <TextField
             required
@@ -97,16 +108,21 @@ function UserInput() {
                 : ""
             }
             id="item-code"
-            label="Item-Code"
-            placeholder="Item-Code"
+            label="Item Code"
+            placeholder="Item Code"
             className="text-field"
             color="secondary"
             onChange={(event) => {
               user_input();
               setItemCode(event.target.value.toUpperCase().split(" ").join(""));
             }}
-            inputProps={{ maxLength: 8 }}
+            inputProps={{ maxLength: 8, autoComplete: "off" }}
             value={itemCode}
+            onKeyDown={(event) => {
+              if (!event.key.match(/[a-zA-Z0-9]/)) {
+                event.preventDefault();
+              }
+            }}
           />
           <TextField
             required
@@ -125,7 +141,7 @@ function UserInput() {
             className="text-field"
             color="secondary"
             onChange={user_input}
-            inputProps={{ min: 0, max: 10000 }}
+            inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
             value={itemQuantity}
           />
           <TextField
@@ -143,10 +159,33 @@ function UserInput() {
             className="text-field"
             color="secondary"
             onChange={user_input}
-            inputProps={{ min: 0, max: 10000 }}
+            inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
             value={itemPrice}
             min={0}
           />
+          <Alert
+            id="error-alert"
+            severity="error"
+            onClose={() => {
+              document.getElementById("error-alert").style.display = "none";
+            }}
+            variant="filled"
+          >
+            <AlertTitle>Error</AlertTitle>
+            Invalid entry!
+          </Alert>
+          <Alert
+            id="success-alert"
+            severity="success"
+            onClose={() => {
+              document.getElementById("success-alert").style.display = "none";
+              setSuccessAlert("");
+            }}
+            variant="filled"
+          >
+            <AlertTitle>Success</AlertTitle>
+            {successAlert} has been added to your Inventory!
+          </Alert>
           <Button
             color="secondary"
             className="button"

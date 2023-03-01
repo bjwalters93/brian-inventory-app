@@ -10,7 +10,7 @@ const lightTheme = createTheme({
       main: "#1976d2",
     },
     error: {
-      main: "#d26f19",
+      main: "#d32f2f",
     },
   },
 });
@@ -25,7 +25,7 @@ const darkTheme = createTheme({
       main: "#1976d2",
     },
     error: {
-      main: "#d26f19",
+      main: "#d32f2f",
     },
     background: {
       default: "#121212",

@@ -12,3 +12,11 @@
 .text-field {
   margin-bottom: 10px;
 }
+
+#error-alert {
+  display: none;
+}
+
+#success-alert {
+  display: none;
+}
