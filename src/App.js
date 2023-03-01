@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import UserInput from "./UserInput_Comp/UserInput";
+import Header from "./Header_Comp/Header";
+import { useState } from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import { lightTheme, darkTheme } from "./themes";
+import { StyledEngineProvider } from "@mui/material/styles";
 
 function App() {
+  const [display, setDisplay] = useState(false);
+  function displayMode() {
+    setDisplay(!display);
+  }
+  !display
+    ? (document.body.style.backgroundColor = "white")
+    : (document.body.style.backgroundColor = "rgb(50, 50, 50)");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledEngineProvider injectFirst>
+      <ThemeProvider theme={!display ? lightTheme : darkTheme}>
+        <div className="App">
+          <Header displayFunction={displayMode} />
+          <UserInput />
+        </div>
+      </ThemeProvider>
+    </StyledEngineProvider>
   );
 }
-
 export default App;

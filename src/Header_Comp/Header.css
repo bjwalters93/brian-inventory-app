@@ -1,0 +1,16 @@
+.header-flex {
+  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-family: roboto;
+  text-align: center;
+}
+
+.right-align {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
