@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./themes";
 import { StyledEngineProvider } from "@mui/material/styles";
+import Table from "./Table_Comp/Table";
 
 function App() {
   const [display, setDisplay] = useState(false);
@@ -21,6 +22,7 @@ function App() {
         <div className="App">
           <Header displayFunction={displayMode} />
           <UserInput />
+          <Table />
         </div>
       </ThemeProvider>
     </StyledEngineProvider>

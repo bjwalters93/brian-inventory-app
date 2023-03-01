@@ -12,6 +12,10 @@ const lightTheme = createTheme({
     error: {
       main: "#d32f2f",
     },
+    // background: {
+    //   paper: "#1976d2",
+    //   default: "#1976d2",
+    // },
   },
 });
 

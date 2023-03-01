@@ -61,7 +61,6 @@ function UserInput() {
       setItemCode("00000000");
       setItemQuantity(10);
       setItemPrice(1.99);
-      console.log("Success");
       document.getElementById("success-alert").style.display = "flex";
       document.getElementById("error-alert").style.display = "none";
     } else {
@@ -71,9 +70,10 @@ function UserInput() {
   }
 
   return (
-    <div className="container">
+    <div className="user-input-container">
       <Paper>
-        <div className="flex-container">
+        <div className="user-input-flex">
+          <h2 className="user-input-title">Add Inventory Item</h2>
           <TextField
             required
             error={itemName === "" ? true : false}
@@ -98,6 +98,7 @@ function UserInput() {
                 event.preventDefault();
               }
             }}
+            size="small"
           />
           <TextField
             required
@@ -123,6 +124,7 @@ function UserInput() {
                 event.preventDefault();
               }
             }}
+            size="small"
           />
           <TextField
             required
@@ -143,6 +145,7 @@ function UserInput() {
             onChange={user_input}
             inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
             value={itemQuantity}
+            size="small"
           />
           <TextField
             required
@@ -161,7 +164,7 @@ function UserInput() {
             onChange={user_input}
             inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
             value={itemPrice}
-            min={0}
+            size="small"
           />
           <Alert
             id="error-alert"
