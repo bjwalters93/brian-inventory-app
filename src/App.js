@@ -1,12 +1,13 @@
 import React from "react";
 import "./App.css";
-import UserInput from "./UserInput_Comp/UserInput";
+// import UserInput from "./UserInput_Comp/UserInput";
 import Header from "./Header_Comp/Header";
 import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./themes";
 import { StyledEngineProvider } from "@mui/material/styles";
 import Table from "./Table_Comp/Table";
+import UserInput from "./testingTabs";
 
 function App() {
   const [display, setDisplay] = useState(false);

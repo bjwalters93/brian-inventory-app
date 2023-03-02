@@ -30,6 +30,7 @@ function UserInput() {
       this.buyPricePerItem = buyPricePerItem;
     }
     itemInformation() {
+      // FIXXXX
       let info = `${this.itemName}: ${this.itemCode}`;
       console.log(info);
     }
@@ -72,10 +73,10 @@ function UserInput() {
   return (
     <div className="user-input-container">
       <div className="user-input-flex">
-        <h2 className="user-input-title">
+        <div className="user-input-heading">
           <AddCircleOutlineIcon color="secondary" />
-          Add Inventory Item
-        </h2>
+          <h2 className="user-input-title">Add Inventory Item</h2>
+        </div>
         <TextField
           variant="filled"
           required
@@ -200,6 +201,7 @@ function UserInput() {
           className="button"
           onClick={SubmitForm}
           variant="contained"
+          startIcon={<AddCircleOutlineIcon />}
         >
           Submit
         </Button>
