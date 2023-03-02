@@ -1,7 +1,6 @@
 import "./UserInput.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Paper from "@mui/material/Paper";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { useState } from "react";
@@ -71,134 +70,132 @@ function UserInput() {
 
   return (
     <div className="user-input-container">
-      <Paper>
-        <div className="user-input-flex">
-          <h2 className="user-input-title">Add Inventory Item</h2>
-          <TextField
-            required
-            error={itemName === "" ? true : false}
-            helperText={
-              itemName === ""
-                ? "Please choose a name no longer than 20 characters"
-                : ""
+      <div className="user-input-flex">
+        <h2 className="user-input-title">Add Inventory Item</h2>
+        <TextField
+          required
+          error={itemName === "" ? true : false}
+          helperText={
+            itemName === ""
+              ? "Please choose a name no longer than 20 characters"
+              : ""
+          }
+          id="item-name"
+          label="Item Name"
+          placeholder="Item Name"
+          className="text-field"
+          color="secondary"
+          onChange={(event) => {
+            user_input();
+            setItemName(event.target.value.toUpperCase());
+          }}
+          inputProps={{ maxLength: 20, autoComplete: "off" }}
+          value={itemName}
+          onKeyDown={(event) => {
+            if (!event.key.match(/[a-zA-Z0-9\s]/)) {
+              event.preventDefault();
             }
-            id="item-name"
-            label="Item Name"
-            placeholder="Item Name"
-            className="text-field"
-            color="secondary"
-            onChange={(event) => {
-              user_input();
-              setItemName(event.target.value.toUpperCase());
-            }}
-            inputProps={{ maxLength: 20, autoComplete: "off" }}
-            value={itemName}
-            onKeyDown={(event) => {
-              if (!event.key.match(/[a-zA-Z0-9\s]/)) {
-                event.preventDefault();
-              }
-            }}
-            size="small"
-          />
-          <TextField
-            required
-            error={itemCode === "" || itemCode.length < 8 ? true : false}
-            helperText={
-              itemCode === "" || itemCode.length < 8
-                ? "Please choose a code equal to 8 characters"
-                : ""
+          }}
+          size="small"
+        />
+        <TextField
+          required
+          error={itemCode === "" || itemCode.length < 8 ? true : false}
+          helperText={
+            itemCode === "" || itemCode.length < 8
+              ? "Please choose a code equal to 8 characters"
+              : ""
+          }
+          id="item-code"
+          label="Item Code"
+          placeholder="Item Code"
+          className="text-field"
+          color="secondary"
+          onChange={(event) => {
+            user_input();
+            setItemCode(event.target.value.toUpperCase().split(" ").join(""));
+          }}
+          inputProps={{ maxLength: 8, autoComplete: "off" }}
+          value={itemCode}
+          onKeyDown={(event) => {
+            if (!event.key.match(/[a-zA-Z0-9]/)) {
+              event.preventDefault();
             }
-            id="item-code"
-            label="Item Code"
-            placeholder="Item Code"
-            className="text-field"
-            color="secondary"
-            onChange={(event) => {
-              user_input();
-              setItemCode(event.target.value.toUpperCase().split(" ").join(""));
-            }}
-            inputProps={{ maxLength: 8, autoComplete: "off" }}
-            value={itemCode}
-            onKeyDown={(event) => {
-              if (!event.key.match(/[a-zA-Z0-9]/)) {
-                event.preventDefault();
-              }
-            }}
-            size="small"
-          />
-          <TextField
-            required
-            error={
-              itemQuantity === "" || Number(itemQuantity) > 10000 ? true : false
-            }
-            helperText={
-              itemQuantity === "" || Number(itemQuantity) > 10000
-                ? "Please choose a number between 1 and 10000"
-                : ""
-            }
-            id="item-quantity"
-            label="Quantity"
-            type="number"
-            placeholder="Quantity"
-            className="text-field"
-            color="secondary"
-            onChange={user_input}
-            inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
-            value={itemQuantity}
-            size="small"
-          />
-          <TextField
-            required
-            error={itemPrice === "" || Number(itemPrice) > 10000 ? true : false}
-            helperText={
-              itemPrice === "" || Number(itemPrice) > 10000
-                ? "Please choose a number between 1 and 10000"
-                : ""
-            }
-            id="item-price"
-            label="Item Price"
-            type="number"
-            placeholder="Item Price"
-            className="text-field"
-            color="secondary"
-            onChange={user_input}
-            inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
-            value={itemPrice}
-            size="small"
-          />
-          <Alert
-            id="error-alert"
-            severity="error"
-            onClose={() => {
-              document.getElementById("error-alert").style.display = "none";
-            }}
-            variant="filled"
-          >
-            <AlertTitle>Error</AlertTitle>
-            Invalid entry!
-          </Alert>
-          <Alert
-            id="success-alert"
-            severity="success"
-            onClose={() => {
-              document.getElementById("success-alert").style.display = "none";
-              setSuccessAlert("");
-            }}
-            variant="filled"
-          >
-            <AlertTitle>Success</AlertTitle>
-            {successAlert} has been added to your Inventory!
-          </Alert>
-          <Button
-            color="secondary"
-            className="button"
-            onClick={SubmitForm}
-            variant="contained"
-          >
-            Submit
-          </Button>
-        </div>
-      </Paper>
+          }}
+          size="small"
+        />
+        <TextField
+          required
+          error={
+            itemQuantity === "" || Number(itemQuantity) > 10000 ? true : false
+          }
+          helperText={
+            itemQuantity === "" || Number(itemQuantity) > 10000
+              ? "Please choose a number between 1 and 10000"
+              : ""
+          }
+          id="item-quantity"
+          label="Quantity"
+          type="number"
+          placeholder="Quantity"
+          className="text-field"
+          color="secondary"
+          onChange={user_input}
+          inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
+          value={itemQuantity}
+          size="small"
+        />
+        <TextField
+          required
+          error={itemPrice === "" || Number(itemPrice) > 10000 ? true : false}
+          helperText={
+            itemPrice === "" || Number(itemPrice) > 10000
+              ? "Please choose a number between 1 and 10000"
+              : ""
+          }
+          id="item-price"
+          label="Item Price"
+          type="number"
+          placeholder="Item Price"
+          className="text-field"
+          color="secondary"
+          onChange={user_input}
+          inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
+          value={itemPrice}
+          size="small"
+        />
+        <Alert
+          id="error-alert"
+          severity="error"
+          onClose={() => {
+            document.getElementById("error-alert").style.display = "none";
+          }}
+          variant="filled"
+        >
+          <AlertTitle>Error</AlertTitle>
+          Invalid entry!
+        </Alert>
+        <Alert
+          id="success-alert"
+          severity="success"
+          onClose={() => {
+            document.getElementById("success-alert").style.display = "none";
+            setSuccessAlert("");
+          }}
+          variant="filled"
+        >
+          <AlertTitle>Success</AlertTitle>
+          {successAlert} has been added to your Inventory!
+        </Alert>
+        <Button
+          color="secondary"
+          className="button"
+          onClick={SubmitForm}
+          variant="contained"
+        >
+          Submit
+        </Button>
+      </div>
     </div>
   );
 }
