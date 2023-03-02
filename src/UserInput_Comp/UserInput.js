@@ -4,6 +4,7 @@ import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { useState } from "react";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function UserInput() {
   const [itemName, setItemName] = useState("ITEM NAME");
@@ -71,8 +72,12 @@ function UserInput() {
   return (
     <div className="user-input-container">
       <div className="user-input-flex">
-        <h2 className="user-input-title">Add Inventory Item</h2>
+        <h2 className="user-input-title">
+          <AddCircleOutlineIcon color="secondary" />
+          Add Inventory Item
+        </h2>
         <TextField
+          variant="filled"
           required
           error={itemName === "" ? true : false}
           helperText={
@@ -99,6 +104,7 @@ function UserInput() {
           size="small"
         />
         <TextField
+          variant="filled"
           required
           error={itemCode === "" || itemCode.length < 8 ? true : false}
           helperText={
@@ -125,6 +131,7 @@ function UserInput() {
           size="small"
         />
         <TextField
+          variant="filled"
           required
           error={
             itemQuantity === "" || Number(itemQuantity) > 10000 ? true : false
@@ -146,6 +153,7 @@ function UserInput() {
           size="small"
         />
         <TextField
+          variant="filled"
           required
           error={itemPrice === "" || Number(itemPrice) > 10000 ? true : false}
           helperText={

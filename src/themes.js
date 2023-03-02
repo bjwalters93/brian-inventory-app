@@ -21,10 +21,12 @@ const lightTheme = createTheme({
     error: {
       main: "#d32f2f",
     },
-    // background: {
-    //   paper: "#1976d2",
-    //   default: "#1976d2",
-    // },
+    typography: {
+      fontFamily: "Mitr",
+    },
+  },
+  typography: {
+    fontFamily: "Mitr",
   },
 });
 
@@ -35,15 +37,21 @@ const darkTheme = createTheme({
       main: "#1de923",
     },
     secondary: {
-      main: "#ff8c00",
+      main: "#61dafb",
     },
     error: {
       main: "#d32f2f",
     },
-    background: {
-      //   default: "#000",
-      //   paper: "#282c34",
+    success: {
+      main: "#61dafb",
+      dark: "#61dafb",
     },
+    typography: {
+      fontFamily: "Mitr",
+    },
+  },
+  typography: {
+    fontFamily: "Mitr",
   },
 });
 

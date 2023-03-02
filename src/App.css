@@ -1,8 +1,8 @@
 :root {
-  --compBackground: #faf0e6;
+  --compBackground: #f2f2f2;
   --compFontColor: black;
   --headerBackground: #20232a;
-  --headerFontColor: #faf0e6;
+  --headerFontColor: white;
 }
 
 /* light mode colors

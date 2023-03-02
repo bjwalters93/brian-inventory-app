@@ -4,14 +4,14 @@
   flex-direction: column;
   background-color: var(--headerBackground);
   box-shadow: 5px 0px 5px 5px rgba(0, 0, 0, 0.3);
-  padding: 50px 0;
+  padding: 10px 0;
   position: fixed;
   top: 0;
   left: 0;
 }
 
 .title {
-  font-family: "Rubik Puddles", cursive;
+  font-family: "Libre Barcode 39 Text", cursive;
   text-align: center;
   color: var(--headerFontColor);
   /* font-weight: 900; */
@@ -27,5 +27,6 @@
 
 /* font-family: 'Faster One', cursive;
 font-family: 'Libre Barcode 39 Text', cursive;
+font-family: 'Mitr', sans-serif; 200-700
 font-family: 'Potta One', cursive;
 font-family: 'Rubik Puddles', cursive; */
