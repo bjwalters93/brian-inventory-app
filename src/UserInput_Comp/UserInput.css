@@ -2,7 +2,6 @@
   min-width: 400px;
   position: fixed;
   top: 52px;
-  z-index: -1;
   background-color: var(--compBackground);
 }
 
@@ -11,7 +10,7 @@
   flex-direction: column;
   justify-content: flex-start;
   padding: 0 50px;
-  height: calc(100vh - 58px);
+  height: calc(100vh - 100px);
   max-width: 298px;
 }
 
