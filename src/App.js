@@ -7,15 +7,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./themes";
 import { StyledEngineProvider } from "@mui/material/styles";
 import Table from "./Table_Comp/Table";
-import UserInput from "./testingTabs";
+import UserInput from "./UserInput_Beta/testingTabs";
 
 function App() {
+  // Dark Mode _____ Light Mode
   const [display, setDisplay] = useState(false);
   const root = document.querySelector(":root");
+  //   Changes Theme.
   function displayMode() {
     setDisplay(!display);
   }
-
+  // Changes everything else that the theme doesn't change.
   if (!display) {
     document.body.style.backgroundColor = "white";
     root.style.setProperty("--compBackground", "#f2f2f2");
@@ -29,7 +31,7 @@ function App() {
     root.style.setProperty("--headerBackground", "#16181d");
     root.style.setProperty("--headerFontColor", "#61dafb");
   }
-
+  // Dark Mode _____ Light Mode
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={!display ? lightTheme : darkTheme}>

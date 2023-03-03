@@ -1,14 +1,5 @@
 import { createTheme } from "@mui/material/styles";
 
-// colors
-// light-blue : #61dafb
-// darkest-grey: #16181d
-// lighter-grey: #20232a
-// even-lighter-grey: #282c34
-// alt-grey: #32363e
-// orange: #ff8c00
-// cream-orange: #faf0e6
-
 const lightTheme = createTheme({
   palette: {
     mode: "light",
@@ -20,9 +11,6 @@ const lightTheme = createTheme({
     },
     error: {
       main: "#d32f2f",
-    },
-    typography: {
-      fontFamily: "Mitr",
     },
   },
   typography: {
@@ -46,9 +34,6 @@ const darkTheme = createTheme({
       main: "#61dafb",
       dark: "#61dafb",
     },
-    typography: {
-      fontFamily: "Mitr",
-    },
   },
   typography: {
     fontFamily: "Mitr",
@@ -56,3 +41,12 @@ const darkTheme = createTheme({
 });
 
 export { lightTheme, darkTheme };
+
+// colors
+// light-blue : #61dafb
+// darkest-grey: #16181d
+// lighter-grey: #20232a
+// even-lighter-grey: #282c34
+// alt-grey: #32363e
+// orange: #ff8c00
+// cream-orange: #faf0e6

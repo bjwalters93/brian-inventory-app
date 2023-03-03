@@ -1,4 +1,4 @@
-import "./UserInput_Comp/UserInput.css";
+import "../UserInput_Comp/UserInput.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -8,65 +8,27 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <div>
-          <div>{children}</div>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
+import TabPanel from "./TabPanel";
+import { a11yProps, InventoryItem } from "./component_extras";
 
 function UserInput() {
+  //   Data Container
+  const inventoryItemList = [];
+  // States for text field components.
   const [itemName, setItemName] = useState("ITEM NAME");
   const [itemCode, setItemCode] = useState("00000000");
   const [itemQuantity, setItemQuantity] = useState(10);
   const [itemPrice, setItemPrice] = useState(1.99);
   const [successAlert, setSuccessAlert] = useState("");
-
+  // function tied to text field onChange. Tracks state of text field components.
   function user_input() {
     setItemName(document.getElementById("item-name").value);
     setItemCode(document.getElementById("item-code").value);
     setItemQuantity(document.getElementById("item-quantity").value);
     setItemPrice(document.getElementById("item-price").value);
   }
-
-  const inventoryItemList = [];
-
-  class InventoryItem {
-    constructor(name, code, quantity, buyPricePerItem) {
-      this.itemName = name;
-      this.itemCode = code;
-      this.quantity = quantity;
-      this.buyPricePerItem = buyPricePerItem;
-    }
-    itemInformation() {
-      // FIXXXX
-      let info = `${this.itemName}: ${this.itemCode}`;
-      console.log(info);
-    }
-  }
-
-  function SubmitForm() {
+  // Submits form data, triggers error or success alert, resets form.
+  function submitForm() {
     let nameEl = document.getElementById("item-name");
     let itemEl = document.getElementById("item-code");
     let quantityEl = document.getElementById("item-quantity");
@@ -100,22 +62,15 @@ function UserInput() {
     }
   }
 
-  //   ----Tabs Code
-
+  //   ----Tabs Component Code
   const [value, setValue] = useState(0);
-
+  const [checked1, setChecked1] = useState(true);
+  const [checked2, setChecked2] = useState(false);
   const handleChange = (event, newValue) => {
+    setChecked1((prev) => !prev);
+    setChecked2((prev) => !prev);
     setValue(newValue);
   };
-
-  const [checked, setChecked] = useState(false);
-
-  const handleClick = () => {
-    setChecked((prev) => !prev);
-  };
-
-  //   ----Tabs
-
   return (
     <div className="user-input-container">
       <div className="user-tabs">
@@ -126,13 +81,13 @@ function UserInput() {
           textColor="secondary"
           variant="fullWidth"
         >
-          <Tab label="Item One" {...a11yProps(0)} onClick={handleClick} />
-          <Tab label="Item Two" {...a11yProps(1)} onClick={handleClick} />
+          <Tab label="Add" {...a11yProps(0)} />
+          <Tab label="Search" {...a11yProps(1)} />
         </Tabs>
       </div>
 
       <TabPanel value={value} index={0}>
-        <Slide direction="right" in={checked} mountOnEnter unmountOnExit>
+        <Slide direction="right" in={checked1} mountOnEnter unmountOnExit>
           <div className="user-input-flex">
             <div className="user-input-heading">
               <AddCircleOutlineIcon color="secondary" />
@@ -266,7 +221,7 @@ function UserInput() {
             <Button
               color="secondary"
               className="button"
-              onClick={SubmitForm}
+              onClick={submitForm}
               variant="contained"
               startIcon={<AddCircleOutlineIcon />}
             >
@@ -277,7 +232,9 @@ function UserInput() {
       </TabPanel>
 
       <TabPanel value={value} index={1}>
-        <p>Bye</p>
+        <Slide direction="right" in={checked2} mountOnEnter unmountOnExit>
+          <p>Bye</p>
+        </Slide>
       </TabPanel>
     </div>
   );

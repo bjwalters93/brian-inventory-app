@@ -3,6 +3,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { useState } from "react";
 import Fade from "@mui/material/Fade";
+import UserInput from "./UserInput_Comp/UserInput";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,11 +58,11 @@ export default function BasicTabs() {
           <p>Hello</p>
         </Fade>
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Fade in={checked}>
-          <p>Bye</p>
-        </Fade>
-      </TabPanel>
+      <Fade in={checked}>
+        <TabPanel value={value} index={1}>
+          <UserInput />
+        </TabPanel>
+      </Fade>
     </div>
   );
 }
