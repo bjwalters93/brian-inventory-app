@@ -1,5 +1,4 @@
 import "./Table.css";
-import Paper from "@mui/material/Paper";
 // import { useState } from "react";
 
 function Table() {

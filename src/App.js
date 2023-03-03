@@ -7,6 +7,7 @@ import { lightTheme, darkTheme } from "./themes";
 import { StyledEngineProvider } from "@mui/material/styles";
 import Table from "./Table_Comp/Table";
 import LeftPanel from "./LeftPanel_Comp/LeftPanel";
+import { InventoryItem } from "./LeftPanel_Comp/component_extras";
 
 function App() {
   // Dark Mode _____ Light Mode
@@ -35,12 +36,51 @@ function App() {
     root.style.setProperty("--scrollBarColorHover", "#61dafb");
   }
   // Dark Mode _____ Light Mode
+  //   Data logic starts here.
+  // --------------------------------------
+  const [inventoryItemList, setInventoryItemList] = useState([]);
+
+  function pushData(name, code, quantity, price) {
+    let existingItemName = inventoryItemList.every(
+      (element, index, array) => element.itemName !== name.value
+    );
+    let existingItemCode = inventoryItemList.every(
+      (element, index, array) => element.itemCode !== code.value
+    );
+    console.log(existingItemName);
+    console.log(existingItemCode);
+    if (existingItemName && existingItemCode) {
+      setInventoryItemList([
+        ...inventoryItemList,
+        new InventoryItem(
+          name.value,
+          code.value,
+          quantity.value,
+          Number(price.value).toFixed(2)
+        ),
+      ]);
+      //   inventoryItemList.push(
+      //     new InventoryItem(
+      //       name.value,
+      //       code.value,
+      //       quantity.value,
+      //       Number(price.value).toFixed(2)
+      //     )
+      //   );
+    } else {
+      console.log("Item already exists dumb ass!!!");
+    }
+  }
+  console.log(inventoryItemList);
+  //   Data Logic ends here.
+  // ---------------------------
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={!display ? lightTheme : darkTheme}>
         <div className="App">
           <Header displayFunction={displayMode} />
-          <LeftPanel />
+          <LeftPanel data={pushData} />
           <Table />
         </div>
       </ThemeProvider>

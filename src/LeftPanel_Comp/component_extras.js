@@ -15,8 +15,8 @@ export class InventoryItem {
     this.buyPricePerItem = buyPricePerItem;
   }
   itemInformation() {
-    // FIX
-    let info = `${this.itemName}: ${this.itemCode}`;
+    let info = `name: ${this.itemName}, code: ${this.itemCode}, quantity: ${this.quantity}, price: ${this.buyPricePerItem}`;
     console.log(info);
+    return info;
   }
 }

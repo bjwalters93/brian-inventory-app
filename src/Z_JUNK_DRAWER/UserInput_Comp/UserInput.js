@@ -30,7 +30,7 @@ function UserInput() {
       this.buyPricePerItem = buyPricePerItem;
     }
     itemInformation() {
-      // FIXXXX
+      // FIX
       let info = `${this.itemName}: ${this.itemCode}`;
       console.log(info);
     }

@@ -9,18 +9,18 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
-import { a11yProps, InventoryItem } from "./component_extras";
+import { a11yProps } from "./component_extras";
 
 // READ ME !!!!!!!!!!!!
 // the Add and Search components could theoretically be split into their own
-// individual components. However, function components CANNOT be used inside of MUI tranisitons.
+// individual components. However, function components CANNOT be used inside of MUI transition.
 // this is the reason for not defining them as their own function components. However, you can
 // use components as children of the MUI TabPanel component. Meaning, if you remove the transition(slide) component
 // and stick a function component inside it will work. Same applies to AppBar MUI component.
 
-function LeftPanel() {
+function LeftPanel(props) {
   //   Data Container
-  const inventoryItemList = [];
+  //   const inventoryItemList = [];
   //   ________________Add component starts here__________________
   // -------------------------------------------------------------
   // States for text field components.
@@ -39,25 +39,18 @@ function LeftPanel() {
   // Submits form data, triggers error or success alert, resets form.
   function submitForm() {
     const nameEl = document.getElementById("item-name");
-    const itemEl = document.getElementById("item-code");
+    const codeEl = document.getElementById("item-code");
     const quantityEl = document.getElementById("item-quantity");
     const priceEl = document.getElementById("item-price");
     if (
       nameEl.ariaInvalid === "false" &&
-      itemEl.ariaInvalid === "false" &&
+      codeEl.ariaInvalid === "false" &&
       quantityEl.ariaInvalid === "false" &&
       priceEl.ariaInvalid === "false" &&
       nameEl.value !== "ITEM NAME" &&
-      itemEl.value !== "00000000"
+      codeEl.value !== "00000000"
     ) {
-      inventoryItemList.push(
-        new InventoryItem(
-          nameEl.value,
-          itemEl.value,
-          quantityEl.value,
-          Number(priceEl.value).toFixed(2)
-        )
-      );
+      props.data(nameEl, codeEl, quantityEl, priceEl);
       setSuccessAlert(itemName);
       setItemName("ITEM NAME");
       setItemCode("00000000");
