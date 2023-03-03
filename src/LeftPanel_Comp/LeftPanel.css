@@ -1,0 +1,47 @@
+.left-panel-container {
+  min-width: 400px;
+  position: fixed;
+  top: 52px;
+  background-color: var(--compBackground);
+  height: calc(100vh - 52px);
+  overflow-y: scroll;
+  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+}
+/* adding scroll bar or removing scroll bar changes max width becase it adds extra padding. */
+.user-input-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 50px;
+  max-width: 283px;
+  height: calc(100vh - 130px);
+}
+
+.text-field {
+  margin-bottom: 30px;
+}
+
+#error-alert {
+  display: none;
+}
+
+#success-alert {
+  display: none;
+}
+
+.user-input-title {
+  font-family: "Mitr", sans-serif;
+  font-weight: 400;
+  font-size: 24px;
+  margin: 0 0 0 5px;
+  padding: 0;
+  text-align: left;
+  color: var(--compFontColor);
+  /* border-bottom: 2px solid var(--compFontColor); */
+}
+
+.user-input-heading {
+  display: flex;
+  align-items: center;
+  margin: 30px 0 30px 0;
+}

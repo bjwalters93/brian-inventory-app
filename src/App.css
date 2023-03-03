@@ -3,4 +3,26 @@
   --compFontColor: black;
   --headerBackground: #20232a;
   --headerFontColor: white;
+  --scrollBarColor: #e1e1e1;
+  --scrollBarColorHover: #ff8c00;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollBarColor);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollBarColorHover);
 }

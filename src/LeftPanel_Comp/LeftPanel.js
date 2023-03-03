@@ -1,4 +1,4 @@
-import "../UserInput_Comp/UserInput.css";
+import "./LeftPanel.css";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
@@ -11,9 +11,18 @@ import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
 import { a11yProps, InventoryItem } from "./component_extras";
 
-function UserInput() {
+// READ ME !!!!!!!!!!!!
+// the Add and Search components could theoretically be split into their own
+// individual components. However, function components CANNOT be used inside of MUI tranisitons.
+// this is the reason for not defining them as their own function components. However, you can
+// use components as children of the MUI TabPanel component. Meaning, if you remove the transition(slide) component
+// and stick a function component inside it will work. Same applies to AppBar MUI component.
+
+function LeftPanel() {
   //   Data Container
   const inventoryItemList = [];
+  //   ________________Add component starts here__________________
+  // -------------------------------------------------------------
   // States for text field components.
   const [itemName, setItemName] = useState("ITEM NAME");
   const [itemCode, setItemCode] = useState("00000000");
@@ -29,10 +38,10 @@ function UserInput() {
   }
   // Submits form data, triggers error or success alert, resets form.
   function submitForm() {
-    let nameEl = document.getElementById("item-name");
-    let itemEl = document.getElementById("item-code");
-    let quantityEl = document.getElementById("item-quantity");
-    let priceEl = document.getElementById("item-price");
+    const nameEl = document.getElementById("item-name");
+    const itemEl = document.getElementById("item-code");
+    const quantityEl = document.getElementById("item-quantity");
+    const priceEl = document.getElementById("item-price");
     if (
       nameEl.ariaInvalid === "false" &&
       itemEl.ariaInvalid === "false" &&
@@ -61,8 +70,9 @@ function UserInput() {
       document.getElementById("success-alert").style.display = "none";
     }
   }
-
-  //   ----Tabs Component Code
+  //   __________________Add component ends here________________________
+  // -------------------------------------------------------------------
+  //   ----Tabs Component Code ----- switches tabs, activates transitions
   const [value, setValue] = useState(0);
   const [checked1, setChecked1] = useState(true);
   const [checked2, setChecked2] = useState(false);
@@ -71,9 +81,14 @@ function UserInput() {
     setChecked2((prev) => !prev);
     setValue(newValue);
   };
+  //   ----Tabs Component Code ----- switches tabs, activates transitions
+  //   --------------------------------------------------------------------
   return (
-    <div className="user-input-container">
-      <div className="user-tabs">
+    // left panel container ---- contains navigation tabs, app component and search
+    <div className="left-panel-container">
+      {/* left panel navigation tabs */}
+      {/* -------------------------- */}
+      <div className="left-panel-navigation-tabs">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -85,7 +100,11 @@ function UserInput() {
           <Tab label="Search" {...a11yProps(1)} />
         </Tabs>
       </div>
-
+      {/* left panel navigation tabs */}
+      {/* -------------------------- */}
+      {/* Add component starts here */}
+      {/* --------------------------------------------- */}
+      {/* TabPanel component is imported */}
       <TabPanel value={value} index={0}>
         <Slide direction="right" in={checked1} mountOnEnter unmountOnExit>
           <div className="user-input-flex">
@@ -230,14 +249,20 @@ function UserInput() {
           </div>
         </Slide>
       </TabPanel>
-
+      {/* App component ends here */}
+      {/* ------------------------------------------ */}
+      {/* Search component starts here */}
+      {/* -------------------------------------------------- */}
+      {/* TabPanel component is imported */}
       <TabPanel value={value} index={1}>
         <Slide direction="right" in={checked2} mountOnEnter unmountOnExit>
           <p>Bye</p>
         </Slide>
       </TabPanel>
+      {/* Search component ends here */}
+      {/* --------------------------------------------------- */}
     </div>
   );
 }
 
-export default UserInput;
+export default LeftPanel;
