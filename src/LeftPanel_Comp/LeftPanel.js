@@ -17,7 +17,6 @@ import { a11yProps } from "./component_extras";
 // this is the reason for not defining them as their own function components. However, you can
 // use components as children of the MUI TabPanel component. Meaning, if you remove the transition(slide) component
 // and stick a function component inside it will work. Same applies to AppBar MUI component.
-
 function LeftPanel(props) {
   //   Data Container
   //   const inventoryItemList = [];
@@ -28,7 +27,9 @@ function LeftPanel(props) {
   const [itemCode, setItemCode] = useState("00000000");
   const [itemQuantity, setItemQuantity] = useState(10);
   const [itemPrice, setItemPrice] = useState(1.99);
-  const [successAlert, setSuccessAlert] = useState("");
+  const [alertText, setAlertText] = useState("");
+  const [alertTracker, setAlertTracker] = useState(0);
+
   // function tied to text field onChange. Tracks state of text field components.
   function user_input() {
     setItemName(document.getElementById("item-name").value);
@@ -48,10 +49,16 @@ function LeftPanel(props) {
       quantityEl.ariaInvalid === "false" &&
       priceEl.ariaInvalid === "false" &&
       nameEl.value !== "ITEM NAME" &&
-      codeEl.value !== "00000000"
+      codeEl.value !== "00000000" &&
+      props.dataArray.every(
+        (element, index, array) => element.itemName !== nameEl.value
+      ) &&
+      props.dataArray.every(
+        (element, index, array) => element.itemCode !== codeEl.value
+      )
     ) {
       props.data(nameEl, codeEl, quantityEl, priceEl);
-      setSuccessAlert(itemName);
+      setAlertText(itemName);
       setItemName("ITEM NAME");
       setItemCode("00000000");
       setItemQuantity(10);
@@ -59,6 +66,7 @@ function LeftPanel(props) {
       document.getElementById("success-alert").style.display = "flex";
       document.getElementById("error-alert").style.display = "none";
     } else {
+      setAlertTracker(alertTracker + 1);
       document.getElementById("error-alert").style.display = "flex";
       document.getElementById("success-alert").style.display = "none";
     }
@@ -76,6 +84,7 @@ function LeftPanel(props) {
   };
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   //   --------------------------------------------------------------------
+
   return (
     // left panel container ---- contains navigation tabs, app component and search
     <div className="left-panel-container">
@@ -216,19 +225,30 @@ function LeftPanel(props) {
               variant="filled"
             >
               <AlertTitle>Error</AlertTitle>
-              Invalid entry!
+              {!props.dataArray.every(
+                (element, index, array) =>
+                  element.itemName !==
+                  document.getElementById("item-name").value
+              ) ||
+              !props.dataArray.every(
+                (element, index, array) =>
+                  element.itemCode !==
+                  document.getElementById("item-code").value
+              )
+                ? "Item name and or item code already exists!"
+                : "Invalid Entry"}
             </Alert>
             <Alert
               id="success-alert"
               severity="success"
               onClose={() => {
                 document.getElementById("success-alert").style.display = "none";
-                setSuccessAlert("");
+                setAlertText("");
               }}
               variant="filled"
             >
               <AlertTitle>Success</AlertTitle>
-              {successAlert} has been added to your Inventory!
+              {alertText} has been added to your Inventory!
             </Alert>
             <Button
               color="secondary"

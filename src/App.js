@@ -41,37 +41,16 @@ function App() {
   const [inventoryItemList, setInventoryItemList] = useState([]);
 
   function pushData(name, code, quantity, price) {
-    let existingItemName = inventoryItemList.every(
-      (element, index, array) => element.itemName !== name.value
-    );
-    let existingItemCode = inventoryItemList.every(
-      (element, index, array) => element.itemCode !== code.value
-    );
-    console.log(existingItemName);
-    console.log(existingItemCode);
-    if (existingItemName && existingItemCode) {
-      setInventoryItemList([
-        ...inventoryItemList,
-        new InventoryItem(
-          name.value,
-          code.value,
-          quantity.value,
-          Number(price.value).toFixed(2)
-        ),
-      ]);
-      //   inventoryItemList.push(
-      //     new InventoryItem(
-      //       name.value,
-      //       code.value,
-      //       quantity.value,
-      //       Number(price.value).toFixed(2)
-      //     )
-      //   );
-    } else {
-      console.log("Item already exists dumb ass!!!");
-    }
+    setInventoryItemList([
+      ...inventoryItemList,
+      new InventoryItem(
+        name.value,
+        code.value,
+        quantity.value,
+        Number(price.value).toFixed(2)
+      ),
+    ]);
   }
-  console.log(inventoryItemList);
   //   Data Logic ends here.
   // ---------------------------
 
@@ -80,7 +59,7 @@ function App() {
       <ThemeProvider theme={!display ? lightTheme : darkTheme}>
         <div className="App">
           <Header displayFunction={displayMode} />
-          <LeftPanel data={pushData} />
+          <LeftPanel data={pushData} dataArray={inventoryItemList} />
           <Table />
         </div>
       </ThemeProvider>
