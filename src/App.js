@@ -39,18 +39,39 @@ function App() {
   //   Data logic starts here.
   // --------------------------------------
   const [inventoryItemList, setInventoryItemList] = useState([]);
+  const [itemMapByName, setItemMapByName] = useState(new Map());
+  const [itemMapByCode, setItemMapByCode] = useState(new Map());
 
   function pushData(name, code, quantity, price) {
-    setInventoryItemList([
-      ...inventoryItemList,
-      new InventoryItem(
-        name.value,
-        code.value,
-        quantity.value,
-        Number(price.value).toFixed(2)
-      ),
-    ]);
+    const item = new InventoryItem(
+      name.value,
+      code.value,
+      quantity.value,
+      Number(price.value).toFixed(2)
+    );
+    setInventoryItemList([...inventoryItemList, item]);
+
+    updateMapByName(item.itemName, item);
+    updateMapByCode(item.itemCode, item);
   }
+
+  function updateMapByName(key, value) {
+    setItemMapByName((prevState) => new Map(prevState.set(key, value)));
+  }
+
+  function updateMapByCode(key, value) {
+    setItemMapByCode((prevState) => new Map(prevState.set(key, value)));
+  }
+  console.log(inventoryItemList);
+  console.log("itemMapByName", itemMapByName);
+  console.log("itemMapByCode", itemMapByCode);
+  const snickers = itemMapByName.get("SNICKERS");
+  const snickersTmp = itemMapByName["SNICKERS"];
+  console.log("snickers", snickers);
+  console.log("snickersTmp", snickersTmp);
+  const hasSnickers = itemMapByName.has("SNICKERS");
+  console.log("hasSnickers", hasSnickers);
+
   //   Data Logic ends here.
   // ---------------------------
 

@@ -7,7 +7,7 @@
   overflow-y: scroll;
   box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
 }
-/* adding scroll bar or removing scroll bar changes max width becase it adds extra padding. */
+/* adding scroll bar or removing scroll bar changes max width because it adds extra padding. */
 .user-input-flex {
   display: flex;
   flex-direction: column;
