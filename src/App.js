@@ -80,7 +80,12 @@ function App() {
       <ThemeProvider theme={!display ? lightTheme : darkTheme}>
         <div className="App">
           <Header displayFunction={displayMode} />
-          <LeftPanel data={pushData} dataArray={inventoryItemList} />
+          <LeftPanel
+            data={pushData}
+            dataArray={inventoryItemList}
+            dataMapByName={itemMapByName}
+            dataMapByCode={itemMapByCode}
+          />
           <Table />
         </div>
       </ThemeProvider>

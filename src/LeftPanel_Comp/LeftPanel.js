@@ -48,12 +48,14 @@ function LeftPanel(props) {
       priceEl.ariaInvalid === "false" &&
       nameEl.value !== "ITEM NAME" &&
       codeEl.value !== "00000000" &&
-      props.dataArray.every(
-        (element, index, array) => element.itemName !== nameEl.value
-      ) &&
-      props.dataArray.every(
-        (element, index, array) => element.itemCode !== codeEl.value
-      )
+      !props.dataMapByName.has(nameEl.value) &&
+      !props.dataMapByCode.has(codeEl.value)
+      //   props.dataArray.every(
+      //     (element, index, array) => element.itemName !== nameEl.value
+      //   ) &&
+      //   props.dataArray.every(
+      //     (element, index, array) => element.itemCode !== codeEl.value
+      //   )
     ) {
       props.data(nameEl, codeEl, quantityEl, priceEl);
       setAlertText(itemName);
@@ -223,7 +225,20 @@ function LeftPanel(props) {
               variant="filled"
             >
               <AlertTitle>Error</AlertTitle>
-              {!props.dataArray.every(
+              {props.dataMapByName.has(
+                // !props.dataMapByCode.has(codeEl.value)
+                document.getElementById("item-name") !== null
+                  ? document.getElementById("item-name").value
+                  : ""
+              ) ||
+              props.dataMapByCode.has(
+                document.getElementById("item-code") !== null
+                  ? document.getElementById("item-code").value
+                  : ""
+              )
+                ? "Item name and or item code already exists!"
+                : "Invalid Entry"}
+              {/* {!props.dataArray.every(
                 (element, index, array) =>
                   element.itemName !==
                   document.getElementById("item-name").value
@@ -234,7 +249,7 @@ function LeftPanel(props) {
                   document.getElementById("item-code").value
               )
                 ? "Item name and or item code already exists!"
-                : "Invalid Entry"}
+                : "Invalid Entry"} */}
             </Alert>
             <Alert
               id="success-alert"
