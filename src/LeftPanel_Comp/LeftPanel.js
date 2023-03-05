@@ -26,15 +26,7 @@ function LeftPanel(props) {
   const [itemQuantity, setItemQuantity] = useState(10);
   const [itemPrice, setItemPrice] = useState(1.99);
   const [alertText, setAlertText] = useState("");
-  const [alertTracker, setAlertTracker] = useState(0);
 
-  // function tied to text field onChange. Tracks state of text field components.
-  function user_input() {
-    setItemName(document.getElementById("item-name").value);
-    setItemCode(document.getElementById("item-code").value);
-    setItemQuantity(document.getElementById("item-quantity").value);
-    setItemPrice(document.getElementById("item-price").value);
-  }
   // Submits form data, triggers error or success alert, resets form.
   function submitForm() {
     const nameEl = document.getElementById("item-name");
@@ -46,19 +38,13 @@ function LeftPanel(props) {
       codeEl.ariaInvalid === "false" &&
       quantityEl.ariaInvalid === "false" &&
       priceEl.ariaInvalid === "false" &&
-      nameEl.value !== "ITEM NAME" &&
-      codeEl.value !== "00000000" &&
-      !props.dataMapByName.has(nameEl.value) &&
-      !props.dataMapByCode.has(codeEl.value)
-      //   props.dataArray.every(
-      //     (element, index, array) => element.itemName !== nameEl.value
-      //   ) &&
-      //   props.dataArray.every(
-      //     (element, index, array) => element.itemCode !== codeEl.value
-      //   )
+      itemName !== "ITEM NAME" &&
+      itemCode !== "00000000" &&
+      !props.dataMapByName.has(itemName) &&
+      !props.dataMapByCode.has(itemCode)
     ) {
-      props.data(nameEl, codeEl, quantityEl, priceEl);
-      setAlertText(itemName);
+      props.data(itemName, itemCode, itemQuantity, itemPrice);
+      setAlertText(`${itemName} has been added to your Inventory!`);
       setItemName("ITEM NAME");
       setItemCode("00000000");
       setItemQuantity(10);
@@ -66,7 +52,12 @@ function LeftPanel(props) {
       document.getElementById("success-alert").style.display = "flex";
       document.getElementById("error-alert").style.display = "none";
     } else {
-      setAlertTracker(alertTracker + 1);
+      props.dataMapByName.has(itemName)
+        ? setAlertText("Name already exists!")
+        : props.dataMapByCode.has(itemCode)
+        ? setAlertText("Code already exists!")
+        : setAlertText("Invalid Entry!");
+
       document.getElementById("error-alert").style.display = "flex";
       document.getElementById("success-alert").style.display = "none";
     }
@@ -129,7 +120,6 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                user_input();
                 setItemName(event.target.value.toUpperCase());
               }}
               inputProps={{ maxLength: 20, autoComplete: "off" }}
@@ -156,7 +146,6 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                user_input();
                 setItemCode(
                   event.target.value.toUpperCase().split(" ").join("")
                 );
@@ -189,7 +178,9 @@ function LeftPanel(props) {
               placeholder="Quantity"
               className="text-field"
               color="secondary"
-              onChange={user_input}
+              onChange={(event) => {
+                setItemCode(event.target.value);
+              }}
               inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
               value={itemQuantity}
               size="small"
@@ -211,7 +202,9 @@ function LeftPanel(props) {
               placeholder="Item Price"
               className="text-field"
               color="secondary"
-              onChange={user_input}
+              onChange={(event) => {
+                setItemCode(event.target.value);
+              }}
               inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
               value={itemPrice}
               size="small"
@@ -221,35 +214,12 @@ function LeftPanel(props) {
               severity="error"
               onClose={() => {
                 document.getElementById("error-alert").style.display = "none";
+                setAlertText("");
               }}
               variant="filled"
             >
               <AlertTitle>Error</AlertTitle>
-              {props.dataMapByName.has(
-                // !props.dataMapByCode.has(codeEl.value)
-                document.getElementById("item-name") !== null
-                  ? document.getElementById("item-name").value
-                  : ""
-              ) ||
-              props.dataMapByCode.has(
-                document.getElementById("item-code") !== null
-                  ? document.getElementById("item-code").value
-                  : ""
-              )
-                ? "Item name and or item code already exists!"
-                : "Invalid Entry"}
-              {/* {!props.dataArray.every(
-                (element, index, array) =>
-                  element.itemName !==
-                  document.getElementById("item-name").value
-              ) ||
-              !props.dataArray.every(
-                (element, index, array) =>
-                  element.itemCode !==
-                  document.getElementById("item-code").value
-              )
-                ? "Item name and or item code already exists!"
-                : "Invalid Entry"} */}
+              {alertText}
             </Alert>
             <Alert
               id="success-alert"
@@ -261,7 +231,7 @@ function LeftPanel(props) {
               variant="filled"
             >
               <AlertTitle>Success</AlertTitle>
-              {alertText} has been added to your Inventory!
+              {alertText}
             </Alert>
             <Button
               color="secondary"
