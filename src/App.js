@@ -11,6 +11,7 @@ import { InventoryItem } from "./LeftPanel_Comp/component_extras";
 import { colorTheme } from "./color-theme";
 
 function App() {
+  // _________Display Mode___________
   const [display, setDisplay] = useState(false);
   const root = document.querySelector(":root");
 
@@ -36,7 +37,7 @@ function App() {
 
   const [itemMapByName, setItemMapByName] = useState(new Map());
   const [itemMapByCode, setItemMapByCode] = useState(new Map());
-
+  // _________________________Data Logic_____________________________
   function pushData(name, code, quantity, price) {
     const item = new InventoryItem(
       name,

@@ -10,6 +10,7 @@ import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
 import { a11yProps } from "./component_extras";
+import { useRef } from "react";
 
 // READ ME !!!!!!!!!!!!
 // the Add and Search components could theoretically be split into their own
@@ -26,6 +27,7 @@ function LeftPanel(props) {
   const [itemQuantity, setItemQuantity] = useState(10);
   const [itemPrice, setItemPrice] = useState(1.99);
   const [alertText, setAlertText] = useState("");
+  const errorAlertElement = useRef(null);
 
   // Submits form data, triggers error or success alert, resets form.
   function submitForm() {
@@ -53,12 +55,13 @@ function LeftPanel(props) {
       document.getElementById("error-alert").style.display = "none";
     } else {
       props.dataMapByName.has(itemName)
-        ? setAlertText("Name already exists!")
+        ? setAlertText("Name already exists")
         : props.dataMapByCode.has(itemCode)
-        ? setAlertText("Code already exists!")
-        : setAlertText("Invalid Entry!");
+        ? setAlertText("Code already exists")
+        : setAlertText("Invalid Entry");
 
-      document.getElementById("error-alert").style.display = "flex";
+      errorAlertElement.current.style.display = "flex";
+      //   document.getElementById("error-alert").style.display = "flex";
       document.getElementById("success-alert").style.display = "none";
     }
   }
@@ -210,11 +213,12 @@ function LeftPanel(props) {
               size="small"
             />
             <Alert
+              ref={errorAlertElement}
               id="error-alert"
               severity="error"
               onClose={() => {
-                document.getElementById("error-alert").style.display = "none";
-                setAlertText("");
+                errorAlertElement.current.style.display = "none";
+                // document.getElementById("error-alert").style.display = "none";
               }}
               variant="filled"
             >
