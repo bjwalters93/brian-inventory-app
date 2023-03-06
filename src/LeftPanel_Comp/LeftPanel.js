@@ -26,7 +26,9 @@ function LeftPanel(props) {
   const [itemCode, setItemCode] = useState("00000000");
   const [itemQuantity, setItemQuantity] = useState(10);
   const [itemPrice, setItemPrice] = useState(1.99);
-  const [alertText, setAlertText] = useState("");
+  //   const [alertText, setAlertText] = useState("");
+  const [successText, setSuccessText] = useState("");
+  const [errorText, setErrorText] = useState("");
   const errorAlertElement = useRef(null);
 
   // Submits form data, triggers error or success alert, resets form.
@@ -46,23 +48,19 @@ function LeftPanel(props) {
       !props.dataMapByCode.has(itemCode)
     ) {
       props.data(itemName, itemCode, itemQuantity, itemPrice);
-      setAlertText(`${itemName} has been added to your Inventory!`);
+      setErrorText("");
+      setSuccessText(`${itemName} has been added to your Inventory!`);
       setItemName("ITEM NAME");
       setItemCode("00000000");
       setItemQuantity(10);
       setItemPrice(1.99);
-      document.getElementById("success-alert").style.display = "flex";
-      document.getElementById("error-alert").style.display = "none";
     } else {
+      setSuccessText("");
       props.dataMapByName.has(itemName)
-        ? setAlertText("Name already exists")
+        ? setErrorText("Name already exists")
         : props.dataMapByCode.has(itemCode)
-        ? setAlertText("Code already exists")
-        : setAlertText("Invalid Entry");
-
-      errorAlertElement.current.style.display = "flex";
-      //   document.getElementById("error-alert").style.display = "flex";
-      document.getElementById("success-alert").style.display = "none";
+        ? setErrorText("Code already exists")
+        : setErrorText("Invalid Entry");
     }
   }
   //   __________________Add component ends here________________________
@@ -212,31 +210,33 @@ function LeftPanel(props) {
               value={itemPrice}
               size="small"
             />
-            <Alert
-              ref={errorAlertElement}
-              id="error-alert"
-              severity="error"
-              onClose={() => {
-                errorAlertElement.current.style.display = "none";
-                // document.getElementById("error-alert").style.display = "none";
-              }}
-              variant="filled"
-            >
-              <AlertTitle>Error</AlertTitle>
-              {alertText}
-            </Alert>
-            <Alert
-              id="success-alert"
-              severity="success"
-              onClose={() => {
-                document.getElementById("success-alert").style.display = "none";
-                setAlertText("");
-              }}
-              variant="filled"
-            >
-              <AlertTitle>Success</AlertTitle>
-              {alertText}
-            </Alert>
+            {errorText !== "" && (
+              <Alert
+                ref={errorAlertElement}
+                id="error-alert"
+                severity="error"
+                onClose={() => {
+                  setErrorText("");
+                }}
+                variant="filled"
+              >
+                <AlertTitle>Error</AlertTitle>
+                {errorText}
+              </Alert>
+            )}
+            {successText !== "" && (
+              <Alert
+                id="success-alert"
+                severity="success"
+                onClose={() => {
+                  setSuccessText("");
+                }}
+                variant="filled"
+              >
+                <AlertTitle>Success</AlertTitle>
+                {successText}
+              </Alert>
+            )}
             <Button
               color="secondary"
               className="button"
