@@ -10,6 +10,7 @@ import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
 import { a11yProps } from "./component_extras";
+
 // READ ME !!!!!!!!!!!!
 // the Add and Search components could theoretically be split into their own
 // individual components. However, function components CANNOT be used inside of MUI transition.
@@ -19,17 +20,16 @@ import { a11yProps } from "./component_extras";
 function LeftPanel(props) {
   //   ________________Add component starts here__________________
   // -------------------------------------------------------------
+  const [inputs, setInputs] = useState({
+    nameInput: ["ITEM NAME", false],
+    codeInput: ["00000000", false],
+    quantityInput: [10, true],
+    priceInput: [1.99, true],
+  });
   const [successText, setSuccessText] = useState("");
   const [errorText, setErrorText] = useState("");
 
-  const [inputs, setInputs] = useState({
-    nameInput: ["ITEM NAME", "true"],
-    codeInput: ["00000000", "true"],
-    quantityInput: [10, "false"],
-    priceInput: [1.99, "false"],
-  });
-
-  const inputTracker = (event) => {
+  function inputTracker(event) {
     const name = event.target.name;
     const value =
       name === "nameInput"
@@ -37,18 +37,39 @@ function LeftPanel(props) {
         : name === "codeInput"
         ? event.target.value.toUpperCase().split(" ").join("")
         : event.target.value;
-    const valid = event.target.ariaInvalid;
+    let valid;
+    if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
+      valid = true;
+    } else if (
+      name === "codeInput" &&
+      value !== "" &&
+      value.length === 8 &&
+      value !== "00000000"
+    ) {
+      valid = true;
+    } else if (
+      name === "quantityInput" &&
+      value !== "" &&
+      Number(value) <= 10000
+    ) {
+      valid = true;
+    } else if (
+      name === "priceInput" &&
+      value !== "" &&
+      Number(value) <= 10000
+    ) {
+      valid = true;
+    } else valid = false;
     setInputs((values) => ({ ...values, [name]: [value, valid] }));
-  };
+  }
 
   function submitForm() {
+    console.log(inputs);
     if (
-      inputs.nameInput[1] === "false" &&
-      inputs.codeInput[1] === "false" &&
-      inputs.quantityInput[1] === "false" &&
-      inputs.priceInput[1] === "false" &&
-      inputs.nameInput[0] !== "ITEM NAME" &&
-      inputs.codeInput[0] !== "00000000" &&
+      inputs.nameInput[1] &&
+      inputs.codeInput[1] &&
+      inputs.quantityInput[1] &&
+      inputs.priceInput[1] &&
       !props.dataMapByName.has(inputs.nameInput[0]) &&
       !props.dataMapByCode.has(inputs.codeInput[0])
     ) {
@@ -64,10 +85,10 @@ function LeftPanel(props) {
         `${inputs.nameInput[0]} has been added to your Inventory!`
       );
       setInputs({
-        nameInput: ["ITEM NAME", "true"],
-        codeInput: ["00000000", "true"],
-        quantityInput: [10, "false"],
-        priceInput: [1.99, "false"],
+        nameInput: ["ITEM NAME", false],
+        codeInput: ["00000000", false],
+        quantityInput: [10, true],
+        priceInput: [1.99, true],
       });
     } else {
       console.log(inputs);
@@ -135,9 +156,9 @@ function LeftPanel(props) {
               name="nameInput"
               variant="filled"
               required
-              error={inputs.nameInput[0] === "" ? true : false}
+              error={inputs.nameInput[0].length === 0 ? true : false}
               helperText={
-                inputs.nameInput[0] === ""
+                inputs.nameInput[0].length === 0
                   ? "Please choose a name no longer than 20 characters"
                   : ""
               }
@@ -147,9 +168,10 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
+                console.log(inputs);
                 inputTracker(event);
               }}
-              inputProps={{ minLength: 1, maxLength: 20, autoComplete: "off" }}
+              inputProps={{ maxLength: 20, autoComplete: "off" }}
               value={inputs.nameInput[0]}
               onKeyDown={(event) => {
                 if (!event.key.match(/[a-zA-Z0-9\s]/)) {
@@ -163,9 +185,9 @@ function LeftPanel(props) {
               name="codeInput"
               variant="filled"
               required
-              error={inputs.codeInput[0] === "" ? true : false}
+              error={inputs.codeInput[0].length === 8 ? false : true}
               helperText={
-                inputs.codeInput[0] === "" || inputs.codeInput[0].length < 8
+                inputs.codeInput[0].length === 8
                   ? "Please choose a code equal to 8 characters"
                   : ""
               }
@@ -177,7 +199,7 @@ function LeftPanel(props) {
               onChange={(event) => {
                 inputTracker(event);
               }}
-              inputProps={{ minLength: 1, maxLength: 8, autoComplete: "off" }}
+              inputProps={{ maxLength: 8, autoComplete: "off" }}
               value={inputs.codeInput[0]}
               onKeyDown={(event) => {
                 if (!event.key.match(/[a-zA-Z0-9]/)) {
@@ -191,13 +213,13 @@ function LeftPanel(props) {
               variant="filled"
               required
               error={
-                inputs.quantityInput[0] === "" ||
+                inputs.quantityInput[0].length === 0 ||
                 Number(inputs.quantityInput[0]) > 10000
                   ? true
                   : false
               }
               helperText={
-                inputs.quantityInput[0] === "" ||
+                inputs.quantityInput[0].length === 0 ||
                 Number(inputs.quantityInput[0]) > 10000
                   ? "Please choose a number between 1 and 10000"
                   : ""
@@ -211,7 +233,7 @@ function LeftPanel(props) {
               onChange={(event) => {
                 inputTracker(event);
               }}
-              inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
+              inputProps={{ max: 10000, autoComplete: "off" }}
               value={inputs.quantityInput[0]}
               size="small"
             />
@@ -220,13 +242,13 @@ function LeftPanel(props) {
               variant="filled"
               required
               error={
-                inputs.priceInput[0] === "" ||
+                inputs.priceInput[0].length === 0 ||
                 Number(inputs.priceInput[0]) > 10000
                   ? true
                   : false
               }
               helperText={
-                inputs.priceInput[0] === "" ||
+                inputs.priceInput[0].length === 0 ||
                 Number(inputs.priceInput[0]) > 10000
                   ? "Please choose a number between 1 and 10000"
                   : ""
@@ -240,7 +262,7 @@ function LeftPanel(props) {
               onChange={(event) => {
                 inputTracker(event);
               }}
-              inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
+              inputProps={{ max: 10000, autoComplete: "off" }}
               value={inputs.priceInput[0]}
               size="small"
             />
