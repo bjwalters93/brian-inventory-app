@@ -7,31 +7,31 @@ import { useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function UserInput() {
-  const [itemName, setItemName] = useState("ITEM NAME");
-  const [itemCode, setItemCode] = useState("00000000");
-  const [itemQuantity, setItemQuantity] = useState(10);
-  const [itemPrice, setItemPrice] = useState(1.99);
+  const [itemNameEl, setItemNameEl] = useState("ITEM NAME");
+  const [itemCodeEl, setItemCodeEl] = useState("00000000");
+  const [itemQuantityEl, setItemQuantityEl] = useState(10);
+  const [itemPriceEl, setItemPriceEl] = useState(1.99);
   const [successAlert, setSuccessAlert] = useState("");
 
   function user_input() {
-    setItemName(document.getElementById("item-name").value);
-    setItemCode(document.getElementById("item-code").value);
-    setItemQuantity(document.getElementById("item-quantity").value);
-    setItemPrice(document.getElementById("item-price").value);
+    setItemNameEl(document.getElementById("item-name").value);
+    setItemCodeEl(document.getElementById("item-code").value);
+    setItemQuantityEl(document.getElementById("item-quantity").value);
+    setItemPriceEl(document.getElementById("item-price").value);
   }
 
   const inventoryItemList = [];
 
   class InventoryItem {
     constructor(name, code, quantity, buyPricePerItem) {
-      this.itemName = name;
-      this.itemCode = code;
+      this.itemNameEl = name;
+      this.itemCodeEl = code;
       this.quantity = quantity;
       this.buyPricePerItem = buyPricePerItem;
     }
     itemInformation() {
       // FIX
-      let info = `${this.itemName}: ${this.itemCode}`;
+      let info = `${this.itemNameEl}: ${this.itemCodeEl}`;
       console.log(info);
     }
   }
@@ -57,11 +57,11 @@ function UserInput() {
           Number(priceEl.value).toFixed(2)
         )
       );
-      setSuccessAlert(itemName);
-      setItemName("ITEM NAME");
-      setItemCode("00000000");
-      setItemQuantity(10);
-      setItemPrice(1.99);
+      setSuccessAlert(itemNameEl);
+      setItemNameEl("ITEM NAME");
+      setItemCodeEl("00000000");
+      setItemQuantityEl(10);
+      setItemPriceEl(1.99);
       document.getElementById("success-alert").style.display = "flex";
       document.getElementById("error-alert").style.display = "none";
     } else {
@@ -80,9 +80,9 @@ function UserInput() {
         <TextField
           variant="filled"
           required
-          error={itemName === "" ? true : false}
+          error={itemNameEl === "" ? true : false}
           helperText={
-            itemName === ""
+            itemNameEl === ""
               ? "Please choose a name no longer than 20 characters"
               : ""
           }
@@ -93,10 +93,10 @@ function UserInput() {
           color="secondary"
           onChange={(event) => {
             user_input();
-            setItemName(event.target.value.toUpperCase());
+            setItemNameEl(event.target.value.toUpperCase());
           }}
           inputProps={{ maxLength: 20, autoComplete: "off" }}
-          value={itemName}
+          value={itemNameEl}
           onKeyDown={(event) => {
             if (!event.key.match(/[a-zA-Z0-9\s]/)) {
               event.preventDefault();
@@ -107,9 +107,9 @@ function UserInput() {
         <TextField
           variant="filled"
           required
-          error={itemCode === "" || itemCode.length < 8 ? true : false}
+          error={itemCodeEl === "" || itemCodeEl.length < 8 ? true : false}
           helperText={
-            itemCode === "" || itemCode.length < 8
+            itemCodeEl === "" || itemCodeEl.length < 8
               ? "Please choose a code equal to 8 characters"
               : ""
           }
@@ -120,10 +120,10 @@ function UserInput() {
           color="secondary"
           onChange={(event) => {
             user_input();
-            setItemCode(event.target.value.toUpperCase().split(" ").join(""));
+            setItemCodeEl(event.target.value.toUpperCase().split(" ").join(""));
           }}
           inputProps={{ maxLength: 8, autoComplete: "off" }}
-          value={itemCode}
+          value={itemCodeEl}
           onKeyDown={(event) => {
             if (!event.key.match(/[a-zA-Z0-9]/)) {
               event.preventDefault();
@@ -135,10 +135,12 @@ function UserInput() {
           variant="filled"
           required
           error={
-            itemQuantity === "" || Number(itemQuantity) > 10000 ? true : false
+            itemQuantityEl === "" || Number(itemQuantityEl) > 10000
+              ? true
+              : false
           }
           helperText={
-            itemQuantity === "" || Number(itemQuantity) > 10000
+            itemQuantityEl === "" || Number(itemQuantityEl) > 10000
               ? "Please choose a number between 1 and 10000"
               : ""
           }
@@ -150,15 +152,17 @@ function UserInput() {
           color="secondary"
           onChange={user_input}
           inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
-          value={itemQuantity}
+          value={itemQuantityEl}
           size="small"
         />
         <TextField
           variant="filled"
           required
-          error={itemPrice === "" || Number(itemPrice) > 10000 ? true : false}
+          error={
+            itemPriceEl === "" || Number(itemPriceEl) > 10000 ? true : false
+          }
           helperText={
-            itemPrice === "" || Number(itemPrice) > 10000
+            itemPriceEl === "" || Number(itemPriceEl) > 10000
               ? "Please choose a number between 1 and 10000"
               : ""
           }
@@ -170,7 +174,7 @@ function UserInput() {
           color="secondary"
           onChange={user_input}
           inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
-          value={itemPrice}
+          value={itemPriceEl}
           size="small"
         />
         <Alert

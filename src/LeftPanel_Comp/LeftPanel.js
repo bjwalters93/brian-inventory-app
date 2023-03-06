@@ -10,8 +10,6 @@ import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
 import { a11yProps } from "./component_extras";
-import { useRef } from "react";
-
 // READ ME !!!!!!!!!!!!
 // the Add and Search components could theoretically be split into their own
 // individual components. However, function components CANNOT be used inside of MUI transition.
@@ -21,44 +19,65 @@ import { useRef } from "react";
 function LeftPanel(props) {
   //   ________________Add component starts here__________________
   // -------------------------------------------------------------
-  // States for text field components.
-  const [itemName, setItemName] = useState("ITEM NAME");
-  const [itemCode, setItemCode] = useState("00000000");
-  const [itemQuantity, setItemQuantity] = useState(10);
-  const [itemPrice, setItemPrice] = useState(1.99);
-  //   const [alertText, setAlertText] = useState("");
   const [successText, setSuccessText] = useState("");
   const [errorText, setErrorText] = useState("");
-  const errorAlertElement = useRef(null);
 
-  // Submits form data, triggers error or success alert, resets form.
+  const [inputs, setInputs] = useState({
+    nameInput: ["ITEM NAME", "true"],
+    codeInput: ["00000000", "true"],
+    quantityInput: [10, "false"],
+    priceInput: [1.99, "false"],
+  });
+
+  const inputTracker = (event) => {
+    const name = event.target.name;
+    const value =
+      name === "nameInput"
+        ? event.target.value.toUpperCase()
+        : name === "codeInput"
+        ? event.target.value.toUpperCase().split(" ").join("")
+        : event.target.value;
+    const valid = event.target.ariaInvalid;
+    setInputs((values) => ({ ...values, [name]: [value, valid] }));
+  };
+
   function submitForm() {
-    const nameEl = document.getElementById("item-name");
-    const codeEl = document.getElementById("item-code");
-    const quantityEl = document.getElementById("item-quantity");
-    const priceEl = document.getElementById("item-price");
     if (
-      nameEl.ariaInvalid === "false" &&
-      codeEl.ariaInvalid === "false" &&
-      quantityEl.ariaInvalid === "false" &&
-      priceEl.ariaInvalid === "false" &&
-      itemName !== "ITEM NAME" &&
-      itemCode !== "00000000" &&
-      !props.dataMapByName.has(itemName) &&
-      !props.dataMapByCode.has(itemCode)
+      inputs.nameInput[1] === "false" &&
+      inputs.codeInput[1] === "false" &&
+      inputs.quantityInput[1] === "false" &&
+      inputs.priceInput[1] === "false" &&
+      inputs.nameInput[0] !== "ITEM NAME" &&
+      inputs.codeInput[0] !== "00000000" &&
+      !props.dataMapByName.has(inputs.nameInput[0]) &&
+      !props.dataMapByCode.has(inputs.codeInput[0])
     ) {
-      props.data(itemName, itemCode, itemQuantity, itemPrice);
+      console.log(inputs);
+      props.data(
+        inputs.nameInput[0],
+        inputs.codeInput[0],
+        inputs.quantityInput[0],
+        inputs.priceInput[0]
+      );
       setErrorText("");
-      setSuccessText(`${itemName} has been added to your Inventory!`);
-      setItemName("ITEM NAME");
-      setItemCode("00000000");
-      setItemQuantity(10);
-      setItemPrice(1.99);
+      setSuccessText(
+        `${inputs.nameInput[0]} has been added to your Inventory!`
+      );
+      setInputs({
+        nameInput: ["ITEM NAME", "true"],
+        codeInput: ["00000000", "true"],
+        quantityInput: [10, "false"],
+        priceInput: [1.99, "false"],
+      });
     } else {
+      console.log(inputs);
       setSuccessText("");
-      props.dataMapByName.has(itemName)
+      props.dataMapByName.has(inputs.nameInput[0]) &&
+      props.dataMapByCode.has(inputs.codeInput[0])
+        ? setErrorText("Name and code already exist")
+        : props.dataMapByName.has(inputs.nameInput[0])
         ? setErrorText("Name already exists")
-        : props.dataMapByCode.has(itemCode)
+        : props.dataMapByCode.has(inputs.codeInput[0])
         ? setErrorText("Code already exists")
         : setErrorText("Invalid Entry");
     }
@@ -66,13 +85,13 @@ function LeftPanel(props) {
   //   __________________Add component ends here________________________
   // -------------------------------------------------------------------
   //   ----Tabs Component Code ----- switches tabs, activates transitions
-  const [value, setValue] = useState(0);
-  const [checked1, setChecked1] = useState(true);
-  const [checked2, setChecked2] = useState(false);
+  const [tabTracker, setTabTracker] = useState(0);
+  const [tabOneTransition, setTabOneTransition] = useState(true);
+  const [tabTwoTransition, setTabTwoTransition] = useState(false);
   const handleChange = (event, newValue) => {
-    setChecked1((prev) => !prev);
-    setChecked2((prev) => !prev);
-    setValue(newValue);
+    setTabOneTransition((prev) => !prev);
+    setTabTwoTransition((prev) => !prev);
+    setTabTracker(newValue);
   };
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   //   --------------------------------------------------------------------
@@ -84,7 +103,7 @@ function LeftPanel(props) {
       {/* -------------------------- */}
       <div className="left-panel-navigation-tabs">
         <Tabs
-          value={value}
+          value={tabTracker}
           onChange={handleChange}
           indicatorColor="secondary"
           textColor="secondary"
@@ -99,19 +118,26 @@ function LeftPanel(props) {
       {/* Add component starts here */}
       {/* --------------------------------------------- */}
       {/* TabPanel component is imported */}
-      <TabPanel value={value} index={0}>
-        <Slide direction="right" in={checked1} mountOnEnter unmountOnExit>
+      <TabPanel value={tabTracker} index={0}>
+        <Slide
+          direction="right"
+          in={tabOneTransition}
+          mountOnEnter
+          unmountOnExit
+        >
           <div className="user-input-flex">
             <div className="user-input-heading">
               <AddCircleOutlineIcon color="secondary" />
               <h2 className="user-input-title">Add Inventory Item</h2>
             </div>
             <TextField
+              type="text"
+              name="nameInput"
               variant="filled"
               required
-              error={itemName === "" ? true : false}
+              error={inputs.nameInput[0] === "" ? true : false}
               helperText={
-                itemName === ""
+                inputs.nameInput[0] === ""
                   ? "Please choose a name no longer than 20 characters"
                   : ""
               }
@@ -121,10 +147,10 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                setItemName(event.target.value.toUpperCase());
+                inputTracker(event);
               }}
-              inputProps={{ maxLength: 20, autoComplete: "off" }}
-              value={itemName}
+              inputProps={{ minLength: 1, maxLength: 20, autoComplete: "off" }}
+              value={inputs.nameInput[0]}
               onKeyDown={(event) => {
                 if (!event.key.match(/[a-zA-Z0-9\s]/)) {
                   event.preventDefault();
@@ -133,11 +159,13 @@ function LeftPanel(props) {
               size="small"
             />
             <TextField
+              type="text"
+              name="codeInput"
               variant="filled"
               required
-              error={itemCode === "" || itemCode.length < 8 ? true : false}
+              error={inputs.codeInput[0] === "" ? true : false}
               helperText={
-                itemCode === "" || itemCode.length < 8
+                inputs.codeInput[0] === "" || inputs.codeInput[0].length < 8
                   ? "Please choose a code equal to 8 characters"
                   : ""
               }
@@ -147,12 +175,10 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                setItemCode(
-                  event.target.value.toUpperCase().split(" ").join("")
-                );
+                inputTracker(event);
               }}
-              inputProps={{ maxLength: 8, autoComplete: "off" }}
-              value={itemCode}
+              inputProps={{ minLength: 1, maxLength: 8, autoComplete: "off" }}
+              value={inputs.codeInput[0]}
               onKeyDown={(event) => {
                 if (!event.key.match(/[a-zA-Z0-9]/)) {
                   event.preventDefault();
@@ -161,15 +187,18 @@ function LeftPanel(props) {
               size="small"
             />
             <TextField
+              name="quantityInput"
               variant="filled"
               required
               error={
-                itemQuantity === "" || Number(itemQuantity) > 10000
+                inputs.quantityInput[0] === "" ||
+                Number(inputs.quantityInput[0]) > 10000
                   ? true
                   : false
               }
               helperText={
-                itemQuantity === "" || Number(itemQuantity) > 10000
+                inputs.quantityInput[0] === "" ||
+                Number(inputs.quantityInput[0]) > 10000
                   ? "Please choose a number between 1 and 10000"
                   : ""
               }
@@ -180,20 +209,25 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                setItemCode(event.target.value);
+                inputTracker(event);
               }}
               inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
-              value={itemQuantity}
+              value={inputs.quantityInput[0]}
               size="small"
             />
             <TextField
+              name="priceInput"
               variant="filled"
               required
               error={
-                itemPrice === "" || Number(itemPrice) > 10000 ? true : false
+                inputs.priceInput[0] === "" ||
+                Number(inputs.priceInput[0]) > 10000
+                  ? true
+                  : false
               }
               helperText={
-                itemPrice === "" || Number(itemPrice) > 10000
+                inputs.priceInput[0] === "" ||
+                Number(inputs.priceInput[0]) > 10000
                   ? "Please choose a number between 1 and 10000"
                   : ""
               }
@@ -204,15 +238,14 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                setItemCode(event.target.value);
+                inputTracker(event);
               }}
               inputProps={{ min: 0, max: 10000, autoComplete: "off" }}
-              value={itemPrice}
+              value={inputs.priceInput[0]}
               size="small"
             />
             {errorText !== "" && (
               <Alert
-                ref={errorAlertElement}
                 id="error-alert"
                 severity="error"
                 onClose={() => {
@@ -254,8 +287,13 @@ function LeftPanel(props) {
       {/* Search component starts here */}
       {/* -------------------------------------------------- */}
       {/* TabPanel component is imported */}
-      <TabPanel value={value} index={1}>
-        <Slide direction="right" in={checked2} mountOnEnter unmountOnExit>
+      <TabPanel value={tabTracker} index={1}>
+        <Slide
+          direction="right"
+          in={tabTwoTransition}
+          mountOnEnter
+          unmountOnExit
+        >
           <p>Bye</p>
         </Slide>
       </TabPanel>
