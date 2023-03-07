@@ -73,7 +73,6 @@ function LeftPanel(props) {
       !props.dataMapByName.has(inputs.nameInput[0]) &&
       !props.dataMapByCode.has(inputs.codeInput[0])
     ) {
-      console.log(inputs);
       props.data(
         inputs.nameInput[0],
         inputs.codeInput[0],
@@ -91,7 +90,6 @@ function LeftPanel(props) {
         priceInput: [1.99, true],
       });
     } else {
-      console.log(inputs);
       setSuccessText("");
       props.dataMapByName.has(inputs.nameInput[0]) &&
       props.dataMapByCode.has(inputs.codeInput[0])
@@ -168,7 +166,6 @@ function LeftPanel(props) {
               className="text-field"
               color="secondary"
               onChange={(event) => {
-                console.log(inputs);
                 inputTracker(event);
               }}
               inputProps={{ maxLength: 20, autoComplete: "off" }}
@@ -188,8 +185,8 @@ function LeftPanel(props) {
               error={inputs.codeInput[0].length === 8 ? false : true}
               helperText={
                 inputs.codeInput[0].length === 8
-                  ? "Please choose a code equal to 8 characters"
-                  : ""
+                  ? ""
+                  : "Please choose a code equal to 8 characters"
               }
               id="item-code"
               label="Item Code"
