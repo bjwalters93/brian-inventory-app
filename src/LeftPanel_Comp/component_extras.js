@@ -8,11 +8,11 @@ export function a11yProps(index) {
 
 //   Data object constructor
 export class InventoryItem {
-  constructor(name, code, quantity, price) {
+  constructor(name, code, quantity, cost) {
     this.name = name;
     this.code = code;
     this.quantity = quantity;
-    this.price = price;
+    this.cost = cost;
   }
   itemInformation() {
     let info = `name: ${this.name}, code: ${this.code}, quantity: ${this.quantity}, price: ${this.price}`;

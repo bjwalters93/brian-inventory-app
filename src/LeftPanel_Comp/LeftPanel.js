@@ -36,7 +36,7 @@ function LeftPanel(props) {
         ? event.target.value.toUpperCase()
         : name === "codeInput"
         ? event.target.value.toUpperCase()
-        : event.target.value;
+        : Number(event.target.value);
     let valid;
     if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
       valid = true;

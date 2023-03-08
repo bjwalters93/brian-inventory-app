@@ -38,12 +38,12 @@ function App() {
   const [itemMapByName, setItemMapByName] = useState(new Map());
   const [itemMapByCode, setItemMapByCode] = useState(new Map());
   // _________________________Data Logic_____________________________
-  function pushData(name, code, quantity, price) {
+  function pushData(name, code, quantity, cost) {
     const item = new InventoryItem(
       name,
       code,
       quantity,
-      Number(price).toFixed(2)
+      Number(cost).toFixed(2)
     );
     updateMapByName(item.name, item);
     updateMapByCode(item.code, item);
@@ -68,7 +68,10 @@ function App() {
             dataMapByName={itemMapByName}
             dataMapByCode={itemMapByCode}
           />
-          <DataTable />
+          <DataTable
+            dataMapByName={itemMapByName}
+            dataMapByCode={itemMapByCode}
+          />
         </div>
       </ThemeProvider>
     </StyledEngineProvider>
