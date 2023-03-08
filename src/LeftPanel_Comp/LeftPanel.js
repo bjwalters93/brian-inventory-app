@@ -35,7 +35,7 @@ function LeftPanel(props) {
       name === "nameInput"
         ? event.target.value.toUpperCase()
         : name === "codeInput"
-        ? event.target.value.toUpperCase().split(" ").join("")
+        ? event.target.value.toUpperCase()
         : event.target.value;
     let valid;
     if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
@@ -65,11 +65,13 @@ function LeftPanel(props) {
       inputs.codeInput[1] &&
       inputs.quantityInput[1] &&
       inputs.costInput[1] &&
-      props.dataMapByName.has(inputs.nameInput[0].trim()) === false &&
+      props.dataMapByName.has(
+        inputs.nameInput[0].replace(/\s+/g, " ").trim()
+      ) === false &&
       props.dataMapByCode.has(inputs.codeInput[0]) === false
     ) {
       props.data(
-        inputs.nameInput[0],
+        inputs.nameInput[0].replace(/\s+/g, " ").trim(),
         inputs.codeInput[0],
         inputs.quantityInput[0],
         inputs.costInput[0]
@@ -86,10 +88,13 @@ function LeftPanel(props) {
       });
     } else {
       setSuccessText("");
-      props.dataMapByName.has(inputs.nameInput[0].trim()) &&
-      props.dataMapByCode.has(inputs.codeInput[0])
+      props.dataMapByName.has(
+        inputs.nameInput[0].replace(/\s+/g, " ").trim()
+      ) && props.dataMapByCode.has(inputs.codeInput[0])
         ? setErrorText("Name and code already exist")
-        : props.dataMapByName.has(inputs.nameInput[0].trim())
+        : props.dataMapByName.has(
+            inputs.nameInput[0].replace(/\s+/g, " ").trim()
+          )
         ? setErrorText("Name already exists")
         : props.dataMapByCode.has(inputs.codeInput[0])
         ? setErrorText("Code already exists")
@@ -245,10 +250,10 @@ function LeftPanel(props) {
                   ? "Please choose a number between 1 and 10000"
                   : ""
               }
-              id="cost"
-              label="cost"
+              id="Cost"
+              label="Cost"
               type="number"
-              placeholder="cost"
+              placeholder="Cost"
               className="text-field"
               color="secondary"
               onChange={(event) => {

@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./themes";
 import { StyledEngineProvider } from "@mui/material/styles";
-import Table from "./Table_Comp/Table";
+import DataTable from "./Table_Comp/DataTable";
 import LeftPanel from "./LeftPanel_Comp/LeftPanel";
 import { InventoryItem } from "./LeftPanel_Comp/component_extras";
 import { colorTheme } from "./color-theme";
@@ -56,7 +56,6 @@ function App() {
   function updateMapByCode(key, value) {
     setItemMapByCode((prevState) => new Map(prevState.set(key, value)));
   }
-
   console.log(itemMapByName);
   console.log(itemMapByCode);
   return (
@@ -69,7 +68,7 @@ function App() {
             dataMapByName={itemMapByName}
             dataMapByCode={itemMapByCode}
           />
-          <Table />
+          <DataTable />
         </div>
       </ThemeProvider>
     </StyledEngineProvider>
