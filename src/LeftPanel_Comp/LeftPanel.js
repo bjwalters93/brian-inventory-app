@@ -24,7 +24,7 @@ function LeftPanel(props) {
     nameInput: ["ITEM NAME", false],
     codeInput: ["00000000", false],
     quantityInput: [10, true],
-    priceInput: [1.99, true],
+    costInput: [1.99, true],
   });
   const [successText, setSuccessText] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -53,31 +53,26 @@ function LeftPanel(props) {
       Number(value) <= 10000
     ) {
       valid = true;
-    } else if (
-      name === "priceInput" &&
-      value !== "" &&
-      Number(value) <= 10000
-    ) {
+    } else if (name === "costInput" && value !== "" && Number(value) <= 10000) {
       valid = true;
     } else valid = false;
     setInputs((values) => ({ ...values, [name]: [value, valid] }));
   }
 
   function submitForm() {
-    console.log(inputs);
     if (
       inputs.nameInput[1] &&
       inputs.codeInput[1] &&
       inputs.quantityInput[1] &&
-      inputs.priceInput[1] &&
-      !props.dataMapByName.has(inputs.nameInput[0]) &&
-      !props.dataMapByCode.has(inputs.codeInput[0])
+      inputs.costInput[1] &&
+      props.dataMapByName.has(inputs.nameInput[0].trim()) === false &&
+      props.dataMapByCode.has(inputs.codeInput[0]) === false
     ) {
       props.data(
         inputs.nameInput[0],
         inputs.codeInput[0],
         inputs.quantityInput[0],
-        inputs.priceInput[0]
+        inputs.costInput[0]
       );
       setErrorText("");
       setSuccessText(
@@ -87,14 +82,14 @@ function LeftPanel(props) {
         nameInput: ["ITEM NAME", false],
         codeInput: ["00000000", false],
         quantityInput: [10, true],
-        priceInput: [1.99, true],
+        costInput: [1.99, true],
       });
     } else {
       setSuccessText("");
-      props.dataMapByName.has(inputs.nameInput[0]) &&
+      props.dataMapByName.has(inputs.nameInput[0].trim()) &&
       props.dataMapByCode.has(inputs.codeInput[0])
         ? setErrorText("Name and code already exist")
-        : props.dataMapByName.has(inputs.nameInput[0])
+        : props.dataMapByName.has(inputs.nameInput[0].trim())
         ? setErrorText("Name already exists")
         : props.dataMapByCode.has(inputs.codeInput[0])
         ? setErrorText("Code already exists")
@@ -129,7 +124,7 @@ function LeftPanel(props) {
           variant="fullWidth"
         >
           <Tab label="Add" {...a11yProps(0)} />
-          <Tab label="Search" {...a11yProps(1)} />
+          <Tab label="Update" {...a11yProps(1)} />
         </Tabs>
       </div>
       {/* left panel navigation tabs */}
@@ -235,32 +230,32 @@ function LeftPanel(props) {
               size="small"
             />
             <TextField
-              name="priceInput"
+              name="costInput"
               variant="filled"
               required
               error={
-                inputs.priceInput[0].length === 0 ||
-                Number(inputs.priceInput[0]) > 10000
+                inputs.costInput[0].length === 0 ||
+                Number(inputs.costInput[0]) > 10000
                   ? true
                   : false
               }
               helperText={
-                inputs.priceInput[0].length === 0 ||
-                Number(inputs.priceInput[0]) > 10000
+                inputs.costInput[0].length === 0 ||
+                Number(inputs.costInput[0]) > 10000
                   ? "Please choose a number between 1 and 10000"
                   : ""
               }
-              id="item-price"
-              label="Item Price"
+              id="cost"
+              label="cost"
               type="number"
-              placeholder="Item Price"
+              placeholder="cost"
               className="text-field"
               color="secondary"
               onChange={(event) => {
                 inputTracker(event);
               }}
               inputProps={{ max: 10000, autoComplete: "off" }}
-              value={inputs.priceInput[0]}
+              value={inputs.costInput[0]}
               size="small"
             />
             {errorText !== "" && (
