@@ -44,8 +44,8 @@ export const colorTheme = [
   {
     variableName: "--scrollBarColor",
     colorValue: {
-      lightTheme: "#e1e1e1",
-      darkTheme: "#191b21",
+      lightTheme: "#b6b6b6",
+      darkTheme: "#b6b6b6",
     },
   },
   {
