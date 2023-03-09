@@ -2,7 +2,8 @@ import "./DataTable.css";
 // import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import { styled } from "@mui/material/styles";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -11,6 +12,30 @@ import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 // import { useState } from "react";
 
 function DataTable(props) {
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      fontSize: "16px",
+      backgroundColor: "var(--headerBackground)",
+      color: "var(--headerFontColor)",
+    },
+    [`&.${tableCellClasses.body}`]: {
+      backgroundColor: "var(--compTwoBackground)",
+      color: "var(compFontColor)",
+      fontSize: "12px",
+    },
+  }));
+
+  //   const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  //     "&:nth-of-type(odd)": {
+  //       backgroundColor: "var(--compOneBackground)",
+  //       color: "var(compFontColor)",
+  //     },
+  //     // hide last border
+  //     "&:last-child td, &:last-child th": {
+  //       border: 0,
+  //     },
+  //   }));
+
   console.log("Render: DataTable");
   const byNameArray = [];
   const byCodeArray = [];
@@ -31,22 +56,24 @@ function DataTable(props) {
       </div>
 
       <TableContainer className="table-container">
-        <Table size="medium">
+        <Table size="medium" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell>Item Name</TableCell>
-              <TableCell align="right">Item Code</TableCell>
-              <TableCell align="right">Quantity</TableCell>
-              <TableCell align="right">Cost</TableCell>
+              <StyledTableCell>Item Name</StyledTableCell>
+              <StyledTableCell align="right">Item Code</StyledTableCell>
+              <StyledTableCell align="right">Quantity</StyledTableCell>
+              <StyledTableCell align="right">Cost</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {byNameArray.map((element) => (
               <TableRow key={element.key}>
-                <TableCell>{element.name}</TableCell>
-                <TableCell align="right">{element.code}</TableCell>
-                <TableCell align="right">{element.quantity}</TableCell>
-                <TableCell align="right">{element.cost}</TableCell>
+                <StyledTableCell>{element.name}</StyledTableCell>
+                <StyledTableCell align="right">{element.code}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {element.quantity}
+                </StyledTableCell>
+                <StyledTableCell align="right">{element.cost}</StyledTableCell>
               </TableRow>
             ))}
           </TableBody>

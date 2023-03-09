@@ -28,8 +28,9 @@ function App() {
           : colorTheme[i].colorValue.darkTheme
       );
       if (!display) {
-        document.body.style.backgroundColor = "white";
-      } else document.body.style.backgroundColor = "#282c34";
+        document.body.style.backgroundColor = "var(--mainBackgroundColorLight)";
+      } else
+        document.body.style.backgroundColor = "var(--mainBackgroundColorDark)";
     }
   }
 

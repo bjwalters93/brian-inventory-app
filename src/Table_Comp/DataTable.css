@@ -1,30 +1,34 @@
 .table-container-main {
-  margin: 72px 0 0 400px;
-  padding: 0 50px;
-  color: var(--compFontColor);
-  height: calc(100vh - 72px);
+  margin: 52px 20px 0 420px;
+  /* padding: 0 0 20px 0; */
+  height: calc(100vh - 52px - 20px);
+  box-shadow: 4px 4px 4px 0px var(--dropShadowColor);
+  /* background-color: var(--compTwoBackground); */
 }
 
 .table-title-container {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid var(--compFontColor);
-  padding: 0 0 20px 0;
-  margin: 0 0 20px 0;
+  /* border-bottom: 3px solid var(--compOneFontColor); */
+  padding: 20px 20px 0 20px;
+  background-color: var(--headerBackground);
+  /* margin: 30px 0 0 0; */
 }
 
 .table-title {
   font-family: "Mitr", sans-serif;
   font-weight: 400;
-  font-size: 36px;
+  font-size: 20px;
   margin: 0 0 0 10px;
   padding: 0;
-  /* border-bottom: 1px solid var(--compFontColor); */
+  color: var(--headerFontColor);
+  color: white;
 }
 
 .table-container {
   min-height: 100px;
-  max-height: calc(100% - 56.5px - 40px - 1px);
+  max-height: calc(100% - 56.5px);
   box-sizing: border-box;
-  padding: 0 20px;
+
+  /* padding: 0 20px; */
 }

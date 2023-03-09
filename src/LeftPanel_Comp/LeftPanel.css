@@ -2,10 +2,9 @@
   min-width: 400px;
   position: fixed;
   top: 52px;
-  background-color: var(--compBackground);
+  background-color: var(--compOneBackground);
   height: calc(100vh - 52px);
-  overflow-y: scroll;
-  box-shadow: 2px 0px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: 4px 0px 4px 0px var(--dropShadowColor);
 }
 /* adding scroll bar or removing scroll bar changes max width because it adds extra padding. */
 .user-input-flex {
@@ -13,9 +12,9 @@
   flex-direction: column;
   justify-content: flex-start;
   padding: 0 50px;
-  max-width: 283px;
-  /* height: calc(100vh - 130px); */
-  max-height: calc(100% - 78px);
+  max-width: calc(283px + 17px);
+  height: calc(100vh - 52px - 48px);
+  overflow-y: scroll;
 }
 
 .text-field {
@@ -29,12 +28,16 @@
   margin: 0 0 0 5px;
   padding: 0;
   text-align: left;
-  color: var(--compFontColor);
-  /* border-bottom: 2px solid var(--compFontColor); */
+  color: var(--compOneFontColor);
 }
 
 .user-input-heading {
   display: flex;
   align-items: center;
   margin: 30px 0 30px 0;
+}
+
+.left-panel-navigation-tabs {
+  background-color: var(--headerBackground);
+  color: white;
 }

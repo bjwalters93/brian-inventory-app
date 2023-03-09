@@ -1,13 +1,27 @@
 export const colorTheme = [
   {
-    variableName: "--compBackground",
+    variableName: "--compOneBackground",
     colorValue: {
       lightTheme: "#f2f2f2",
       darkTheme: "#20232a",
     },
   },
   {
-    variableName: "--compFontColor",
+    variableName: "--compOneFontColor",
+    colorValue: {
+      lightTheme: "black",
+      darkTheme: "white",
+    },
+  },
+  {
+    variableName: "--compTwoBackground",
+    colorValue: {
+      lightTheme: "white",
+      darkTheme: "#282c34",
+    },
+  },
+  {
+    variableName: "--compTwoFontColor",
     colorValue: {
       lightTheme: "black",
       darkTheme: "white",
@@ -23,7 +37,7 @@ export const colorTheme = [
   {
     variableName: "--headerFontColor",
     colorValue: {
-      lightTheme: "white",
+      lightTheme: "#ff8c00",
       darkTheme: "#61dafb",
     },
   },
@@ -39,6 +53,13 @@ export const colorTheme = [
     colorValue: {
       lightTheme: "#ff8c00",
       darkTheme: "#61dafb",
+    },
+  },
+  {
+    variableName: "--dropShadowColor",
+    colorValue: {
+      lightTheme: "rgba(0, 0, 0, 0.3)",
+      darkTheme: "rgba(0, 0, 0, 0.8)",
     },
   },
 ];

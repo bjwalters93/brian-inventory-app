@@ -129,8 +129,8 @@ function LeftPanel(props) {
           textColor="secondary"
           variant="fullWidth"
         >
-          <Tab label="Add" {...a11yProps(0)} />
-          <Tab label="Update" {...a11yProps(1)} />
+          <Tab sx={{ color: "white" }} label="Add" {...a11yProps(0)} />
+          <Tab sx={{ color: "white" }} label="Update" {...a11yProps(1)} />
         </Tabs>
       </div>
       {/* left panel navigation tabs */}
@@ -227,7 +227,7 @@ function LeftPanel(props) {
               type="number"
               placeholder="Quantity"
               className="text-field"
-              color="secondary"
+              color="primary"
               onChange={(event) => {
                 inputTracker(event);
               }}
