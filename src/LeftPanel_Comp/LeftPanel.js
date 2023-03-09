@@ -10,7 +10,7 @@ import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
 import { a11yProps } from "./component_extras";
-
+import { styled } from "@mui/material/styles";
 // READ ME !!!!!!!!!!!!
 // the Add and Search components could theoretically be split into their own
 // individual components. However, function components CANNOT be used inside of MUI transition.
@@ -19,6 +19,20 @@ import { a11yProps } from "./component_extras";
 // and stick a function component inside it will work. Same applies to AppBar MUI component.
 function LeftPanel(props) {
   console.log("Render: LeftPanel");
+  //   Theme for button transition
+  const StyledButton = styled(Button)`
+    ${({ theme }) => `
+  transition: ${theme.transitions.create(["background-color", "transform"], {
+    duration: theme.transitions.duration.shortest,
+  })};
+  &:hover {
+    background-color: ${theme.palette.secondary.main};
+    transform: scale(1.05);
+  }
+  `}
+  `;
+
+  // __________________________________________________________________
   //   ________________Add component starts here__________________
   // -------------------------------------------------------------
   const [inputs, setInputs] = useState({
@@ -290,7 +304,7 @@ function LeftPanel(props) {
                 {successText}
               </Alert>
             )}
-            <Button
+            <StyledButton
               color="secondary"
               className="button"
               onClick={submitForm}
@@ -298,7 +312,7 @@ function LeftPanel(props) {
               startIcon={<AddCircleOutlineIcon />}
             >
               Submit
-            </Button>
+            </StyledButton>
           </div>
         </Slide>
       </TabPanel>

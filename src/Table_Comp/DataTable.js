@@ -2,7 +2,7 @@ import "./DataTable.css";
 // import { useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import { styled } from "@mui/material/styles";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
@@ -13,28 +13,17 @@ import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 
 function DataTable(props) {
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
+    "&.MuiTableCell-head": {
       fontSize: "16px",
       backgroundColor: "var(--headerBackground)",
       color: "var(--headerFontColor)",
     },
-    [`&.${tableCellClasses.body}`]: {
+    "&.MuiTableCell-body": {
       backgroundColor: "var(--compTwoBackground)",
-      color: "var(compFontColor)",
+      color: "var(--compTwoFontColor)",
       fontSize: "12px",
     },
   }));
-
-  //   const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  //     "&:nth-of-type(odd)": {
-  //       backgroundColor: "var(--compOneBackground)",
-  //       color: "var(compFontColor)",
-  //     },
-  //     // hide last border
-  //     "&:last-child td, &:last-child th": {
-  //       border: 0,
-  //     },
-  //   }));
 
   console.log("Render: DataTable");
   const byNameArray = [];
