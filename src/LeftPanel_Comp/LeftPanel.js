@@ -18,6 +18,7 @@ import { a11yProps } from "./component_extras";
 // use components as children of the MUI TabPanel component. Meaning, if you remove the transition(slide) component
 // and stick a function component inside it will work. Same applies to AppBar MUI component.
 function LeftPanel(props) {
+  console.log("Render: LeftPanel");
   //   ________________Add component starts here__________________
   // -------------------------------------------------------------
   const [inputs, setInputs] = useState({

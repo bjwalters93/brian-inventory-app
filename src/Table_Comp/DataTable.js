@@ -7,11 +7,20 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
+// import { dummyDataByName } from "./dummyData";
+// import { useState } from "react";
 
 function DataTable(props) {
-  let myTestArray = [];
+  console.log("Render: DataTable");
+  const byNameArray = [];
+  const byCodeArray = [];
+
   props.dataMapByName.forEach(function (value, key) {
-    myTestArray.push({ ...value, key: key });
+    byNameArray.push({ ...value, key: key });
+  });
+
+  props.dataMapByCode.forEach(function (value, key) {
+    byCodeArray.push({ ...value, key: key });
   });
 
   return (
@@ -32,7 +41,7 @@ function DataTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {myTestArray.map((element) => (
+            {byNameArray.map((element) => (
               <TableRow key={element.key}>
                 <TableCell>{element.name}</TableCell>
                 <TableCell align="right">{element.code}</TableCell>

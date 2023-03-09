@@ -2,6 +2,7 @@
   margin: 72px 0 0 400px;
   padding: 0 50px;
   color: var(--compFontColor);
+  height: calc(100vh - 72px);
 }
 
 .table-title-container {
@@ -22,6 +23,8 @@
 }
 
 .table-container {
+  min-height: 100px;
+  max-height: calc(100% - 56.5px - 40px - 1px);
   box-sizing: border-box;
   padding: 0 20px;
 }
