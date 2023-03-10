@@ -19,9 +19,22 @@ function DataTable(props) {
       color: "var(--headerFontColor)",
     },
     "&.MuiTableCell-body": {
-      backgroundColor: "var(--compTwoBackground)",
+      //   backgroundColor: "var(--compTwoBackground)",
       color: "var(--compTwoFontColor)",
       fontSize: "12px",
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: "var(--compOneBackground)",
+    },
+    "&:nth-of-type(even)": {
+      backgroundColor: "var(--compTwoBackground)",
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
     },
   }));
 
@@ -56,14 +69,14 @@ function DataTable(props) {
           </TableHead>
           <TableBody>
             {byNameArray.map((element) => (
-              <TableRow key={element.key}>
+              <StyledTableRow key={element.key}>
                 <StyledTableCell>{element.name}</StyledTableCell>
                 <StyledTableCell align="right">{element.code}</StyledTableCell>
                 <StyledTableCell align="right">
                   {element.quantity}
                 </StyledTableCell>
                 <StyledTableCell align="right">{element.cost}</StyledTableCell>
-              </TableRow>
+              </StyledTableRow>
             ))}
           </TableBody>
         </Table>

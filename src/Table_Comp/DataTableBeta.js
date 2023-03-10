@@ -1,6 +1,7 @@
 import * as React from "react";
+import "./DataTableBeta.css";
 import PropTypes from "prop-types";
-import { alpha } from "@mui/material/styles";
+// import { alpha } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -20,6 +21,36 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
+import { styled } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
+import { darkTheme } from "../themes";
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  "&.MuiTableCell-head": {
+    fontSize: "16px",
+    backgroundColor: "var(--headerBackground)",
+    color: "var(--headerFontColor)",
+  },
+  "&.MuiTableCell-body": {
+    //   backgroundColor: "var(--compTwoBackground)",
+    color: "var(--compTwoFontColor)",
+    fontSize: "12px",
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: "var(--compOneBackground)",
+  },
+  "&:nth-of-type(even)": {
+    backgroundColor: "var(--compTwoBackground)",
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -55,27 +86,28 @@ function EnhancedTableHead(props) {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Dessert (100g serving)",
+      label: "Item Name",
     },
     {
-      id: "calories",
+      id: "code",
       numeric: true,
       disablePadding: false,
-      label: "Calories",
+      label: "Item Code",
     },
     {
-      id: "fat",
+      id: "quantity",
       numeric: true,
       disablePadding: false,
-      label: "Fat (g)",
+      label: "Quantity",
     },
     {
-      id: "carbs",
+      id: "cost",
       numeric: true,
       disablePadding: false,
-      label: "Carbs (g)",
+      label: "Cost",
     },
   ];
+
   const {
     onSelectAllClick,
     order,
@@ -92,37 +124,43 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox">
+        <StyledTableCell padding="checkbox">
           <Checkbox
-            color="primary"
+            color="secondary"
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{
-              "aria-label": "select all desserts",
-            }}
+            sx={{ color: "white" }}
           />
-        </TableCell>
+        </StyledTableCell>
         {headCells.map((headCell) => (
-          <TableCell
+          <StyledTableCell
             key={headCell.id}
             align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "normal"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-              {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
-                  {order === "desc" ? "sorted descending" : "sorted ascending"}
-                </Box>
-              ) : null}
-            </TableSortLabel>
-          </TableCell>
+            <ThemeProvider theme={darkTheme}>
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+                // sx={{
+                //   "&.Mui-active": { color: "white" },
+                //   "&:hover": { color: "white" },
+                // }}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            </ThemeProvider>
+          </StyledTableCell>
         ))}
       </TableRow>
     </TableHead>
@@ -147,18 +185,14 @@ function EnhancedTableToolbar(props) {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: (theme) =>
-            alpha(
-              theme.palette.primary.main,
-              theme.palette.action.activatedOpacity
-            ),
+          bgcolor: (theme) => theme.palette.secondary.main,
         }),
       }}
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{ flex: "1 1 100%" }}
-          color="inherit"
+          sx={{ flex: "1 1 100%", color: "black", fontSize: "14px" }}
+          //   color="inherit"
           variant="subtitle1"
           component="div"
         >
@@ -166,25 +200,25 @@ function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%" }}
+          sx={{ flex: "1 1 100%", color: "white", fontSize: "14px" }}
           variant="h6"
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Filter List
         </Typography>
       )}
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
-            <DeleteIcon />
+            <DeleteIcon sx={{ color: "black" }} />
           </IconButton>
         </Tooltip>
       ) : (
         <Tooltip title="Filter list">
           <IconButton>
-            <FilterListIcon />
+            <FilterListIcon sx={{ color: "white" }} />
           </IconButton>
         </Tooltip>
       )}
@@ -196,8 +230,8 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable() {
-  function createData(name, calories, fat, carbs) {
+export default function EnhancedTable(props) {
+  function createData(name, calories, fat, carbs, protein) {
     return {
       name,
       calories,
@@ -284,91 +318,105 @@ export default function EnhancedTable() {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <div sx={{ width: "100%" }}>
-      <div sx={{ width: "100%", mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer sx={{ height: "200px" }}>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-            stickyHeader
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+    <div className="table-container-main">
+      <div className="table-title-container">
+        <div className="title-icon-flex">
+          <InventoryOutlinedIcon color="secondary" fontSize="large" />
+          <h2 className="table-title">Inventory List</h2>
+        </div>
+        <FormControlLabel
+          control={
+            <Switch
+              color="secondary"
+              checked={dense}
+              onChange={handleChangeDense}
             />
-            <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.name}
-                      selected={isItemSelected}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      {/* <TableCell align="right">{row.carbs}</TableCell> */}
-                    </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    backgroundColor: "blue",
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          }
+          label="Size"
+          sx={{ color: "white" }}
         />
+        <EnhancedTableToolbar numSelected={selected.length} />
       </div>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
+
+      <TableContainer className="table-container">
+        <Table
+          aria-labelledby="tableTitle"
+          size={dense ? "small" : "medium"}
+          stickyHeader
+        >
+          <EnhancedTableHead
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={rows.length}
+          />
+          <TableBody>
+            {stableSort(rows, getComparator(order, orderBy))
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((row, index) => {
+                const isItemSelected = isSelected(row.name);
+                const labelId = `enhanced-table-checkbox-${index}`;
+
+                return (
+                  <StyledTableRow
+                    // hover
+                    onClick={(event) => handleClick(event, row.name)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.name}
+                    // selected={isItemSelected}
+                  >
+                    <StyledTableCell padding="checkbox">
+                      <Checkbox
+                        color="secondary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          "aria-labelledby": labelId,
+                        }}
+                      />
+                    </StyledTableCell>
+                    <StyledTableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
+                      {row.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.calories}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
+                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                  </StyledTableRow>
+                );
+              })}
+            {emptyRows > 0 && (
+              <StyledTableRow
+                style={{
+                  height: (dense ? 33 : 53) * emptyRows,
+                }}
+              >
+                <StyledTableCell colSpan={6} />
+              </StyledTableRow>
+            )}
+          </TableBody>
+        </Table>
+        <ThemeProvider theme={darkTheme}>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+        </ThemeProvider>
+      </TableContainer>
     </div>
   );
 }

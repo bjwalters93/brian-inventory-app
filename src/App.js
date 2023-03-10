@@ -5,7 +5,8 @@ import { useState } from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { lightTheme, darkTheme } from "./themes";
 import { StyledEngineProvider } from "@mui/material/styles";
-import DataTable from "./Table_Comp/DataTable";
+// import DataTable from "./Table_Comp/DataTable";
+import DataTableBeta from "./Table_Comp/DataTableBeta";
 import LeftPanel from "./LeftPanel_Comp/LeftPanel";
 import { InventoryItem } from "./LeftPanel_Comp/component_extras";
 import { colorTheme } from "./color-theme";
@@ -208,7 +209,11 @@ function App() {
             dataMapByName={itemMapByName}
             dataMapByCode={itemMapByCode}
           />
-          <DataTable
+          {/* <DataTable
+            dataMapByName={itemMapByName}
+            dataMapByCode={itemMapByCode}
+          /> */}
+          <DataTableBeta
             dataMapByName={itemMapByName}
             dataMapByCode={itemMapByCode}
           />

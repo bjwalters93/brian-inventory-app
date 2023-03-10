@@ -59,7 +59,7 @@ export const colorTheme = [
     variableName: "--dropShadowColor",
     colorValue: {
       lightTheme: "rgba(0, 0, 0, 0.3)",
-      darkTheme: "rgba(0, 0, 0, 0.8)",
+      darkTheme: "rgba(0, 0, 0, 0.3)",
     },
   },
 ];
