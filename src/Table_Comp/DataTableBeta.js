@@ -379,13 +379,13 @@ export default function EnhancedTable(props) {
 
                 return (
                   <StyledTableRow
-                    hover
+                    // hover
                     onClick={(event) => handleClick(event, row.name)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.name}
-                    selected={isItemSelected}
+                    // selected={isItemSelected}
                   >
                     <StyledTableCell padding="checkbox">
                       <Checkbox

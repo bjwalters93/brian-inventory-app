@@ -51,7 +51,7 @@ function LeftPanel(props) {
         ? event.target.value.toUpperCase()
         : name === "codeInput"
         ? event.target.value.toUpperCase()
-        : Number(event.target.value);
+        : event.target.value;
     let valid;
     if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
       valid = true;
@@ -64,15 +64,23 @@ function LeftPanel(props) {
       valid = true;
     } else if (
       name === "quantityInput" &&
-      value !== "" &&
-      Number(value) <= 10000
+      value >= 0 &&
+      value <= 10000 &&
+      value !== ""
     ) {
       valid = true;
-    } else if (name === "costInput" && value !== "" && Number(value) <= 10000) {
+    } else if (
+      name === "costInput" &&
+      value >= 0 &&
+      value <= 10000 &&
+      value !== ""
+    ) {
       valid = true;
     } else valid = false;
     setInputs((values) => ({ ...values, [name]: [value, valid] }));
   }
+  console.log("quantity:", typeof inputs.quantityInput[0]);
+  console.log("cost:", typeof inputs.costInput[0]);
 
   function submitForm() {
     if (
@@ -129,7 +137,7 @@ function LeftPanel(props) {
   };
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   //   --------------------------------------------------------------------
-
+  //   console.log(inputs.quantityInput[0].length);
   return (
     // left panel container ---- contains navigation tabs, app component and search
     <div className="left-panel-container">
@@ -224,24 +232,18 @@ function LeftPanel(props) {
               name="quantityInput"
               variant="filled"
               required
-              error={
-                inputs.quantityInput[0].length === 0 ||
-                Number(inputs.quantityInput[0]) > 10000
-                  ? true
-                  : false
-              }
+              error={inputs.quantityInput[1] ? false : true}
               helperText={
-                inputs.quantityInput[0].length === 0 ||
-                Number(inputs.quantityInput[0]) > 10000
-                  ? "Please choose a number between 1 and 10000"
-                  : ""
+                inputs.quantityInput[1]
+                  ? ""
+                  : "Please choose a number between 0 and 10000"
               }
               id="item-quantity"
               label="Quantity"
               type="number"
               placeholder="Quantity"
               className="text-field"
-              color="primary"
+              color="secondary"
               onChange={(event) => {
                 inputTracker(event);
               }}
@@ -253,17 +255,11 @@ function LeftPanel(props) {
               name="costInput"
               variant="filled"
               required
-              error={
-                inputs.costInput[0].length === 0 ||
-                Number(inputs.costInput[0]) > 10000
-                  ? true
-                  : false
-              }
+              error={inputs.costInput[1] ? false : true}
               helperText={
-                inputs.costInput[0].length === 0 ||
-                Number(inputs.costInput[0]) > 10000
-                  ? "Please choose a number between 1 and 10000"
-                  : ""
+                inputs.costInput[1]
+                  ? ""
+                  : "Please choose a number between 0 and 10000"
               }
               id="Cost"
               label="Cost"
