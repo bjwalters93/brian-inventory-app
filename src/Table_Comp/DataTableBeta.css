@@ -1,9 +1,11 @@
 .table-container-main {
   margin: 52px 20px 0 420px;
+  padding: 0 50px;
+  /* border: 1px solid green; */
   /* max-width: 1000px; */
   /* padding: 0 0 20px 0; */
   height: calc(100vh - 52px);
-  box-shadow: 4px 4px 4px 0px var(--dropShadowColor);
+  /* box-shadow: 4px 4px 4px 0px var(--dropShadowColor); */
   /* background-color: var(--compTwoBackground); */
   min-height: 100px;
 }
@@ -32,10 +34,21 @@
   min-height: 100px;
   height: calc(100% - 84px);
   box-sizing: border-box;
-  border: 1px solid blue;
-  /* padding: 0 20px; */
+  /* border: 1px solid blue; */
+  padding: 0 50px;
+  overflow-y: scroll;
 }
 
 .title-icon-flex {
   display: flex;
+}
+
+.css-1ws511x-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected {
+  background-color: var(--selectedPaginationBackground);
+  color: var(--selectedPaginationColor);
+}
+
+.css-1ws511x-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected:hover {
+  background-color: var(--selectedPaginationBackground);
+  color: var(--selectedPaginationColor);
 }

@@ -26,6 +26,7 @@ import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import { styled } from "@mui/material/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import { darkTheme } from "../themes";
+import DeleteAlertDialog from "./DeleteAlertDialog";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   "&.MuiTableCell-head": {
@@ -213,8 +214,7 @@ function EnhancedTableToolbar(props) {
         <Tooltip title="Delete">
           <IconButton
             onClick={() => {
-              props.deleteItems(props.selectedElements);
-              props.resetSelectedElements([]);
+              props.deleteAlert(true);
             }}
           >
             <DeleteIcon sx={{ color: "black" }} />
@@ -242,6 +242,7 @@ export default function DataTableBeta(props) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [openDeleteAlert, setOpenDeleteAlert] = React.useState(false);
 
   console.log("Render: DataTable");
 
@@ -329,9 +330,7 @@ export default function DataTableBeta(props) {
           sx={{ color: "white" }}
         />
         <EnhancedTableToolbar
-          deleteItems={props.deleteItems}
-          selectedElements={selected}
-          resetSelectedElements={setSelected}
+          deleteAlert={setOpenDeleteAlert}
           numSelected={selected.length}
         />
       </div>
@@ -415,6 +414,13 @@ export default function DataTableBeta(props) {
           />
         </ThemeProvider>
       </TableContainer>
+      <DeleteAlertDialog
+        deleteAlert={setOpenDeleteAlert}
+        deleteAlertValue={openDeleteAlert}
+        deleteItems={props.deleteItems}
+        selectedElements={selected}
+        resetSelectedElements={setSelected}
+      />
     </div>
   );
 }

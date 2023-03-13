@@ -62,4 +62,18 @@ export const colorTheme = [
       darkTheme: "rgba(0, 0, 0, 0.3)",
     },
   },
+  {
+    variableName: "--selectedPaginationBackground",
+    colorValue: {
+      lightTheme: "#ff8c00",
+      darkTheme: "#61dafb",
+    },
+  },
+  {
+    variableName: "--selectedPaginationColor",
+    colorValue: {
+      lightTheme: "black",
+      darkTheme: "black",
+    },
+  },
 ];
