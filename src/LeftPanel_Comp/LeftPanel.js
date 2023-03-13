@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -328,7 +328,9 @@ function LeftPanel(props) {
           mountOnEnter
           unmountOnExit
         >
-          <p>Bye</p>
+          <div>
+            <InsideTransition />
+          </div>
         </Slide>
       </TabPanel>
       {/* Search component ends here */}
@@ -338,3 +340,19 @@ function LeftPanel(props) {
 }
 
 export default LeftPanel;
+
+function InsideTransition() {
+  const [message, setMessage] = useState("I am inside of a transition!");
+
+  useEffect(() => {
+    setTimeout(() => {
+      setMessage("Brian is using React correctly!");
+    }, 1500);
+  });
+
+  return (
+    <>
+      <h1>{message}</h1>
+    </>
+  );
+}

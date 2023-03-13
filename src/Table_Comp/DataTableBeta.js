@@ -52,6 +52,31 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+// function createData(name, code, quantity, cost) {
+//   return {
+//     name,
+//     code,
+//     quantity,
+//     cost,
+//   };
+// }
+
+// const rows = [
+//   createData("Cupcake", 305, 3.7, 67),
+//   createData("Donut", 452, 25.0, 51),
+//   createData("Eclair", 262, 16.0, 24),
+//   createData("Frozen yoghurt", 159, 6.0, 24),
+//   createData("Gingerbread", 356, 16.0, 49),
+//   createData("Honeycomb", 408, 3.2, 87),
+//   createData("Ice cream sandwich", 237, 9.0, 37),
+//   createData("Jelly Bean", 375, 0.0, 94),
+//   createData("KitKat", 518, 26.0, 65),
+//   createData("Lollipop", 392, 0.2, 98),
+//   createData("Marshmallow", 318, 0, 81),
+//   createData("Nougat", 360, 19.0, 9),
+//   createData("Oreo", 437, 18.0, 63),
+// ];
+
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -80,34 +105,34 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function EnhancedTableHead(props) {
-  const headCells = [
-    {
-      id: "name",
-      numeric: false,
-      disablePadding: true,
-      label: "Item Name",
-    },
-    {
-      id: "code",
-      numeric: true,
-      disablePadding: false,
-      label: "Item Code",
-    },
-    {
-      id: "quantity",
-      numeric: true,
-      disablePadding: false,
-      label: "Quantity",
-    },
-    {
-      id: "cost",
-      numeric: true,
-      disablePadding: false,
-      label: "Cost",
-    },
-  ];
+const headCells = [
+  {
+    id: "name",
+    numeric: false,
+    disablePadding: true,
+    label: "Item Name",
+  },
+  {
+    id: "code",
+    numeric: true,
+    disablePadding: false,
+    label: "Item Code",
+  },
+  {
+    id: "quantity",
+    numeric: true,
+    disablePadding: false,
+    label: "Quantity",
+  },
+  {
+    id: "cost",
+    numeric: true,
+    disablePadding: false,
+    label: "Cost",
+  },
+];
 
+function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
     order,
@@ -130,6 +155,9 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
+            inputProps={{
+              "aria-label": "select all desserts",
+            }}
             sx={{ color: "white" }}
           />
         </StyledTableCell>
@@ -231,37 +259,27 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-  function createData(name, calories, fat, carbs, protein) {
-    return {
-      name,
-      calories,
-      fat,
-      carbs,
-    };
-  }
-
-  const rows = [
-    createData("Cupcake", 305, 3.7, 67),
-    createData("Donut", 452, 25.0, 51),
-    createData("Eclair", 262, 16.0, 24),
-    createData("Frozen yoghurt", 159, 6.0, 24),
-    createData("Gingerbread", 356, 16.0, 49),
-    createData("Honeycomb", 408, 3.2, 87),
-    createData("Ice cream sandwich", 237, 9.0, 37),
-    createData("Jelly Bean", 375, 0.0, 94),
-    createData("KitKat", 518, 26.0, 65),
-    createData("Lollipop", 392, 0.2, 98),
-    createData("Marshmallow", 318, 0, 81),
-    createData("Nougat", 360, 19.0, 9),
-    createData("Oreo", 437, 18.0, 63),
-  ];
-
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("code");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  console.log("Render: DataTable");
+  const byNameArray = [];
+  const byCodeArray = [];
+
+  props.dataMapByName.forEach(function (value, key) {
+    byNameArray.push({ ...value, key: key });
+  });
+
+  props.dataMapByCode.forEach(function (value, key) {
+    byCodeArray.push({ ...value, key: key });
+  });
+
+  console.log(props.dataMapByName);
+  console.log(props.dataMapByCode);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -271,7 +289,7 @@ export default function EnhancedTable(props) {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = byNameArray.map((n) => n.name);
       setSelected(newSelected);
       return;
     }
@@ -313,9 +331,9 @@ export default function EnhancedTable(props) {
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
-  // Avoid a layout jump when reaching the last page with empty rows.
+  // Avoid a layout jump when reaching the last page with empty byNameArray.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - byNameArray.length) : 0;
 
   return (
     <div className="table-container-main">
@@ -350,10 +368,10 @@ export default function EnhancedTable(props) {
             orderBy={orderBy}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={rows.length}
+            rowCount={byNameArray.length}
           />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
+            {stableSort(byNameArray, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 const isItemSelected = isSelected(row.name);
@@ -361,13 +379,13 @@ export default function EnhancedTable(props) {
 
                 return (
                   <StyledTableRow
-                    // hover
+                    hover
                     onClick={(event) => handleClick(event, row.name)}
                     role="checkbox"
                     aria-checked={isItemSelected}
                     tabIndex={-1}
                     key={row.name}
-                    // selected={isItemSelected}
+                    selected={isItemSelected}
                   >
                     <StyledTableCell padding="checkbox">
                       <Checkbox
@@ -386,11 +404,11 @@ export default function EnhancedTable(props) {
                     >
                       {row.name}
                     </StyledTableCell>
+                    <StyledTableCell align="right">{row.code}</StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.calories}
+                      {row.quantity}
                     </StyledTableCell>
-                    <StyledTableCell align="right">{row.fat}</StyledTableCell>
-                    <StyledTableCell align="right">{row.carbs}</StyledTableCell>
+                    <StyledTableCell align="right">{row.cost}</StyledTableCell>
                   </StyledTableRow>
                 );
               })}
@@ -409,7 +427,7 @@ export default function EnhancedTable(props) {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={rows.length}
+            count={byNameArray.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
