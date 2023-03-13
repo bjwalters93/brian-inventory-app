@@ -197,8 +197,32 @@ function App() {
   function updateMapByCode(key, value) {
     setItemMapByCode((prevState) => new Map(prevState.set(key, value)));
   }
+
+  function deleteItems(selectedElements) {
+    let selectedElementsArray = selectedElements;
+    let codesArray = [];
+    setItemMapByName((prevState) => {
+      let myNewState = new Map(prevState);
+      selectedElementsArray.forEach((key) => {
+        myNewState.delete(key);
+      });
+      return myNewState;
+    });
+    setItemMapByCode((prevState) => {
+      let myNewState = new Map(prevState);
+      selectedElementsArray.forEach((key) => {
+        let item = itemMapByName.get(key);
+        let itemCode = item.code;
+        codesArray.push(itemCode);
+      });
+      codesArray.forEach((key) => myNewState.delete(key));
+      return myNewState;
+    });
+  }
+
   console.log(itemMapByName);
   console.log(itemMapByCode);
+
   return (
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={!display ? lightTheme : darkTheme}>
@@ -214,6 +238,7 @@ function App() {
             dataMapByCode={itemMapByCode}
           /> */}
           <DataTableBeta
+            deleteItems={deleteItems}
             dataMapByName={itemMapByName}
             dataMapByCode={itemMapByCode}
           />

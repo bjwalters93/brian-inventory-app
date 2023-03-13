@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import "./DataTableBeta.css";
 import PropTypes from "prop-types";
 // import { alpha } from "@mui/material/styles";
@@ -51,31 +52,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
-// function createData(name, code, quantity, cost) {
-//   return {
-//     name,
-//     code,
-//     quantity,
-//     cost,
-//   };
-// }
-
-// const rows = [
-//   createData("Cupcake", 305, 3.7, 67),
-//   createData("Donut", 452, 25.0, 51),
-//   createData("Eclair", 262, 16.0, 24),
-//   createData("Frozen yoghurt", 159, 6.0, 24),
-//   createData("Gingerbread", 356, 16.0, 49),
-//   createData("Honeycomb", 408, 3.2, 87),
-//   createData("Ice cream sandwich", 237, 9.0, 37),
-//   createData("Jelly Bean", 375, 0.0, 94),
-//   createData("KitKat", 518, 26.0, 65),
-//   createData("Lollipop", 392, 0.2, 98),
-//   createData("Marshmallow", 318, 0, 81),
-//   createData("Nougat", 360, 19.0, 9),
-//   createData("Oreo", 437, 18.0, 63),
-// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -173,10 +149,6 @@ function EnhancedTableHead(props) {
                 active={orderBy === headCell.id}
                 direction={orderBy === headCell.id ? order : "asc"}
                 onClick={createSortHandler(headCell.id)}
-                // sx={{
-                //   "&.Mui-active": { color: "white" },
-                //   "&:hover": { color: "white" },
-                // }}
               >
                 {headCell.label}
                 {orderBy === headCell.id ? (
@@ -239,7 +211,12 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton
+            onClick={() => {
+              props.deleteItems(props.selectedElements);
+              props.resetSelectedElements([]);
+            }}
+          >
             <DeleteIcon sx={{ color: "black" }} />
           </IconButton>
         </Tooltip>
@@ -258,15 +235,16 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable(props) {
-  const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("code");
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+export default function DataTableBeta(props) {
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("code");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   console.log("Render: DataTable");
+
   const byNameArray = [];
   const byCodeArray = [];
 
@@ -277,9 +255,6 @@ export default function EnhancedTable(props) {
   props.dataMapByCode.forEach(function (value, key) {
     byCodeArray.push({ ...value, key: key });
   });
-
-  console.log(props.dataMapByName);
-  console.log(props.dataMapByCode);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -353,7 +328,12 @@ export default function EnhancedTable(props) {
           label="Size"
           sx={{ color: "white" }}
         />
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          deleteItems={props.deleteItems}
+          selectedElements={selected}
+          resetSelectedElements={setSelected}
+          numSelected={selected.length}
+        />
       </div>
 
       <TableContainer className="table-container">

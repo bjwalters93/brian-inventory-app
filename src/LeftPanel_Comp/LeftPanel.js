@@ -79,8 +79,6 @@ function LeftPanel(props) {
     } else valid = false;
     setInputs((values) => ({ ...values, [name]: [value, valid] }));
   }
-  console.log("quantity:", typeof inputs.quantityInput[0]);
-  console.log("cost:", typeof inputs.costInput[0]);
 
   function submitForm() {
     if (
@@ -137,7 +135,6 @@ function LeftPanel(props) {
   };
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   //   --------------------------------------------------------------------
-  //   console.log(inputs.quantityInput[0].length);
   return (
     // left panel container ---- contains navigation tabs, app component and search
     <div className="left-panel-container">
