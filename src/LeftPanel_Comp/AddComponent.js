@@ -1,4 +1,5 @@
 import "./AddComponent.css";
+import { useState } from "react";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
@@ -18,15 +19,90 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-function AddComponent({
-  inputs,
-  inputTracker,
-  errorText,
-  successText,
-  submitForm,
-  setErrorText,
-  setSuccessText,
-}) {
+function AddComponent({ data, dataMapByName, dataMapByCode }) {
+  const [inputs, setInputs] = useState({
+    nameInput: ["ITEM NAME", false],
+    codeInput: ["00000000", false],
+    quantityInput: [10, true],
+    costInput: [1.99, true],
+  });
+  const [successText, setSuccessText] = useState("");
+  const [errorText, setErrorText] = useState("");
+
+  function inputTracker(event) {
+    const name = event.target.name;
+    const value =
+      name === "nameInput"
+        ? event.target.value.toUpperCase()
+        : name === "codeInput"
+        ? event.target.value.toUpperCase()
+        : event.target.value;
+    let valid;
+    if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
+      valid = true;
+    } else if (
+      name === "codeInput" &&
+      value !== "" &&
+      value.length === 8 &&
+      value !== "00000000"
+    ) {
+      valid = true;
+    } else if (
+      name === "quantityInput" &&
+      value >= 0 &&
+      value <= 10000 &&
+      value !== ""
+    ) {
+      valid = true;
+    } else if (
+      name === "costInput" &&
+      value >= 0 &&
+      value <= 10000 &&
+      value !== ""
+    ) {
+      valid = true;
+    } else valid = false;
+    setInputs((values) => ({ ...values, [name]: [value, valid] }));
+  }
+
+  function submitForm() {
+    if (
+      inputs.nameInput[1] &&
+      inputs.codeInput[1] &&
+      inputs.quantityInput[1] &&
+      inputs.costInput[1] &&
+      dataMapByName.has(inputs.nameInput[0].replace(/\s+/g, " ").trim()) ===
+        false &&
+      dataMapByCode.has(inputs.codeInput[0]) === false
+    ) {
+      data(
+        inputs.nameInput[0].replace(/\s+/g, " ").trim(),
+        inputs.codeInput[0],
+        inputs.quantityInput[0],
+        inputs.costInput[0]
+      );
+      setErrorText("");
+      setSuccessText(
+        `${inputs.nameInput[0]} has been added to your Inventory!`
+      );
+      setInputs({
+        nameInput: ["ITEM NAME", false],
+        codeInput: ["00000000", false],
+        quantityInput: [10, true],
+        costInput: [1.99, true],
+      });
+    } else {
+      setSuccessText("");
+      dataMapByName.has(inputs.nameInput[0].replace(/\s+/g, " ").trim()) &&
+      dataMapByCode.has(inputs.codeInput[0])
+        ? setErrorText("Name and code already exist")
+        : dataMapByName.has(inputs.nameInput[0].replace(/\s+/g, " ").trim())
+        ? setErrorText("Name already exists")
+        : dataMapByCode.has(inputs.codeInput[0])
+        ? setErrorText("Code already exists")
+        : setErrorText("Invalid Entry");
+    }
+  }
   return (
     <div className="addComponentBox">
       <div className="user-input-heading">

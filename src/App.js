@@ -37,7 +37,7 @@ function App() {
 
   setColors();
 
-  const [itemMapByName, setItemMapByName] = useState(
+  const [dataMapByName, setDataMapByName] = useState(
     new Map([
       [
         "SNICKERS",
@@ -106,7 +106,7 @@ function App() {
       ["PEPSI", { name: "PEPSI", code: "00000020", quantity: 200, cost: 5 }],
     ])
   );
-  const [itemMapByCode, setItemMapByCode] = useState(
+  const [dataMapByCode, setDataMapByCode] = useState(
     new Map([
       [
         "00000001",
@@ -191,27 +191,27 @@ function App() {
   }
 
   function updateMapByName(key, value) {
-    setItemMapByName((prevState) => new Map(prevState.set(key, value)));
+    setDataMapByName((prevState) => new Map(prevState.set(key, value)));
   }
 
   function updateMapByCode(key, value) {
-    setItemMapByCode((prevState) => new Map(prevState.set(key, value)));
+    setDataMapByCode((prevState) => new Map(prevState.set(key, value)));
   }
 
   function deleteItems(selectedElements) {
     let selectedElementsArray = selectedElements;
     let codesArray = [];
-    setItemMapByName((prevState) => {
+    setDataMapByName((prevState) => {
       let myNewState = new Map(prevState);
       selectedElementsArray.forEach((key) => {
         myNewState.delete(key);
       });
       return myNewState;
     });
-    setItemMapByCode((prevState) => {
+    setDataMapByCode((prevState) => {
       let myNewState = new Map(prevState);
       selectedElementsArray.forEach((key) => {
-        let item = itemMapByName.get(key);
+        let item = dataMapByName.get(key);
         let itemCode = item.code;
         codesArray.push(itemCode);
       });
@@ -220,8 +220,8 @@ function App() {
     });
   }
 
-  console.log(itemMapByName);
-  console.log(itemMapByCode);
+  console.log(dataMapByName);
+  console.log(dataMapByCode);
 
   return (
     <StyledEngineProvider injectFirst>
@@ -230,8 +230,8 @@ function App() {
           <Header displayFunction={displayMode} />
           <LeftPanel
             data={pushData}
-            dataMapByName={itemMapByName}
-            dataMapByCode={itemMapByCode}
+            dataMapByName={dataMapByName}
+            dataMapByCode={dataMapByCode}
           />
           {/* <DataTable
             dataMapByName={itemMapByName}
@@ -239,8 +239,8 @@ function App() {
           /> */}
           <DataTableBeta
             deleteItems={deleteItems}
-            dataMapByName={itemMapByName}
-            dataMapByCode={itemMapByCode}
+            dataMapByName={dataMapByName}
+            dataMapByCode={dataMapByCode}
           />
         </div>
       </ThemeProvider>
