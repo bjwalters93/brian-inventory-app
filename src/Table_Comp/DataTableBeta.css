@@ -52,3 +52,8 @@
   background-color: var(--selectedPaginationBackground);
   color: var(--selectedPaginationColor);
 }
+
+.css-1ws511x-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected:focus {
+  background-color: var(--selectedPaginationBackground);
+  color: var(--selectedPaginationColor);
+}

@@ -37,14 +37,14 @@ export default function DeleteAlertDialog(props) {
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
             Are you sure you want to delete these items?{" "}
-            {props.selectedElements.length} items will be permanently deleted.
+            {props.selectedElements.length} item(s) will be permanently deleted.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button color="secondary" onClick={handleCloseNo}>
+          <Button color="error" variant="contained" onClick={handleCloseNo}>
             No
           </Button>
-          <Button color="secondary" onClick={handleCloseYes}>
+          <Button color="error" variant="contained" onClick={handleCloseYes}>
             Yes
           </Button>
         </DialogActions>
