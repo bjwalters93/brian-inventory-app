@@ -6,6 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { lightTheme } from "../themes.js";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -33,9 +34,19 @@ export default function DeleteAlertDialog(props) {
         // onClose={handleCloseNo}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>{"Warning!"}</DialogTitle>
+        <DialogTitle
+          sx={{
+            backgroundColor: lightTheme.palette.error.main,
+            color: "white",
+          }}
+        >
+          {"Warning!"}
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
+          <DialogContentText
+            sx={{ marginTop: "10px", color: "var(--compOneFontColor)" }}
+            id="alert-dialog-slide-description"
+          >
             Are you sure you want to delete these items?{" "}
             {props.selectedElements.length} item(s) will be permanently deleted.
           </DialogContentText>
