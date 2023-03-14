@@ -6,6 +6,7 @@
   height: calc(100vh - 52px);
   box-shadow: 4px 0px 4px 0px var(--dropShadowColor);
 }
+
 /* adding scroll bar or removing scroll bar changes max width because it adds extra padding. */
 .user-input-flex {
   display: flex;
@@ -15,26 +16,6 @@
   max-width: calc(283px + 17px);
   height: calc(100vh - 52px - 48px);
   overflow-y: scroll;
-}
-
-.text-field {
-  margin-bottom: 30px;
-}
-
-.user-input-title {
-  font-family: "Mitr", sans-serif;
-  font-weight: 400;
-  font-size: 24px;
-  margin: 0 0 0 5px;
-  padding: 0;
-  text-align: left;
-  color: var(--compOneFontColor);
-}
-
-.user-input-heading {
-  display: flex;
-  align-items: center;
-  margin: 30px 0 30px 0;
 }
 
 .left-panel-navigation-tabs {
