@@ -12,6 +12,9 @@ const lightTheme = createTheme({
     error: {
       main: "#d32f2f",
     },
+    success: {
+      main: "#ff8c00",
+    },
     background: {
       paper: "white",
     },
@@ -32,13 +35,11 @@ const darkTheme = createTheme({
     },
     error: {
       main: "#d32f2f",
+      dark: "#d32f2f",
     },
     success: {
       main: "#61dafb",
       dark: "#61dafb",
-    },
-    background: {
-      paper: "var(--compOneBackground)",
     },
   },
   typography: {

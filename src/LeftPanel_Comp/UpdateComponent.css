@@ -1,15 +1,15 @@
-.addComponentBox {
+.updateComponentBox {
   display: flex;
   flex-direction: column;
 }
 
-.add-input-heading {
+.update-input-heading {
   display: flex;
   align-items: center;
   margin: 30px 0 30px 0;
 }
 
-.add-input-title {
+.update-input-title {
   font-family: "Mitr", sans-serif;
   font-weight: 400;
   font-size: 24px;
@@ -19,6 +19,6 @@
   color: var(--compOneFontColor);
 }
 
-.add-text-field {
+.update-text-field {
   margin-bottom: 30px;
 }

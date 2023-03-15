@@ -6,6 +6,7 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import Chip from "@mui/material/Chip";
 
 const StyledButton = styled(Button)`
   ${({ theme }) => `
@@ -85,12 +86,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
       setSuccessText(
         `${inputs.nameInput[0]} has been added to your Inventory!`
       );
-      setInputs({
-        nameInput: ["ITEM NAME", false],
-        codeInput: ["00000000", false],
-        quantityInput: [10, true],
-        costInput: [1.99, true],
-      });
+      resetInputs();
     } else {
       setSuccessText("");
       dataMapByName.has(inputs.nameInput[0].replace(/\s+/g, " ").trim()) &&
@@ -103,11 +99,21 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         : setErrorText("Invalid Entry");
     }
   }
+
+  function resetInputs() {
+    setInputs({
+      nameInput: ["ITEM NAME", false],
+      codeInput: ["00000000", false],
+      quantityInput: [10, true],
+      costInput: [1.99, true],
+    });
+  }
+
   return (
     <div className="addComponentBox">
-      <div className="user-input-heading">
+      <div className="add-input-heading">
         <AddCircleOutlineIcon color="secondary" />
-        <h2 className="user-input-title">Add Inventory Item</h2>
+        <h2 className="add-input-title">Add Inventory Item</h2>
       </div>
       <TextField
         type="text"
@@ -123,7 +129,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         id="item-name"
         label="Item Name"
         placeholder="Item Name"
-        className="text-field"
+        className="add-text-field"
         color="secondary"
         onChange={(event) => {
           inputTracker(event);
@@ -151,7 +157,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         id="item-code"
         label="Item Code"
         placeholder="Item Code"
-        className="text-field"
+        className="add-text-field"
         color="secondary"
         onChange={(event) => {
           inputTracker(event);
@@ -179,7 +185,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         label="Quantity"
         type="number"
         placeholder="Quantity"
-        className="text-field"
+        className="add-text-field"
         color="secondary"
         onChange={(event) => {
           inputTracker(event);
@@ -202,7 +208,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         label="Cost"
         type="number"
         placeholder="Cost"
-        className="text-field"
+        className="add-text-field"
         color="secondary"
         onChange={(event) => {
           inputTracker(event);
@@ -242,9 +248,22 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         onClick={submitForm}
         variant="contained"
         startIcon={<AddCircleOutlineIcon />}
+        sx={{ marginBottom: "15px" }}
       >
         Submit
       </StyledButton>
+      <Chip
+        color="error"
+        size="small"
+        label="Reset"
+        variant="filled"
+        onClick={() => {
+          resetInputs();
+          setErrorText("");
+          setSuccessText("");
+        }}
+        sx={{ minWidth: "50%", margin: "0 auto" }}
+      />
     </div>
   );
 }

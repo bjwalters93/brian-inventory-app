@@ -1,11 +1,12 @@
 import "./LeftPanel.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 import TabPanel from "./TabPanel";
 import { a11yProps } from "./component_extras";
 import AddComponent from "./AddComponent";
+import UpdateComponent from "./UpdateComponent";
 
 function LeftPanel({ data, dataMapByName, dataMapByCode }) {
   console.log("Render: LeftPanel");
@@ -61,7 +62,7 @@ function LeftPanel({ data, dataMapByName, dataMapByCode }) {
           unmountOnExit
         >
           <div className="user-input-flex">
-            <InsideTransition />
+            <UpdateComponent />
           </div>
         </Slide>
       </TabPanel>
@@ -70,19 +71,3 @@ function LeftPanel({ data, dataMapByName, dataMapByCode }) {
 }
 
 export default LeftPanel;
-
-function InsideTransition() {
-  const [message, setMessage] = useState("I am inside of a transition!");
-
-  useEffect(() => {
-    setTimeout(() => {
-      setMessage("Brian is using React correctly!");
-    }, 1500);
-  });
-
-  return (
-    <>
-      <h1>{message}</h1>
-    </>
-  );
-}
