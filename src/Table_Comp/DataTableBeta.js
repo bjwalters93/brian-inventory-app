@@ -235,27 +235,41 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function DataTableBeta(props) {
+export default function DataTableBeta({
+  deleteItems,
+  dataMapByName,
+  dataMapByCode,
+  searchNameTruth,
+  searchCodeTruth,
+  searchNameResults,
+  searchCodeResults,
+  resetSearchTruth,
+}) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("name");
   const [selected, setSelected] = useState([]);
   const [page, setPage] = useState(0);
-  const [dense, setDense] = useState(false);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [dense, setDense] = useState(true);
+  const [rowsPerPage, setRowsPerPage] = useState(25);
   const [openDeleteAlert, setOpenDeleteAlert] = React.useState(false);
 
   console.log("Render: DataTable");
 
   const byNameArray = [];
-  const byCodeArray = [];
+  //   const byCodeArray = [];
 
-  props.dataMapByName.forEach(function (value, key) {
-    byNameArray.push({ ...value, key: key });
-  });
-
-  props.dataMapByCode.forEach(function (value, key) {
-    byCodeArray.push({ ...value, key: key });
-  });
+  if (!searchNameTruth && !searchCodeTruth) {
+    dataMapByName.forEach(function (value, key) {
+      byNameArray.push({ ...value, key: key });
+    });
+    // dataMapByCode.forEach(function (value, key) {
+    //   byCodeArray.push({ ...value, key: key });
+    // });
+  } else if (searchNameTruth) {
+    byNameArray.push({ ...searchNameResults, key: searchNameResults.name });
+  } else if (searchCodeTruth) {
+    byNameArray.push({ ...searchCodeResults, key: searchCodeResults.code });
+  }
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -417,9 +431,10 @@ export default function DataTableBeta(props) {
       <DeleteAlertDialog
         deleteAlert={setOpenDeleteAlert}
         deleteAlertValue={openDeleteAlert}
-        deleteItems={props.deleteItems}
+        deleteItems={deleteItems}
         selectedElements={selected}
         resetSelectedElements={setSelected}
+        resetSearchTruth={resetSearchTruth}
       />
     </div>
   );

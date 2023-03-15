@@ -12,22 +12,29 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DeleteAlertDialog(props) {
+export default function DeleteAlertDialog({
+  deleteAlert,
+  deleteAlertValue,
+  deleteItems,
+  selectedElements,
+  resetSelectedElements,
+  resetSearchTruth,
+}) {
   const handleCloseNo = () => {
-    props.resetSelectedElements([]);
-    props.deleteAlert(false);
+    resetSelectedElements([]);
+    deleteAlert(false);
   };
 
   const handleCloseYes = () => {
-    props.deleteItems(props.selectedElements);
-    props.deleteAlert(false);
-    props.resetSelectedElements([]);
+    deleteItems(selectedElements);
+    deleteAlert(false);
+    resetSelectedElements([]);
   };
 
   return (
     <div>
       <Dialog
-        open={props.deleteAlertValue}
+        open={deleteAlertValue}
         TransitionComponent={Transition}
         keepMounted
         // onClose={handleCloseNo}
@@ -47,14 +54,21 @@ export default function DeleteAlertDialog(props) {
             id="alert-dialog-slide-description"
           >
             Are you sure you want to delete these items?{" "}
-            {props.selectedElements.length} item(s) will be permanently deleted.
+            {selectedElements.length} item(s) will be permanently deleted.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button color="error" variant="contained" onClick={handleCloseNo}>
             No
           </Button>
-          <Button color="error" variant="contained" onClick={handleCloseYes}>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={() => {
+              handleCloseYes();
+              resetSearchTruth();
+            }}
+          >
             Yes
           </Button>
         </DialogActions>

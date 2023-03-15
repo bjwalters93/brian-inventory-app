@@ -8,7 +8,14 @@ import { a11yProps } from "./component_extras";
 import AddComponent from "./AddComponent";
 import UpdateComponent from "./UpdateComponent";
 
-function LeftPanel({ data, dataMapByName, dataMapByCode }) {
+function LeftPanel({
+  data,
+  dataMapByName,
+  dataMapByCode,
+  searchByName,
+  searchByCode,
+  resetSearchTruth,
+}) {
   console.log("Render: LeftPanel");
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   const [tabTracker, setTabTracker] = useState(0);
@@ -33,7 +40,12 @@ function LeftPanel({ data, dataMapByName, dataMapByCode }) {
           textColor="secondary"
           variant="fullWidth"
         >
-          <Tab sx={{ color: "white" }} label="Add" {...a11yProps(0)} />
+          <Tab
+            sx={{ color: "white" }}
+            label="Add"
+            {...a11yProps(0)}
+            onClick={resetSearchTruth}
+          />
           <Tab sx={{ color: "white" }} label="Update" {...a11yProps(1)} />
         </Tabs>
       </div>
@@ -63,8 +75,9 @@ function LeftPanel({ data, dataMapByName, dataMapByCode }) {
         >
           <div className="user-input-flex">
             <UpdateComponent
-              dataMapByName={dataMapByName}
-              dataMapByCode={dataMapByCode}
+              searchByName={searchByName}
+              searchByCode={searchByCode}
+              resetSearchTruth={resetSearchTruth}
             />
           </div>
         </Slide>

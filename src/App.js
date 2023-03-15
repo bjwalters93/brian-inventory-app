@@ -178,7 +178,32 @@ function App() {
       ["00000020", { name: "PEPSI", code: "00000020", quantity: 200, cost: 5 }],
     ])
   );
-  // _________________________Data Logic_____________________________
+  const [searchNameTruth, setSearchNameTruth] = useState(false);
+  const [searchCodeTruth, setSearchCodeTruth] = useState(false);
+  const [searchNameResults, setSearchNameResults] = useState();
+  const [searchCodeResults, setCodeNameResults] = useState();
+
+  function searchByName(key) {
+    if (dataMapByName.has(key)) {
+      setSearchNameTruth(true);
+      setSearchCodeTruth(false);
+      setSearchNameResults(dataMapByName.get(key));
+    } else return "Item name does not exist.";
+  }
+
+  function searchByCode(key) {
+    if (dataMapByCode.has(key)) {
+      setSearchCodeTruth(true);
+      setSearchNameTruth(false);
+      setCodeNameResults(dataMapByCode.get(key));
+    } else return "Item code does not exist.";
+  }
+
+  function resetSearchTruth() {
+    setSearchNameTruth(false);
+    setSearchCodeTruth(false);
+  }
+
   function pushData(name, code, quantity, cost) {
     const item = new InventoryItem(
       name,
@@ -232,15 +257,19 @@ function App() {
             data={pushData}
             dataMapByName={dataMapByName}
             dataMapByCode={dataMapByCode}
+            searchByName={searchByName}
+            searchByCode={searchByCode}
+            resetSearchTruth={resetSearchTruth}
           />
-          {/* <DataTable
-            dataMapByName={itemMapByName}
-            dataMapByCode={itemMapByCode}
-          /> */}
           <DataTableBeta
             deleteItems={deleteItems}
             dataMapByName={dataMapByName}
             dataMapByCode={dataMapByCode}
+            searchNameTruth={searchNameTruth}
+            searchCodeTruth={searchCodeTruth}
+            searchNameResults={searchNameResults}
+            searchCodeResults={searchCodeResults}
+            resetSearchTruth={resetSearchTruth}
           />
         </div>
       </ThemeProvider>

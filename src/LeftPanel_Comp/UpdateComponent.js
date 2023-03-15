@@ -8,6 +8,7 @@ import TravelExploreIcon from "@mui/icons-material/TravelExplore";
 import InputAdornment from "@mui/material/InputAdornment";
 import ClearIcon from "@mui/icons-material/Clear";
 import IconButton from "@mui/material/IconButton";
+import Chip from "@mui/material/Chip";
 
 const StyledButton = styled(Button)`
   ${({ theme }) => `
@@ -21,22 +22,10 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-function UpdateComponent({ dataMapByName, dataMapByCode }) {
+function UpdateComponent({ searchByName, searchByCode, resetSearchTruth }) {
   console.log("Render: UpdateComponent");
   const [searchName, setSearchName] = useState("");
   const [searchCode, setSearchCode] = useState("");
-
-  function searchByName(key) {
-    if (dataMapByName.has(key)) {
-      return dataMapByName.get(key);
-    } else return "Item name does not exist.";
-  }
-
-  function searchByCode(key) {
-    if (dataMapByCode.has(key)) {
-      return dataMapByCode.get(key);
-    } else return "Item code does not exist.";
-  }
 
   return (
     <div className="updateComponentBox">
@@ -78,9 +67,7 @@ function UpdateComponent({ dataMapByName, dataMapByCode }) {
       <StyledButton
         size="small"
         color="secondary"
-        onClick={() =>
-          console.log(searchByName(searchName.replace(/\s+/g, " ").trim()))
-        }
+        onClick={() => searchByName(searchName.replace(/\s+/g, " ").trim())}
         variant="contained"
         startIcon={<SearchIcon />}
         sx={{ margin: "0 0 30px 0" }}
@@ -121,12 +108,31 @@ function UpdateComponent({ dataMapByName, dataMapByCode }) {
       <StyledButton
         size="small"
         color="secondary"
-        onClick={() => console.log(searchByCode(searchCode))}
+        onClick={() => searchByCode(searchCode)}
         variant="contained"
         startIcon={<SearchIcon />}
       >
         Search
       </StyledButton>
+      <Chip
+        color="error"
+        size="small"
+        label="RESET"
+        variant="filled"
+        onClick={() => {
+          setSearchCode("");
+          setSearchName("");
+          resetSearchTruth();
+        }}
+        sx={{
+          fontWeight: "500",
+          //   minWidth: "50%",
+          margin: "30px 0 0 0",
+          borderRadius: "3px",
+          boxShadow:
+            "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+        }}
+      />
     </div>
   );
 }
