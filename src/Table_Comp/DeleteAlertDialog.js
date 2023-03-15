@@ -13,7 +13,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function DeleteAlertDialog(props) {
-  console.log("num selected:", props.selectedElements.length);
   const handleCloseNo = () => {
     props.resetSelectedElements([]);
     props.deleteAlert(false);

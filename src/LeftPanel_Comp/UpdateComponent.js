@@ -1,8 +1,13 @@
 import "./UpdateComponent.css";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
+import TravelExploreIcon from "@mui/icons-material/TravelExplore";
+import InputAdornment from "@mui/material/InputAdornment";
+import ClearIcon from "@mui/icons-material/Clear";
+import IconButton from "@mui/material/IconButton";
 
 const StyledButton = styled(Button)`
   ${({ theme }) => `
@@ -16,74 +21,109 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-function UpdateComponent() {
+function UpdateComponent({ dataMapByName, dataMapByCode }) {
+  console.log("Render: UpdateComponent");
+  const [searchName, setSearchName] = useState("");
+  const [searchCode, setSearchCode] = useState("");
+
+  function searchByName(key) {
+    if (dataMapByName.has(key)) {
+      return dataMapByName.get(key);
+    } else return "Item name does not exist.";
+  }
+
+  function searchByCode(key) {
+    if (dataMapByCode.has(key)) {
+      return dataMapByCode.get(key);
+    } else return "Item code does not exist.";
+  }
+
   return (
     <div className="updateComponentBox">
       <div className="update-input-heading">
-        <AddCircleOutlineIcon color="secondary" />
+        <TravelExploreIcon color="secondary" sx={{ fontSize: 40 }} />
         <h2 className="update-input-title">Update Inventory Item</h2>
       </div>
+      <h3 className="sub-titles">Search by Name</h3>
       <TextField
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton edge="end" onClick={() => setSearchName("")}>
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
         type="text"
         name="nameInput"
-        variant="filled"
+        variant="outlined"
         required
-        // error={inputs.nameInput[0].length === 0 ? true : false}
-        // helperText={
-        //   inputs.nameInput[0].length === 0
-        //     ? "Please choose a name no longer than 20 characters"
-        //     : ""
-        // }
         id="item-name"
         label="Item Name"
         placeholder="Item Name"
-        className="add-text-field"
+        className="update-text-field"
         color="secondary"
-        // onChange={(event) => {
-        //   inputTracker(event);
-        // }}
+        onChange={(event) => {
+          setSearchName(event.target.value.toUpperCase());
+        }}
         inputProps={{ maxLength: 20, autoComplete: "off" }}
-        // value={inputs.nameInput[0]}
+        value={searchName}
         onKeyDown={(event) => {
           if (!event.key.match(/[a-zA-Z0-9\s]/)) {
             event.preventDefault();
           }
         }}
-        size="small"
       />
+      <StyledButton
+        size="small"
+        color="secondary"
+        onClick={() =>
+          console.log(searchByName(searchName.replace(/\s+/g, " ").trim()))
+        }
+        variant="contained"
+        startIcon={<SearchIcon />}
+        sx={{ margin: "0 0 30px 0" }}
+      >
+        Search
+      </StyledButton>
+      <h3 className="sub-titles">Search by Code</h3>
       <TextField
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton edge="end" onClick={() => setSearchCode("")}>
+                <ClearIcon />
+              </IconButton>
+            </InputAdornment>
+          ),
+        }}
         type="text"
         name="codeInput"
-        variant="filled"
+        variant="outlined"
         required
-        // error={inputs.codeInput[0].length === 8 ? false : true}
-        // helperText={
-        //   inputs.codeInput[0].length === 8
-        //     ? ""
-        //     : "Please choose a code equal to 8 characters"
-        // }
         id="item-code"
         label="Item Code"
         placeholder="Item Code"
-        className="add-text-field"
+        className="update-text-field"
         color="secondary"
-        // onChange={(event) => {
-        //   inputTracker(event);
-        // }}
+        onChange={(event) => {
+          setSearchCode(event.target.value.toUpperCase());
+        }}
         inputProps={{ maxLength: 8, autoComplete: "off" }}
-        // value={inputs.codeInput[0]}
+        value={searchCode}
         onKeyDown={(event) => {
           if (!event.key.match(/[a-zA-Z0-9]/)) {
             event.preventDefault();
           }
         }}
-        size="small"
       />
       <StyledButton
+        size="small"
         color="secondary"
-        // onClick={submitForm}
+        onClick={() => console.log(searchByCode(searchCode))}
         variant="contained"
-        startIcon={<AddCircleOutlineIcon />}
+        startIcon={<SearchIcon />}
       >
         Search
       </StyledButton>

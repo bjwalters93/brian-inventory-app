@@ -21,6 +21,7 @@ const StyledButton = styled(Button)`
 `;
 
 function AddComponent({ data, dataMapByName, dataMapByCode }) {
+  console.log("Render: AddComponent");
   const [inputs, setInputs] = useState({
     nameInput: ["ITEM NAME", false],
     codeInput: ["00000000", false],
@@ -244,25 +245,32 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         </Alert>
       )}
       <StyledButton
+        size="large"
         color="secondary"
         onClick={submitForm}
         variant="contained"
         startIcon={<AddCircleOutlineIcon />}
-        sx={{ marginBottom: "15px" }}
       >
         Submit
       </StyledButton>
       <Chip
         color="error"
-        size="small"
-        label="Reset"
+        size="large"
+        label="RESET"
         variant="filled"
         onClick={() => {
           resetInputs();
           setErrorText("");
           setSuccessText("");
         }}
-        sx={{ minWidth: "50%", margin: "0 auto" }}
+        sx={{
+          fontWeight: "500",
+          //   minWidth: "50%",
+          margin: "10px 0 0 0",
+          borderRadius: "3px",
+          boxShadow:
+            "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+        }}
       />
     </div>
   );

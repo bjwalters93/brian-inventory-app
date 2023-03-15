@@ -11,14 +11,24 @@
 
 .update-input-title {
   font-family: "Mitr", sans-serif;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 24px;
-  margin: 0 0 0 5px;
+  margin: 0 0 0 10px;
   padding: 0;
   text-align: left;
   color: var(--compOneFontColor);
+  line-height: 25px;
 }
 
 .update-text-field {
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+
+.sub-titles {
+  font-family: "Mitr", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0 0 10px 10px;
+  padding: 0;
+  color: var(--compOneFontColor);
 }

@@ -62,7 +62,10 @@ function LeftPanel({ data, dataMapByName, dataMapByCode }) {
           unmountOnExit
         >
           <div className="user-input-flex">
-            <UpdateComponent />
+            <UpdateComponent
+              dataMapByName={dataMapByName}
+              dataMapByCode={dataMapByCode}
+            />
           </div>
         </Slide>
       </TabPanel>

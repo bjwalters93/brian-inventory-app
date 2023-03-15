@@ -21,9 +21,12 @@
 }
 
 .right-align {
+  font-family: "Mitr";
+  font-weight: 600;
   position: absolute;
-  top: 0;
+  top: 8;
   right: 0;
+  color: white;
 }
 
 /* font-family: 'Faster One', cursive;
