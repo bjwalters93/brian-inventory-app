@@ -13,7 +13,7 @@ import Fab from "@mui/material/Fab";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import PublishIcon from "@mui/icons-material/Publish";
+import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
@@ -66,6 +66,13 @@ function UpdateComponent({
     editFormTruth = false;
   }
 
+  const [radioQuantity, setRadioQuantity] = useState("add");
+  const [radioCost, setRadioCost] = useState("add");
+  const [inputQuantity, setInputQuantity] = useState(10);
+  const [inputCost, setInputCost] = useState(1.99);
+
+  function updateDataItem() {}
+
   return (
     <div className="updateComponentBox">
       <div className="update-input-heading">
@@ -116,6 +123,8 @@ function UpdateComponent({
         onClick={() => {
           searchByName(searchName.replace(/\s+/g, " ").trim());
           setSearchCode("");
+          setInputQuantity(10);
+          setInputCost(1.99);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -168,6 +177,8 @@ function UpdateComponent({
         onClick={() => {
           searchByCode(searchCode);
           setSearchName("");
+          setInputQuantity(10);
+          setInputCost(1.99);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -184,6 +195,8 @@ function UpdateComponent({
           setSearchName("");
           resetSearchTruth();
           resetErrorSuccess();
+          setInputQuantity(10);
+          setInputCost(1.99);
         }}
         sx={{
           fontWeight: "500",
@@ -243,53 +256,99 @@ function UpdateComponent({
         row
         defaultValue="add"
         name="row-radio-buttons-group-quantity"
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => setRadioQuantity(e.target.value)}
         sx={{ margin: "-10px 0 0 0" }}
       >
         <FormControlLabel
+          sx={{
+            color: "var(--compOneFontColor)",
+            ".MuiFormControlLabel-label": {
+              fontSize: "14px",
+            },
+          }}
           value="add"
           control={<Radio disabled={editFormTruth} color="secondary" />}
           label="Add"
         />
         <FormControlLabel
+          sx={{
+            color: "var(--compOneFontColor)",
+            ".MuiFormControlLabel-label": {
+              fontSize: "14px",
+            },
+          }}
           value="subtract"
           control={<Radio disabled={editFormTruth} color="secondary" />}
           label="Subtract"
         />
       </RadioGroup>
       <TextField
+        placeholder="Quantity"
+        color="secondary"
         size="small"
         className="update-text-field"
         disabled={editFormTruth}
         id="outlined-disabled"
-        label="Item Quantity"
-        value={editObject.quantity}
+        label="Update Quantity"
+        value={inputQuantity}
+        onChange={(e) => setInputQuantity(e.target.value)}
+        type="number"
+        inputProps={{ max: 10000, autoComplete: "off" }}
+        error={inputQuantity > 0 && inputQuantity <= 10000 ? false : true}
+        helperText={
+          inputQuantity > 0 && inputQuantity <= 10000
+            ? ""
+            : "Please choose a number between 0 and 10000"
+        }
       />
       <RadioGroup
         row
         defaultValue="add"
         name="row-radio-buttons-group-cost"
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => setRadioCost(e.target.value)}
         sx={{ margin: "-10px 0 0 0" }}
       >
         <FormControlLabel
+          sx={{
+            color: "var(--compOneFontColor)",
+            ".MuiFormControlLabel-label": {
+              fontSize: "14px",
+            },
+          }}
           value="add"
           control={<Radio disabled={editFormTruth} color="secondary" />}
           label="Add"
         />
         <FormControlLabel
+          sx={{
+            color: "var(--compOneFontColor)",
+            ".MuiFormControlLabel-label": {
+              fontSize: "14px",
+            },
+          }}
           value="subtract"
           control={<Radio disabled={editFormTruth} color="secondary" />}
           label="Subtract"
         />
       </RadioGroup>
       <TextField
+        placeholder="Cost"
+        color="secondary"
         size="small"
         className="update-text-field"
         disabled={editFormTruth}
         id="outlined-disabled"
-        label="Item Cost"
-        value={editObject.cost}
+        label="Update Cost"
+        value={inputCost}
+        onChange={(e) => setInputCost(e.target.value)}
+        type="number"
+        inputProps={{ max: 10000, autoComplete: "off" }}
+        error={inputCost > 0 && inputCost <= 10000 ? false : true}
+        helperText={
+          inputCost > 0 && inputCost <= 10000
+            ? ""
+            : "Please choose a number between 0 and 10000"
+        }
       />
       <Box
         sx={{
@@ -307,7 +366,7 @@ function UpdateComponent({
           aria-label="edit"
           sx={{ marginLeft: "10px" }}
         >
-          <PublishIcon sx={{ margin: "0 5px 0 10px" }} />
+          <CheckIcon sx={{ margin: "0 5px 0 5px" }} />
           <Box sx={{ margin: "0 10px 0 0" }}>UPDATE</Box>
         </Fab>
       </Box>
