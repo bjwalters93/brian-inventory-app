@@ -15,6 +15,13 @@ function LeftPanel({
   searchByName,
   searchByCode,
   resetSearchTruth,
+  searchNameResults,
+  searchCodeResults,
+  searchNameTruth,
+  searchCodeTruth,
+  success,
+  error,
+  resetErrorSuccess,
 }) {
   console.log("Render: LeftPanel");
   //   ----Tabs Component Code ----- switches tabs, activates transitions
@@ -39,6 +46,7 @@ function LeftPanel({
           indicatorColor="secondary"
           textColor="secondary"
           variant="fullWidth"
+          onClick={resetErrorSuccess}
         >
           <Tab
             sx={{ color: "white" }}
@@ -78,6 +86,13 @@ function LeftPanel({
               searchByName={searchByName}
               searchByCode={searchByCode}
               resetSearchTruth={resetSearchTruth}
+              searchNameResults={searchNameResults}
+              searchCodeResults={searchCodeResults}
+              searchNameTruth={searchNameTruth}
+              searchCodeTruth={searchCodeTruth}
+              success={success}
+              error={error}
+              resetErrorSuccess={resetErrorSuccess}
             />
           </div>
         </Slide>

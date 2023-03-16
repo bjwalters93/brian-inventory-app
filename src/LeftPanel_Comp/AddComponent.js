@@ -119,7 +119,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
       <TextField
         type="text"
         name="nameInput"
-        variant="filled"
+        variant="outlined"
         required
         error={inputs.nameInput[0].length === 0 ? true : false}
         helperText={
@@ -147,7 +147,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
       <TextField
         type="text"
         name="codeInput"
-        variant="filled"
+        variant="outlined"
         required
         error={inputs.codeInput[0].length === 8 ? false : true}
         helperText={
@@ -174,7 +174,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
       />
       <TextField
         name="quantityInput"
-        variant="filled"
+        variant="outlined"
         required
         error={inputs.quantityInput[1] ? false : true}
         helperText={
@@ -197,7 +197,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
       />
       <TextField
         name="costInput"
-        variant="filled"
+        variant="outlined"
         required
         error={inputs.costInput[1] ? false : true}
         helperText={
@@ -209,7 +209,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         label="Cost"
         type="number"
         placeholder="Cost"
-        className="add-text-field"
+        className="add-text-field last-text-field"
         color="secondary"
         onChange={(event) => {
           inputTracker(event);
@@ -245,7 +245,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         </Alert>
       )}
       <StyledButton
-        size="large"
+        size="small"
         color="secondary"
         onClick={submitForm}
         variant="contained"
@@ -255,7 +255,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
       </StyledButton>
       <Chip
         color="error"
-        size="large"
+        size="small"
         label="RESET"
         variant="filled"
         onClick={() => {
