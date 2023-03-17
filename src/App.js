@@ -193,54 +193,6 @@ function App() {
       ],
     ])
   );
-  const [searchNameTruth, setSearchNameTruth] = useState(false);
-  const [searchCodeTruth, setSearchCodeTruth] = useState(false);
-  const [searchNameResults, setSearchNameResults] = useState();
-  const [searchCodeResults, setSearchCodeResults] = useState();
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
-
-  function resetErrorSuccess() {
-    setSuccess("");
-    setError("");
-  }
-
-  function searchByName(key) {
-    if (dataMapByName.has(key)) {
-      setSearchNameTruth(true);
-      setSearchCodeTruth(false);
-      setSearchNameResults(dataMapByName.get(key));
-      let text = dataMapByName.get(key);
-      setSuccess(`You can update ${text.name} below!`);
-      setError("");
-    } else {
-      setSearchNameTruth(false);
-      setSearchCodeTruth(false);
-      setError("Item name doesn't exist!");
-      setSuccess("");
-    }
-  }
-
-  function searchByCode(key) {
-    if (dataMapByCode.has(key)) {
-      setSearchCodeTruth(true);
-      setSearchNameTruth(false);
-      setSearchCodeResults(dataMapByCode.get(key));
-      let text = dataMapByCode.get(key);
-      setSuccess(`You can update ${text.name} below!`);
-      setError("");
-    } else {
-      setSearchNameTruth(false);
-      setSearchCodeTruth(false);
-      setError("Item code doesn't exist");
-      setSuccess("");
-    }
-  }
-
-  function resetSearchTruth() {
-    setSearchNameTruth(false);
-    setSearchCodeTruth(false);
-  }
 
   function pushData(name, code, quantity, cost) {
     const item = new InventoryItem(
@@ -295,26 +247,11 @@ function App() {
             data={pushData}
             dataMapByName={dataMapByName}
             dataMapByCode={dataMapByCode}
-            searchByName={searchByName}
-            searchByCode={searchByCode}
-            resetSearchTruth={resetSearchTruth}
-            searchNameResults={searchNameResults}
-            searchCodeResults={searchCodeResults}
-            searchNameTruth={searchNameTruth}
-            searchCodeTruth={searchCodeTruth}
-            success={success}
-            error={error}
-            resetErrorSuccess={resetErrorSuccess}
           />
           <DataTableBeta
             deleteItems={deleteItems}
             dataMapByName={dataMapByName}
             dataMapByCode={dataMapByCode}
-            searchNameTruth={searchNameTruth}
-            searchCodeTruth={searchCodeTruth}
-            searchNameResults={searchNameResults}
-            searchCodeResults={searchCodeResults}
-            resetSearchTruth={resetSearchTruth}
           />
         </div>
       </ThemeProvider>

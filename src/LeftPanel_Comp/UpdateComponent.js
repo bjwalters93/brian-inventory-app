@@ -17,6 +17,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
+import { DataObject } from "@mui/icons-material";
 
 const StyledButton = styled(Button)`
   ${({ theme }) => `
@@ -30,48 +31,59 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-function UpdateComponent({
-  searchByName,
-  searchByCode,
-  resetSearchTruth,
-  searchNameResults,
-  searchCodeResults,
-  searchNameTruth,
-  searchCodeTruth,
-  success,
-  error,
-  resetErrorSuccess,
-}) {
+function UpdateComponent({ dataMapByName, dataMapByCode }) {
   console.log("Render: UpdateComponent");
+  //   key for function
   const [searchName, setSearchName] = useState("");
   const [searchCode, setSearchCode] = useState("");
 
-  let editObject;
-  let editFormTruth = true;
-
-  if (searchNameTruth) {
-    editObject = searchNameResults;
-  } else if (searchCodeTruth) {
-    editObject = searchCodeResults;
-  } else {
-    editObject = {
-      name: "name",
-      code: "code",
-      quantity: "quantity",
-      cost: "cost",
-    };
-  }
-
-  if (searchNameTruth || searchCodeTruth) {
-    editFormTruth = false;
-  }
-
   const [radioQuantity, setRadioQuantity] = useState("add");
   const [radioCost, setRadioCost] = useState("add");
-  const [inputQuantity, setInputQuantity] = useState(10);
-  const [inputCost, setInputCost] = useState(1.99);
 
-  function updateDataItem() {}
+  const [searchResults, setSearchResults] = useState({
+    name: "ITEM NAME",
+    code: "00000000",
+    quantity: 10,
+    cost: 1.99,
+  });
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  let editFormTruth = false;
+
+  function searchInventory(name, key) {
+    if (name === "searchNameBtn") {
+      if (dataMapByName.has(key)) {
+        let dataObject = dataMapByName.get(key);
+        setSearchResults(dataObject);
+        setSuccess(`You can update ${dataObject.name} below!`);
+      } else {
+        setSearchResults({
+          name: "ITEM NAME",
+          code: "00000000",
+          quantity: 10,
+          cost: 1.99,
+        });
+        setError("Item name doesn't exist!");
+      }
+    } else if (name === "searchCodeBtn") {
+      if (dataMapByCode.has(key)) {
+        let dataObject = dataMapByCode.get(key);
+        setSearchResults(dataObject);
+        setSuccess(`You can update ${dataObject.name} below!`);
+      } else {
+        setSearchResults({
+          name: "ITEM NAME",
+          code: "00000000",
+          quantity: 10,
+          cost: 1.99,
+        });
+        setError("Item code doesn't exist!");
+      }
+    }
+  }
+
+  console.log("search results:", searchResults);
 
   return (
     <div className="updateComponentBox">
@@ -98,7 +110,7 @@ function UpdateComponent({
         size="small"
         onFocus={() => setSearchCode("")}
         type="text"
-        name="nameInput"
+        name="searchNameInput"
         variant="outlined"
         required
         id="item-name"
@@ -118,13 +130,15 @@ function UpdateComponent({
         }}
       />
       <StyledButton
+        name="searchNameBtn"
         size="small"
         color="secondary"
-        onClick={() => {
-          searchByName(searchName.replace(/\s+/g, " ").trim());
+        onClick={(e) => {
+          searchInventory(
+            e.target.name,
+            searchName.replace(/\s+/g, " ").trim()
+          );
           setSearchCode("");
-          setInputQuantity(10);
-          setInputCost(1.99);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -151,7 +165,7 @@ function UpdateComponent({
         size="small"
         onFocus={() => setSearchName("")}
         type="text"
-        name="codeInput"
+        name="searchCodeInput"
         variant="outlined"
         required
         id="item-code"
@@ -172,13 +186,12 @@ function UpdateComponent({
       />
 
       <StyledButton
+        name="searchCodeBtn"
         size="small"
         color="secondary"
-        onClick={() => {
-          searchByCode(searchCode);
+        onClick={(e) => {
+          searchInventory(e.target.name, searchCode);
           setSearchName("");
-          setInputQuantity(10);
-          setInputCost(1.99);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -193,10 +206,12 @@ function UpdateComponent({
         onClick={() => {
           setSearchCode("");
           setSearchName("");
-          resetSearchTruth();
-          resetErrorSuccess();
-          setInputQuantity(10);
-          setInputCost(1.99);
+          setSearchResults({
+            name: "ITEM NAME",
+            code: "00000000",
+            quantity: 10,
+            cost: 1.99,
+          });
         }}
         sx={{
           fontWeight: "500",
@@ -207,7 +222,7 @@ function UpdateComponent({
             "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
         }}
       />
-      {success !== "" && (
+      {/* {success !== "" && (
         <Alert
           sx={{ margin: "0 0 10px 0" }}
           id="error-alert"
@@ -234,23 +249,25 @@ function UpdateComponent({
           <AlertTitle>Error</AlertTitle>
           {error}
         </Alert>
-      )}
-      <h3 className="sub-titles">Edit Inventory Item</h3>
+      )} */}
+      <h3 className="sub-titles">Update Inventory Item</h3>
       <TextField
+        name="nameInput"
         size="small"
         className="update-text-field"
         disabled
         id="outlined-disabled"
         label="Item Name"
-        value={editObject.name}
+        value={searchResults.name}
       />
       <TextField
+        name="codeInput"
         size="small"
         className="update-text-field"
         disabled
         id="outlined-disabled"
         label="Item Code"
-        value={editObject.code}
+        value={searchResults.code}
       />
       <RadioGroup
         row
@@ -283,6 +300,7 @@ function UpdateComponent({
         />
       </RadioGroup>
       <TextField
+        name="quantityInput"
         placeholder="Quantity"
         color="secondary"
         size="small"
@@ -290,16 +308,27 @@ function UpdateComponent({
         disabled={editFormTruth}
         id="outlined-disabled"
         label="Update Quantity"
-        value={inputQuantity}
-        onChange={(e) => setInputQuantity(e.target.value)}
+        value={searchResults.quantity}
+        onChange={(e) =>
+          setSearchResults((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+          }))
+        }
         type="number"
         inputProps={{ max: 10000, autoComplete: "off" }}
-        error={inputQuantity > 0 && inputQuantity <= 10000 ? false : true}
-        helperText={
-          inputQuantity > 0 && inputQuantity <= 10000
-            ? ""
-            : "Please choose a number between 0 and 10000"
-        }
+        // error={
+        //   searchResults.quantityInput > 0 &&
+        //   searchResults.quantityInput <= 10000
+        //     ? false
+        //     : true
+        // }
+        // helperText={
+        //   searchResults.quantityInput > 0 &&
+        //   searchResults.quantityInput <= 10000
+        //     ? ""
+        //     : "Please choose a number between 0 and 10000"
+        // }
       />
       <RadioGroup
         row
@@ -332,6 +361,7 @@ function UpdateComponent({
         />
       </RadioGroup>
       <TextField
+        name="costInput"
         placeholder="Cost"
         color="secondary"
         size="small"
@@ -339,16 +369,25 @@ function UpdateComponent({
         disabled={editFormTruth}
         id="outlined-disabled"
         label="Update Cost"
-        value={inputCost}
-        onChange={(e) => setInputCost(e.target.value)}
+        value={searchResults.cost}
+        onChange={(e) =>
+          setSearchResults((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+          }))
+        }
         type="number"
         inputProps={{ max: 10000, autoComplete: "off" }}
-        error={inputCost > 0 && inputCost <= 10000 ? false : true}
-        helperText={
-          inputCost > 0 && inputCost <= 10000
-            ? ""
-            : "Please choose a number between 0 and 10000"
-        }
+        // error={
+        //   searchResults.costInput > 0 && searchResults.costInput <= 10000
+        //     ? false
+        //     : true
+        // }
+        // helperText={
+        //   searchResults.costInput > 0 && searchResults.costInput <= 10000
+        //     ? ""
+        //     : "Please choose a number between 0 and 10000"
+        // }
       />
       <Box
         sx={{
