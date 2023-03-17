@@ -31,7 +31,14 @@ const StyledButton = styled(Button)`
   `}
 `;
 
-function UpdateComponent({ dataMapByName, dataMapByCode }) {
+function UpdateComponent({
+  dataMapByName,
+  dataMapByCode,
+  searchResults,
+  setSearchResults,
+  searchTruth,
+  setSearchTruth,
+}) {
   console.log("Render: UpdateComponent");
   //   key for function
   const [searchName, setSearchName] = useState("");
@@ -40,50 +47,39 @@ function UpdateComponent({ dataMapByName, dataMapByCode }) {
   const [radioQuantity, setRadioQuantity] = useState("add");
   const [radioCost, setRadioCost] = useState("add");
 
-  const [searchResults, setSearchResults] = useState({
-    name: "ITEM NAME",
-    code: "00000000",
-    quantity: 10,
-    cost: 1.99,
-  });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   let editFormTruth = false;
 
+  let defaultValues = {
+    name: "ITEM NAME",
+    code: "00000000",
+    quantity: 10,
+    cost: 1.99,
+  };
+
   function searchInventory(name, key) {
-    if (name === "searchNameBtn") {
-      if (dataMapByName.has(key)) {
-        let dataObject = dataMapByName.get(key);
-        setSearchResults(dataObject);
-        setSuccess(`You can update ${dataObject.name} below!`);
-      } else {
-        setSearchResults({
-          name: "ITEM NAME",
-          code: "00000000",
-          quantity: 10,
-          cost: 1.99,
-        });
-        setError("Item name doesn't exist!");
-      }
-    } else if (name === "searchCodeBtn") {
-      if (dataMapByCode.has(key)) {
-        let dataObject = dataMapByCode.get(key);
-        setSearchResults(dataObject);
-        setSuccess(`You can update ${dataObject.name} below!`);
-      } else {
-        setSearchResults({
-          name: "ITEM NAME",
-          code: "00000000",
-          quantity: 10,
-          cost: 1.99,
-        });
-        setError("Item code doesn't exist!");
-      }
+    if (name === "searchNameBtn" && dataMapByName.has(key)) {
+      setSearchTruth("nameTrue");
+      let dataObject = dataMapByName.get(key);
+      setSearchResults(dataObject);
+      setSuccess(`You can update ${dataObject.name} below!`);
+      setError("");
+    } else if (name === "searchCodeBtn" && dataMapByCode.has(key)) {
+      setSearchTruth("codeTrue");
+      let dataObject = dataMapByCode.get(key);
+      setSearchResults(dataObject);
+      setSuccess(`You can update ${dataObject.name} below!`);
+      setError("");
+    } else if (name === "searchNameBtn" && !dataMapByName.has(key)) {
+      setSearchTruth("nameFalse");
+      setSearchResults(defaultValues);
+    } else if (name === "searchCodeBtn" && !dataMapByCode.has(key)) {
+      setSearchTruth("codeFalse");
+      setSearchResults(defaultValues);
     }
   }
-
-  console.log("search results:", searchResults);
 
   return (
     <div className="updateComponentBox">
@@ -204,6 +200,7 @@ function UpdateComponent({ dataMapByName, dataMapByCode }) {
         label="RESET"
         variant="filled"
         onClick={() => {
+          setSearchTruth("false");
           setSearchCode("");
           setSearchName("");
           setSearchResults({

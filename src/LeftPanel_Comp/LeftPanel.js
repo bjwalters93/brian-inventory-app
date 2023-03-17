@@ -8,7 +8,15 @@ import { a11yProps } from "./component_extras";
 import AddComponent from "./AddComponent";
 import UpdateComponent from "./UpdateComponent";
 
-function LeftPanel({ data, dataMapByName, dataMapByCode }) {
+function LeftPanel({
+  data,
+  dataMapByName,
+  dataMapByCode,
+  searchResults,
+  setSearchResults,
+  searchTruth,
+  setSearchTruth,
+}) {
   console.log("Render: LeftPanel");
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   const [tabTracker, setTabTracker] = useState(0);
@@ -65,6 +73,10 @@ function LeftPanel({ data, dataMapByName, dataMapByCode }) {
             <UpdateComponent
               dataMapByName={dataMapByName}
               dataMapByCode={dataMapByCode}
+              searchResults={searchResults}
+              setSearchResults={setSearchResults}
+              searchTruth={searchTruth}
+              setSearchTruth={setSearchTruth}
             />
           </div>
         </Slide>

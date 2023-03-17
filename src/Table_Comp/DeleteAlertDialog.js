@@ -18,7 +18,7 @@ export default function DeleteAlertDialog({
   deleteItems,
   selectedElements,
   resetSelectedElements,
-  resetSearchTruth,
+  setSearchTruth,
 }) {
   const handleCloseNo = () => {
     resetSelectedElements([]);
@@ -66,7 +66,7 @@ export default function DeleteAlertDialog({
             variant="contained"
             onClick={() => {
               handleCloseYes();
-              resetSearchTruth();
+              setSearchTruth("false");
             }}
           >
             Yes

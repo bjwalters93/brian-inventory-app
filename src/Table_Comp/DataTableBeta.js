@@ -239,11 +239,10 @@ export default function DataTableBeta({
   deleteItems,
   dataMapByName,
   dataMapByCode,
-  searchNameTruth,
-  searchCodeTruth,
-  searchNameResults,
-  searchCodeResults,
-  resetSearchTruth,
+  searchResults,
+  setSearchResults,
+  searchTruth,
+  setSearchTruth,
 }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("name");
@@ -256,19 +255,20 @@ export default function DataTableBeta({
   console.log("Render: DataTable");
 
   const byNameArray = [];
-  //   const byCodeArray = [];
 
-  if (!searchNameTruth && !searchCodeTruth) {
+  if (
+    searchTruth === "false" ||
+    searchTruth === "nameFalse" ||
+    searchTruth === "codeFalse"
+  ) {
     dataMapByName.forEach(function (value, key) {
       byNameArray.push({ ...value, key: key });
     });
     // dataMapByCode.forEach(function (value, key) {
     //   byCodeArray.push({ ...value, key: key });
     // });
-  } else if (searchNameTruth) {
-    byNameArray.push({ ...searchNameResults, key: searchNameResults.name });
-  } else if (searchCodeTruth) {
-    byNameArray.push({ ...searchCodeResults, key: searchCodeResults.code });
+  } else if (searchTruth === "nameTrue" || searchTruth === "codeTrue") {
+    byNameArray.push({ ...searchResults });
   }
 
   const handleRequestSort = (event, property) => {
@@ -434,7 +434,7 @@ export default function DataTableBeta({
         deleteItems={deleteItems}
         selectedElements={selected}
         resetSelectedElements={setSelected}
-        resetSearchTruth={resetSearchTruth}
+        setSearchTruth={setSearchTruth}
       />
     </div>
   );
