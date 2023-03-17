@@ -435,6 +435,7 @@ export default function DataTableBeta({
         selectedElements={selected}
         resetSelectedElements={setSelected}
         setSearchTruth={setSearchTruth}
+        setSearchResults={setSearchResults}
       />
     </div>
   );

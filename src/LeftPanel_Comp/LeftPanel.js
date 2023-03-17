@@ -41,7 +41,20 @@ function LeftPanel({
           textColor="secondary"
           variant="fullWidth"
         >
-          <Tab sx={{ color: "white" }} label="Add" {...a11yProps(0)} />
+          <Tab
+            sx={{ color: "white" }}
+            label="Add"
+            {...a11yProps(0)}
+            onClick={() => {
+              setSearchTruth("false");
+              setSearchResults({
+                name: "ITEM NAME",
+                code: "00000000",
+                quantity: 10,
+                cost: 1.99,
+              });
+            }}
+          />
           <Tab sx={{ color: "white" }} label="Update" {...a11yProps(1)} />
         </Tabs>
       </div>

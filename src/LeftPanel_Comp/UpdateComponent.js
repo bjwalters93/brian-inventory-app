@@ -17,7 +17,6 @@ import CheckIcon from "@mui/icons-material/Check";
 import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
-import { DataObject } from "@mui/icons-material";
 
 const StyledButton = styled(Button)`
   ${({ theme }) => `
@@ -50,7 +49,7 @@ function UpdateComponent({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  let editFormTruth = false;
+  //   let editFormTruth = true;
 
   let defaultValues = {
     name: "ITEM NAME",
@@ -75,9 +74,13 @@ function UpdateComponent({
     } else if (name === "searchNameBtn" && !dataMapByName.has(key)) {
       setSearchTruth("nameFalse");
       setSearchResults(defaultValues);
+      setError("Item name doesn't exist!");
+      setSuccess("");
     } else if (name === "searchCodeBtn" && !dataMapByCode.has(key)) {
       setSearchTruth("codeFalse");
       setSearchResults(defaultValues);
+      setError("Item code doesn't exist!");
+      setSuccess("");
     }
   }
 
@@ -203,12 +206,9 @@ function UpdateComponent({
           setSearchTruth("false");
           setSearchCode("");
           setSearchName("");
-          setSearchResults({
-            name: "ITEM NAME",
-            code: "00000000",
-            quantity: 10,
-            cost: 1.99,
-          });
+          setSearchResults(defaultValues);
+          setSuccess("");
+          setError("");
         }}
         sx={{
           fontWeight: "500",
@@ -219,13 +219,14 @@ function UpdateComponent({
             "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
         }}
       />
-      {/* {success !== "" && (
+      {success !== "" && (
         <Alert
           sx={{ margin: "0 0 10px 0" }}
           id="error-alert"
           severity="success"
           onClose={() => {
-            resetErrorSuccess();
+            setSuccess("");
+            setError("");
           }}
           variant="filled"
         >
@@ -239,14 +240,15 @@ function UpdateComponent({
           id="error-alert"
           severity="error"
           onClose={() => {
-            resetErrorSuccess();
+            setSuccess("");
+            setError("");
           }}
           variant="filled"
         >
           <AlertTitle>Error</AlertTitle>
           {error}
         </Alert>
-      )} */}
+      )}
       <h3 className="sub-titles">Update Inventory Item</h3>
       <TextField
         name="nameInput"
@@ -281,7 +283,16 @@ function UpdateComponent({
             },
           }}
           value="add"
-          control={<Radio disabled={editFormTruth} color="secondary" />}
+          control={
+            <Radio
+              disabled={
+                searchTruth === "nameTrue" || searchTruth === "codeTrue"
+                  ? false
+                  : true
+              }
+              color="secondary"
+            />
+          }
           label="Add"
         />
         <FormControlLabel
@@ -292,37 +303,46 @@ function UpdateComponent({
             },
           }}
           value="subtract"
-          control={<Radio disabled={editFormTruth} color="secondary" />}
+          control={
+            <Radio
+              disabled={
+                searchTruth === "nameTrue" || searchTruth === "codeTrue"
+                  ? false
+                  : true
+              }
+              color="secondary"
+            />
+          }
           label="Subtract"
         />
       </RadioGroup>
       <TextField
+        disabled={
+          searchTruth === "nameTrue" || searchTruth === "codeTrue"
+            ? false
+            : true
+        }
         name="quantityInput"
         placeholder="Quantity"
         color="secondary"
         size="small"
         className="update-text-field"
-        disabled={editFormTruth}
         id="outlined-disabled"
         label="Update Quantity"
-        value={searchResults.quantity}
-        onChange={(e) =>
-          setSearchResults((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-          }))
-        }
+        // value={searchResults.quantity}
+        // onChange={(e) =>
+        //   setSearchResults((prev) => ({
+        //     ...prev,
+        //     [e.target.name]: e.target.value,
+        //   }))
+        // }
         type="number"
         inputProps={{ max: 10000, autoComplete: "off" }}
         // error={
-        //   searchResults.quantityInput > 0 &&
-        //   searchResults.quantityInput <= 10000
-        //     ? false
-        //     : true
+        //   searchResults.Input > 0 && searchResults.Input <= 10000 ? false : true
         // }
         // helperText={
-        //   searchResults.quantityInput > 0 &&
-        //   searchResults.quantityInput <= 10000
+        //   searchResults.Input > 0 && searchResults.Input <= 10000
         //     ? ""
         //     : "Please choose a number between 0 and 10000"
         // }
@@ -342,7 +362,16 @@ function UpdateComponent({
             },
           }}
           value="add"
-          control={<Radio disabled={editFormTruth} color="secondary" />}
+          control={
+            <Radio
+              disabled={
+                searchTruth === "nameTrue" || searchTruth === "codeTrue"
+                  ? false
+                  : true
+              }
+              color="secondary"
+            />
+          }
           label="Add"
         />
         <FormControlLabel
@@ -353,35 +382,46 @@ function UpdateComponent({
             },
           }}
           value="subtract"
-          control={<Radio disabled={editFormTruth} color="secondary" />}
+          control={
+            <Radio
+              disabled={
+                searchTruth === "nameTrue" || searchTruth === "codeTrue"
+                  ? false
+                  : true
+              }
+              color="secondary"
+            />
+          }
           label="Subtract"
         />
       </RadioGroup>
       <TextField
+        disabled={
+          searchTruth === "nameTrue" || searchTruth === "codeTrue"
+            ? false
+            : true
+        }
         name="costInput"
         placeholder="Cost"
         color="secondary"
         size="small"
         className="update-text-field"
-        disabled={editFormTruth}
         id="outlined-disabled"
         label="Update Cost"
-        value={searchResults.cost}
-        onChange={(e) =>
-          setSearchResults((prev) => ({
-            ...prev,
-            [e.target.name]: e.target.value,
-          }))
-        }
+        // value={searchResults.cost}
+        // onChange={(e) =>
+        //   setSearchResults((prev) => ({
+        //     ...prev,
+        //     [e.target.name]: e.target.value,
+        //   }))
+        // }
         type="number"
         inputProps={{ max: 10000, autoComplete: "off" }}
         // error={
-        //   searchResults.costInput > 0 && searchResults.costInput <= 10000
-        //     ? false
-        //     : true
+        //   searchResults.cost > 0 && searchResults.cost <= 10000 ? false : true
         // }
         // helperText={
-        //   searchResults.costInput > 0 && searchResults.costInput <= 10000
+        //   searchResults.cost > 0 && searchResults.cost <= 10000
         //     ? ""
         //     : "Please choose a number between 0 and 10000"
         // }
@@ -395,7 +435,11 @@ function UpdateComponent({
         }}
       >
         <Fab
-          disabled={editFormTruth}
+          disabled={
+            searchTruth === "nameTrue" || searchTruth === "codeTrue"
+              ? false
+              : true
+          }
           size="small"
           color="secondary"
           variant="extended"
