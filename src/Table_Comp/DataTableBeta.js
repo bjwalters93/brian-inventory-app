@@ -252,7 +252,7 @@ export default function DataTableBeta({
   const [rowsPerPage, setRowsPerPage] = useState(25);
   const [openDeleteAlert, setOpenDeleteAlert] = React.useState(false);
 
-  console.log("Render: DataTable");
+  // console.log("Render: DataTable");
 
   const byNameArray = [];
 

@@ -38,7 +38,7 @@ function UpdateComponent({
   searchTruth,
   setSearchTruth,
 }) {
-  console.log("Render: UpdateComponent");
+  // console.log("Render: UpdateComponent");
   //   key for function
   const [searchName, setSearchName] = useState("");
   const [searchCode, setSearchCode] = useState("");
@@ -58,29 +58,65 @@ function UpdateComponent({
     cost: 1.99,
   };
 
+  //   function searchInventory(name, key) {
+  //     console.log("triggered");
+  //     if (name === "searchNameBtn" && dataMapByName.has(key)) {
+  //       setSearchTruth("nameTrue");
+  //       let dataObject = dataMapByName.get(key);
+  //       setSearchResults(dataObject);
+  //       setSuccess(`You can update ${dataObject.name} below!`);
+  //       setError("");
+  //     } else if (name === "searchCodeBtn" && dataMapByCode.has(key)) {
+  //       setSearchTruth("codeTrue");
+  //       let dataObject = dataMapByCode.get(key);
+  //       setSearchResults(dataObject);
+  //       setSuccess(`You can update ${dataObject.name} below!`);
+  //       setError("");
+  //     } else if (name === "searchNameBtn" && !dataMapByName.has(key)) {
+  //       setSearchTruth("nameFalse");
+  //       setSearchResults(defaultValues);
+  //       setError("Item name doesn't exist!");
+  //       setSuccess("");
+  //       console.log("should update name error");
+  //     } else if (name === "searchCodeBtn" && !dataMapByCode.has(key)) {
+  //       setSearchTruth("codeFalse");
+  //       setSearchResults(defaultValues);
+  //       setError("Item code doesn't exist!");
+  //       setSuccess("");
+  //     }
+  //   }
+
   function searchInventory(name, key) {
+    console.log(`triggered name=<${name}> key=<${key}>`);
     if (name === "searchNameBtn" && dataMapByName.has(key)) {
+      console.log("triggered A");
       setSearchTruth("nameTrue");
       let dataObject = dataMapByName.get(key);
       setSearchResults(dataObject);
       setSuccess(`You can update ${dataObject.name} below!`);
       setError("");
     } else if (name === "searchCodeBtn" && dataMapByCode.has(key)) {
+      console.log("triggered B");
       setSearchTruth("codeTrue");
       let dataObject = dataMapByCode.get(key);
       setSearchResults(dataObject);
       setSuccess(`You can update ${dataObject.name} below!`);
       setError("");
     } else if (name === "searchNameBtn" && !dataMapByName.has(key)) {
+      console.log("triggered C");
       setSearchTruth("nameFalse");
       setSearchResults(defaultValues);
       setError("Item name doesn't exist!");
       setSuccess("");
+      console.log("should update name error");
     } else if (name === "searchCodeBtn" && !dataMapByCode.has(key)) {
+      console.log("triggered D");
       setSearchTruth("codeFalse");
       setSearchResults(defaultValues);
       setError("Item code doesn't exist!");
       setSuccess("");
+    } else {
+      console.log("triggered but INVALID");
     }
   }
 
@@ -129,12 +165,11 @@ function UpdateComponent({
         }}
       />
       <StyledButton
-        name="searchNameBtn"
         size="small"
         color="secondary"
-        onClick={(e) => {
+        onClick={() => {
           searchInventory(
-            e.target.name,
+            "searchNameBtn",
             searchName.replace(/\s+/g, " ").trim()
           );
           setSearchCode("");
@@ -185,11 +220,10 @@ function UpdateComponent({
       />
 
       <StyledButton
-        name="searchCodeBtn"
         size="small"
         color="secondary"
-        onClick={(e) => {
-          searchInventory(e.target.name, searchCode);
+        onClick={() => {
+          searchInventory("searchCodeBtn", searchCode);
           setSearchName("");
         }}
         variant="contained"

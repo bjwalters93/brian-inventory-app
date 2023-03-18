@@ -16,7 +16,7 @@ export class InventoryItem {
   }
   itemInformation() {
     let info = `name: ${this.name}, code: ${this.code}, quantity: ${this.quantity}, price: ${this.price}`;
-    console.log(info);
+    // console.log(info);
     return info;
   }
 }

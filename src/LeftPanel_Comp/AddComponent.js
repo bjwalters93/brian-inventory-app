@@ -21,7 +21,7 @@ const StyledButton = styled(Button)`
 `;
 
 function AddComponent({ data, dataMapByName, dataMapByCode }) {
-  console.log("Render: AddComponent");
+  // console.log("Render: AddComponent");
   const [inputs, setInputs] = useState({
     nameInput: ["ITEM NAME", false],
     codeInput: ["00000000", false],
