@@ -37,8 +37,6 @@ function DataTable(props) {
       border: 0,
     },
   }));
-
-  // console.log("Render: DataTable");
   const byNameArray = [];
   const byCodeArray = [];
 

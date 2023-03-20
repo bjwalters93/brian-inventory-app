@@ -266,7 +266,7 @@ function App() {
       name,
       code,
       quantity,
-      Number(cost).toFixed(2)
+      Number(cost.toFixed(2))
     );
     updateMapByName(item.name, item);
     updateMapByCode(item.code, item);
@@ -318,6 +318,8 @@ function App() {
             setSearchResults={setSearchResults}
             searchTruth={searchTruth}
             setSearchTruth={setSearchTruth}
+            setDataMapByName={setDataMapByName}
+            setDataMapByCode={setDataMapByCode}
           />
           <DataTableBeta
             deleteItems={deleteItems}

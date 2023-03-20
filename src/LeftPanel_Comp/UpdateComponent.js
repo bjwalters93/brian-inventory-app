@@ -33,84 +33,87 @@ const StyledButton = styled(Button)`
 function UpdateComponent({
   dataMapByName,
   dataMapByCode,
+  setDataMapByName,
+  setDataMapByCode,
   searchResults,
   setSearchResults,
   searchTruth,
   setSearchTruth,
 }) {
-  // console.log("Render: UpdateComponent");
-  //   key for function
-  const [searchName, setSearchName] = useState("");
-  const [searchCode, setSearchCode] = useState("");
+  const defaultUpdateFormValues = {
+    quantityRadioField: "add",
+    quantityInputField: 100,
+    quantityTruth: true,
+    costRadioField: "add",
+    costInputField: 7.95,
+    costTruth: true,
+  };
 
-  const [radioQuantity, setRadioQuantity] = useState("add");
-  const [radioCost, setRadioCost] = useState("add");
-
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-
-  //   let editFormTruth = true;
-
-  let defaultValues = {
+  const defaultValues = {
     name: "ITEM NAME",
     code: "00000000",
     quantity: 10,
     cost: 1.99,
   };
 
-  //   function searchInventory(name, key) {
-  //     console.log("triggered");
-  //     if (name === "searchNameBtn" && dataMapByName.has(key)) {
-  //       setSearchTruth("nameTrue");
-  //       let dataObject = dataMapByName.get(key);
-  //       setSearchResults(dataObject);
-  //       setSuccess(`You can update ${dataObject.name} below!`);
-  //       setError("");
-  //     } else if (name === "searchCodeBtn" && dataMapByCode.has(key)) {
-  //       setSearchTruth("codeTrue");
-  //       let dataObject = dataMapByCode.get(key);
-  //       setSearchResults(dataObject);
-  //       setSuccess(`You can update ${dataObject.name} below!`);
-  //       setError("");
-  //     } else if (name === "searchNameBtn" && !dataMapByName.has(key)) {
-  //       setSearchTruth("nameFalse");
-  //       setSearchResults(defaultValues);
-  //       setError("Item name doesn't exist!");
-  //       setSuccess("");
-  //       console.log("should update name error");
-  //     } else if (name === "searchCodeBtn" && !dataMapByCode.has(key)) {
-  //       setSearchTruth("codeFalse");
-  //       setSearchResults(defaultValues);
-  //       setError("Item code doesn't exist!");
-  //       setSuccess("");
-  //     }
-  //   }
+  const [searchName, setSearchName] = useState("");
+  const [searchCode, setSearchCode] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [updateForm, setUpdateForm] = useState(defaultUpdateFormValues);
+
+  function updateItem() {
+    if (updateForm.quantityTruth && updateForm.costTruth) {
+      let name = searchResults.name;
+      let code = searchResults.code;
+      let prevQuantity = searchResults.quantity;
+      let prevCost = searchResults.cost;
+      let addOrsubtract_quantity = updateForm.quantityRadioField;
+      let addOrsubtract_cost = updateForm.costRadioField;
+      let newQuantity;
+      if (addOrsubtract_quantity === "add") {
+        newQuantity = prevQuantity + updateForm.quantityInputField;
+      } else if (updateForm.quantityRadioField === "subtract") {
+        newQuantity = prevQuantity - updateForm.quantityInputField;
+      } else console.log("Quantity radio group error!");
+      let newCost;
+      if (addOrsubtract_cost === "add") {
+        newCost = prevCost + updateForm.costInputField;
+      } else if (updateForm.costRadioField === "subtract") {
+        newCost = prevCost - updateForm.costInputField;
+      } else console.log("Cost radio group error!");
+      let item = {
+        name: name,
+        code: code,
+        quantity: newQuantity,
+        cost: Number(newCost.toFixed(2)),
+      };
+      setSearchResults(item);
+      setDataMapByName((prevState) => new Map(prevState.set(item.name, item)));
+      setDataMapByCode((prevState) => new Map(prevState.set(item.code, item)));
+      //   setUpdateForm(defaultUpdateFormValues);
+    } else console.log("Update item error!");
+  }
 
   function searchInventory(name, key) {
-    console.log(`triggered name=<${name}> key=<${key}>`);
     if (name === "searchNameBtn" && dataMapByName.has(key)) {
-      console.log("triggered A");
       setSearchTruth("nameTrue");
       let dataObject = dataMapByName.get(key);
       setSearchResults(dataObject);
       setSuccess(`You can update ${dataObject.name} below!`);
       setError("");
     } else if (name === "searchCodeBtn" && dataMapByCode.has(key)) {
-      console.log("triggered B");
       setSearchTruth("codeTrue");
       let dataObject = dataMapByCode.get(key);
       setSearchResults(dataObject);
       setSuccess(`You can update ${dataObject.name} below!`);
       setError("");
     } else if (name === "searchNameBtn" && !dataMapByName.has(key)) {
-      console.log("triggered C");
       setSearchTruth("nameFalse");
       setSearchResults(defaultValues);
       setError("Item name doesn't exist!");
       setSuccess("");
-      console.log("should update name error");
     } else if (name === "searchCodeBtn" && !dataMapByCode.has(key)) {
-      console.log("triggered D");
       setSearchTruth("codeFalse");
       setSearchResults(defaultValues);
       setError("Item code doesn't exist!");
@@ -243,6 +246,7 @@ function UpdateComponent({
           setSearchResults(defaultValues);
           setSuccess("");
           setError("");
+          setUpdateForm(defaultUpdateFormValues);
         }}
         sx={{
           fontWeight: "500",
@@ -304,9 +308,14 @@ function UpdateComponent({
       />
       <RadioGroup
         row
-        defaultValue="add"
-        name="row-radio-buttons-group-quantity"
-        onChange={(e) => setRadioQuantity(e.target.value)}
+        value={updateForm.quantityRadioField}
+        name="quantityRadioField"
+        onChange={(e) => {
+          setUpdateForm((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+          }));
+        }}
         sx={{ margin: "-10px 0 0 0" }}
       >
         <FormControlLabel
@@ -356,36 +365,53 @@ function UpdateComponent({
             ? false
             : true
         }
-        name="quantityInput"
+        name="quantityInputField"
         placeholder="Quantity"
         color="secondary"
         size="small"
         className="update-text-field"
         id="outlined-disabled"
         label="Update Quantity"
-        // value={searchResults.quantity}
-        // onChange={(e) =>
-        //   setSearchResults((prev) => ({
-        //     ...prev,
-        //     [e.target.name]: e.target.value,
-        //   }))
-        // }
+        value={updateForm.quantityInputField}
+        onChange={(e) => {
+          setUpdateForm((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+          }));
+          e.target.value > 0 && e.target.value <= 10000 && e.target.value !== ""
+            ? setUpdateForm((prevState) => ({
+                ...prevState,
+                quantityTruth: true,
+              }))
+            : setUpdateForm((prevState) => ({
+                ...prevState,
+                quantityTruth: false,
+              }));
+        }}
         type="number"
         inputProps={{ max: 10000, autoComplete: "off" }}
-        // error={
-        //   searchResults.Input > 0 && searchResults.Input <= 10000 ? false : true
-        // }
-        // helperText={
-        //   searchResults.Input > 0 && searchResults.Input <= 10000
-        //     ? ""
-        //     : "Please choose a number between 0 and 10000"
-        // }
+        error={updateForm.quantityTruth ? false : true}
+        helperText={
+          updateForm.quantityTruth
+            ? ""
+            : "Please choose a number between 0 and 10000"
+        }
+        onKeyDown={(event) => {
+          if (!event.key.match(/[0-9]/) && !event.key.match("Backspace")) {
+            event.preventDefault();
+          }
+        }}
       />
       <RadioGroup
         row
-        defaultValue="add"
-        name="row-radio-buttons-group-cost"
-        onChange={(e) => setRadioCost(e.target.value)}
+        value={updateForm.costRadioField}
+        name="costRadioField"
+        onChange={(e) => {
+          setUpdateForm((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+          }));
+        }}
         sx={{ margin: "-10px 0 0 0" }}
       >
         <FormControlLabel
@@ -435,30 +461,34 @@ function UpdateComponent({
             ? false
             : true
         }
-        name="costInput"
+        name="costInputField"
         placeholder="Cost"
         color="secondary"
         size="small"
         className="update-text-field"
         id="outlined-disabled"
         label="Update Cost"
-        // value={searchResults.cost}
-        // onChange={(e) =>
-        //   setSearchResults((prev) => ({
-        //     ...prev,
-        //     [e.target.name]: e.target.value,
-        //   }))
-        // }
+        value={updateForm.costInputField}
+        onChange={(e) => {
+          setUpdateForm((prevState) => ({
+            ...prevState,
+            [e.target.name]: e.target.value,
+          }));
+          e.target.value > 0 && e.target.value <= 10000 && e.target.value !== ""
+            ? setUpdateForm((prevState) => ({ ...prevState, costTruth: true }))
+            : setUpdateForm((prevState) => ({
+                ...prevState,
+                costTruth: false,
+              }));
+        }}
         type="number"
         inputProps={{ max: 10000, autoComplete: "off" }}
-        // error={
-        //   searchResults.cost > 0 && searchResults.cost <= 10000 ? false : true
-        // }
-        // helperText={
-        //   searchResults.cost > 0 && searchResults.cost <= 10000
-        //     ? ""
-        //     : "Please choose a number between 0 and 10000"
-        // }
+        error={updateForm.costTruth ? false : true}
+        helperText={
+          updateForm.costTruth
+            ? ""
+            : "Please choose a number between 0 and 10000"
+        }
       />
       <Box
         sx={{
@@ -479,6 +509,9 @@ function UpdateComponent({
           variant="extended"
           aria-label="edit"
           sx={{ marginLeft: "10px" }}
+          onClick={() => {
+            updateItem();
+          }}
         >
           <CheckIcon sx={{ margin: "0 5px 0 5px" }} />
           <Box sx={{ margin: "0 10px 0 0" }}>UPDATE</Box>

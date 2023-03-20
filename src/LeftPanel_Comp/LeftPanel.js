@@ -12,12 +12,13 @@ function LeftPanel({
   data,
   dataMapByName,
   dataMapByCode,
+  setDataMapByName,
+  setDataMapByCode,
   searchResults,
   setSearchResults,
   searchTruth,
   setSearchTruth,
 }) {
-  console.log("Render: LeftPanel");
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   const [tabTracker, setTabTracker] = useState(0);
   const [tabOneTransition, setTabOneTransition] = useState(true);
@@ -86,6 +87,8 @@ function LeftPanel({
             <UpdateComponent
               dataMapByName={dataMapByName}
               dataMapByCode={dataMapByCode}
+              setDataMapByName={setDataMapByName}
+              setDataMapByCode={setDataMapByCode}
               searchResults={searchResults}
               setSearchResults={setSearchResults}
               searchTruth={searchTruth}

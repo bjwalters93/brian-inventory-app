@@ -21,7 +21,6 @@ const StyledButton = styled(Button)`
 `;
 
 function AddComponent({ data, dataMapByName, dataMapByCode }) {
-  // console.log("Render: AddComponent");
   const [inputs, setInputs] = useState({
     nameInput: ["ITEM NAME", false],
     codeInput: ["00000000", false],
@@ -194,6 +193,11 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         inputProps={{ max: 10000, autoComplete: "off" }}
         value={inputs.quantityInput[0]}
         size="small"
+        onKeyDown={(event) => {
+          if (!event.key.match(/[0-9]/) && !event.key.match("Backspace")) {
+            event.preventDefault();
+          }
+        }}
       />
       <TextField
         name="costInput"
