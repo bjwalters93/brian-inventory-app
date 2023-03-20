@@ -45,7 +45,7 @@ function UpdateComponent({
     quantityInputField: 100,
     quantityTruth: true,
     costRadioField: "add",
-    costInputField: 7.95,
+    costInputField: 10,
     costTruth: true,
   };
 
@@ -86,13 +86,19 @@ function UpdateComponent({
         name: name,
         code: code,
         quantity: newQuantity,
-        cost: Number(newCost.toFixed(2)),
+        cost: Math.round(newCost * 100) / 100,
       };
       setSearchResults(item);
       setDataMapByName((prevState) => new Map(prevState.set(item.name, item)));
       setDataMapByCode((prevState) => new Map(prevState.set(item.code, item)));
-      //   setUpdateForm(defaultUpdateFormValues);
-    } else console.log("Update item error!");
+      setSuccess("Your item has been successfully updated!");
+      setError("");
+      setUpdateForm(defaultUpdateFormValues);
+    } else {
+      setError("Invalid entry. Item was not updated!");
+      setSuccess("");
+      console.log("Update item error!");
+    }
   }
 
   function searchInventory(name, key) {
@@ -176,6 +182,7 @@ function UpdateComponent({
             searchName.replace(/\s+/g, " ").trim()
           );
           setSearchCode("");
+          setUpdateForm(defaultUpdateFormValues);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -228,6 +235,7 @@ function UpdateComponent({
         onClick={() => {
           searchInventory("searchCodeBtn", searchCode);
           setSearchName("");
+          setUpdateForm(defaultUpdateFormValues);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -376,7 +384,7 @@ function UpdateComponent({
         onChange={(e) => {
           setUpdateForm((prevState) => ({
             ...prevState,
-            [e.target.name]: e.target.value,
+            [e.target.name]: Number(Math.round(e.target.value)),
           }));
           e.target.value > 0 && e.target.value <= 10000 && e.target.value !== ""
             ? setUpdateForm((prevState) => ({
@@ -396,11 +404,6 @@ function UpdateComponent({
             ? ""
             : "Please choose a number between 0 and 10000"
         }
-        onKeyDown={(event) => {
-          if (!event.key.match(/[0-9]/) && !event.key.match("Backspace")) {
-            event.preventDefault();
-          }
-        }}
       />
       <RadioGroup
         row
@@ -472,7 +475,7 @@ function UpdateComponent({
         onChange={(e) => {
           setUpdateForm((prevState) => ({
             ...prevState,
-            [e.target.name]: e.target.value,
+            [e.target.name]: Number(e.target.value),
           }));
           e.target.value > 0 && e.target.value <= 10000 && e.target.value !== ""
             ? setUpdateForm((prevState) => ({ ...prevState, costTruth: true }))

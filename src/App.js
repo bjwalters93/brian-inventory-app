@@ -262,12 +262,7 @@ function App() {
   const [searchTruth, setSearchTruth] = useState("false");
 
   function pushData(name, code, quantity, cost) {
-    const item = new InventoryItem(
-      name,
-      code,
-      quantity,
-      Number(cost.toFixed(2))
-    );
+    const item = new InventoryItem(name, code, quantity, cost);
     updateMapByName(item.name, item);
     updateMapByCode(item.code, item);
   }

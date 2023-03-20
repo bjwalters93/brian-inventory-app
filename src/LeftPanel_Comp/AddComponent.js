@@ -37,7 +37,9 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         ? event.target.value.toUpperCase()
         : name === "codeInput"
         ? event.target.value.toUpperCase()
-        : event.target.value;
+        : name === "quantityInput"
+        ? Number(Math.round(event.target.value))
+        : Number(event.target.value);
     let valid;
     if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
       valid = true;
@@ -76,11 +78,14 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         false &&
       dataMapByCode.has(inputs.codeInput[0]) === false
     ) {
+      let initialNumber = inputs.costInput[0];
+      let roundedNumber = Math.round(initialNumber * 100) / 100;
       data(
         inputs.nameInput[0].replace(/\s+/g, " ").trim(),
         inputs.codeInput[0],
         inputs.quantityInput[0],
-        inputs.costInput[0]
+        // inputs.costInput[0],
+        roundedNumber
       );
       setErrorText("");
       setSuccessText(
@@ -193,11 +198,6 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         inputProps={{ max: 10000, autoComplete: "off" }}
         value={inputs.quantityInput[0]}
         size="small"
-        onKeyDown={(event) => {
-          if (!event.key.match(/[0-9]/) && !event.key.match("Backspace")) {
-            event.preventDefault();
-          }
-        }}
       />
       <TextField
         name="costInput"
