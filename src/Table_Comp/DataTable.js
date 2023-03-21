@@ -84,14 +84,3 @@ function DataTable(props) {
 }
 
 export default DataTable;
-
-// const fruits = new Map([
-//   ["001", { firstName: "Brian", lastName: "Walters" }],
-//   ["002", { firstName: "Kyle", lastName: "Walters" }],
-//   ["003", { firstName: "Ted", lastName: "Walters" }],
-// ]);
-
-// let text = [];
-// fruits.forEach(function (value, key) {
-//   text += `key = ${value.firstName} ${value.lastName} <br>`;
-// });

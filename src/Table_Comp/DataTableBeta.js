@@ -283,8 +283,7 @@ export default function DataTableBeta({
         byNameArray.push({ ...value, key: key });
       }
     });
-    console.log("filter truth = true");
-  }
+  } else console.log("data table error!");
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
