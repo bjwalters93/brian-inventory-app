@@ -37,66 +37,6 @@ function App() {
 
   setColors();
 
-  // const items = [
-  //   { name: "SNICKERS", code: "00000001", quantity: 200, cost: 5.99 },
-  //   { name: "SKITTLES", code: "00000002", quantity: 100, cost: 5.99 },
-  //   { name: "ICE CREAM", code: "00000003", quantity: 200, cost: 5.99 },
-  // ];
-
-  // const searchItems = (value) => {
-  //   return items.filter((item) => {
-  //     let match = false;
-  //     Object.keys(item).forEach((key) => {
-  //       if (item[key] === value) {
-  //         match = true;
-  //       }
-  //     });
-  //     return match;
-  //   });
-  // };
-
-  // console.log(searchItems(200));
-
-  //   const items = [
-  //     { name: "SNICKERS", code: "00000001", quantity: 200, cost: 5.99 },
-  //     { name: "SKITTLES", code: "00000002", quantity: 100, cost: 5.99 },
-  //     { name: "ICE CREAM", code: "00000003", quantity: 200, cost: 5.99 },
-  //   ];
-
-  //   const searchItems = (value) => {
-  //     return items.filter((item) => {
-  //       let match = false;
-  //       const keys = Object.keys(item);
-  //       keys.forEach((key) => {
-  //         const propertyValue = item[key];
-  //         if (propertyValue === value) {
-  //           match = true;
-  //         }
-  //       });
-  //       return match;
-  //     });
-  //   };
-
-  //   const searchItemsByProperty = (property, value) => {
-  //     return items.filter((item) => {
-  //       let match = false;
-  //       const propertyValue = item[property];
-  //       if (propertyValue === value) {
-  //         match = true;
-  //       }
-  //       return match;
-  //     });
-  //   };
-  //   let result = searchItems(200);
-
-  //   result = searchItems(5.99);
-
-  //   result = searchItems(200);
-
-  //   result = searchItemsByProperty("name", "SNICKERS");
-
-  //   result = searchItemsByProperty("quantity", 200);
-
   const [dataMapByName, setDataMapByName] = useState(
     new Map([
       [
@@ -260,6 +200,7 @@ function App() {
     cost: "1.99",
   });
   const [searchTruth, setSearchTruth] = useState("false");
+  const [filterTruth, setFilterTruth] = useState(false);
 
   function pushData(name, code, quantity, cost) {
     const item = new InventoryItem(name, code, quantity, cost);
@@ -315,6 +256,7 @@ function App() {
             setSearchTruth={setSearchTruth}
             setDataMapByName={setDataMapByName}
             setDataMapByCode={setDataMapByCode}
+            setFilterTruth={setFilterTruth}
           />
           <DataTableBeta
             deleteItems={deleteItems}
@@ -324,6 +266,8 @@ function App() {
             setSearchResults={setSearchResults}
             searchTruth={searchTruth}
             setSearchTruth={setSearchTruth}
+            filterTruth={filterTruth}
+            setFilterTruth={setFilterTruth}
           />
         </div>
       </ThemeProvider>

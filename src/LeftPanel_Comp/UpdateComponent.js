@@ -39,6 +39,7 @@ function UpdateComponent({
   setSearchResults,
   searchTruth,
   setSearchTruth,
+  setFilterTruth,
 }) {
   const defaultUpdateFormValues = {
     quantityRadioField: "add",
@@ -191,6 +192,7 @@ function UpdateComponent({
           );
           setSearchCode("");
           setUpdateForm(defaultUpdateFormValues);
+          setFilterTruth(false);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -244,6 +246,7 @@ function UpdateComponent({
           searchInventory("searchCodeBtn", searchCode);
           setSearchName("");
           setUpdateForm(defaultUpdateFormValues);
+          setFilterTruth(false);
         }}
         variant="contained"
         startIcon={<SearchIcon />}
@@ -263,6 +266,7 @@ function UpdateComponent({
           setSuccess("");
           setError("");
           setUpdateForm(defaultUpdateFormValues);
+          setFilterTruth(false);
         }}
         sx={{
           fontWeight: "500",
@@ -526,6 +530,7 @@ function UpdateComponent({
           sx={{ marginLeft: "10px" }}
           onClick={() => {
             updateItem();
+            setFilterTruth(false);
           }}
         >
           <CheckIcon sx={{ margin: "0 5px 0 5px" }} />

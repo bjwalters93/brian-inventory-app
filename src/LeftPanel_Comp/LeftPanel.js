@@ -18,6 +18,7 @@ function LeftPanel({
   setSearchResults,
   searchTruth,
   setSearchTruth,
+  setFilterTruth,
 }) {
   //   ----Tabs Component Code ----- switches tabs, activates transitions
   const [tabTracker, setTabTracker] = useState(0);
@@ -93,6 +94,7 @@ function LeftPanel({
               setSearchResults={setSearchResults}
               searchTruth={searchTruth}
               setSearchTruth={setSearchTruth}
+              setFilterTruth={setFilterTruth}
             />
           </div>
         </Slide>

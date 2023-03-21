@@ -221,8 +221,12 @@ function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
+        <Tooltip title="Filter list: All items under quantity of 10">
+          <IconButton
+            onClick={() => {
+              props.setFilterTruth((prev) => !prev);
+            }}
+          >
             <FilterListIcon sx={{ color: "white" }} />
           </IconButton>
         </Tooltip>
@@ -243,6 +247,8 @@ export default function DataTableBeta({
   setSearchResults,
   searchTruth,
   setSearchTruth,
+  filterTruth,
+  setFilterTruth,
 }) {
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("name");
@@ -255,9 +261,10 @@ export default function DataTableBeta({
   const byNameArray = [];
 
   if (
-    searchTruth === "false" ||
-    searchTruth === "nameFalse" ||
-    searchTruth === "codeFalse"
+    (searchTruth === "false" ||
+      searchTruth === "nameFalse" ||
+      searchTruth === "codeFalse") &&
+    filterTruth === false
   ) {
     dataMapByName.forEach(function (value, key) {
       byNameArray.push({ ...value, key: key });
@@ -265,8 +272,18 @@ export default function DataTableBeta({
     // dataMapByCode.forEach(function (value, key) {
     //   byCodeArray.push({ ...value, key: key });
     // });
-  } else if (searchTruth === "nameTrue" || searchTruth === "codeTrue") {
+  } else if (
+    (searchTruth === "nameTrue" || searchTruth === "codeTrue") &&
+    filterTruth === false
+  ) {
     byNameArray.push({ ...searchResults });
+  } else if (filterTruth) {
+    dataMapByName.forEach(function (value, key) {
+      if (value.quantity <= 10) {
+        byNameArray.push({ ...value, key: key });
+      }
+    });
+    console.log("filter truth = true");
   }
 
   const handleRequestSort = (event, property) => {
@@ -342,6 +359,7 @@ export default function DataTableBeta({
           sx={{ color: "white" }}
         />
         <EnhancedTableToolbar
+          setFilterTruth={setFilterTruth}
           deleteAlert={setOpenDeleteAlert}
           numSelected={selected.length}
         />

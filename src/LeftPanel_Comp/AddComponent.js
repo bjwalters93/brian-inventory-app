@@ -253,6 +253,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         onClick={submitForm}
         variant="contained"
         startIcon={<AddCircleOutlineIcon />}
+        sx={{ marginTop: "10px" }}
       >
         Submit
       </StyledButton>
@@ -274,17 +275,6 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
           boxShadow:
             "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
         }}
-      />
-      <TextField
-        variant="outlined"
-        required
-        id="Cost"
-        type="number"
-        color="secondary"
-        onChange={(event) => {
-          console.log("type:", typeof event.target.value);
-        }}
-        // inputProps={{ max: 10000, autoComplete: "off" }}
       />
     </div>
   );
