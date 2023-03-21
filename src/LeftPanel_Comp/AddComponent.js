@@ -24,8 +24,8 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
   const [inputs, setInputs] = useState({
     nameInput: ["ITEM NAME", false],
     codeInput: ["00000000", false],
-    quantityInput: [10, true],
-    costInput: [1.99, true],
+    quantityInput: ["10", true],
+    costInput: ["1.99", true],
   });
   const [successText, setSuccessText] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -37,9 +37,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         ? event.target.value.toUpperCase()
         : name === "codeInput"
         ? event.target.value.toUpperCase()
-        : name === "quantityInput"
-        ? Number(Math.round(event.target.value))
-        : Number(event.target.value);
+        : event.target.value;
     let valid;
     if (name === "nameInput" && value !== "" && value !== "ITEM NAME") {
       valid = true;
@@ -78,14 +76,15 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         false &&
       dataMapByCode.has(inputs.codeInput[0]) === false
     ) {
-      let initialNumber = inputs.costInput[0];
-      let roundedNumber = Math.round(initialNumber * 100) / 100;
+      let quantityInput = Number(inputs.quantityInput[0]).toFixed(0);
+      let costInput = Number(inputs.costInput[0]).toFixed(2);
       data(
         inputs.nameInput[0].replace(/\s+/g, " ").trim(),
         inputs.codeInput[0],
-        inputs.quantityInput[0],
-        // inputs.costInput[0],
-        roundedNumber
+        quantityInput,
+        costInput
+        // inputs.quantityInput[0],
+        // inputs.costInput[0]
       );
       setErrorText("");
       setSuccessText(
@@ -109,8 +108,8 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
     setInputs({
       nameInput: ["ITEM NAME", false],
       codeInput: ["00000000", false],
-      quantityInput: [10, true],
-      costInput: [1.99, true],
+      quantityInput: ["10", true],
+      costInput: ["1.99", true],
     });
   }
 
@@ -184,7 +183,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         helperText={
           inputs.quantityInput[1]
             ? ""
-            : "Please choose a number between 0 and 10000"
+            : "Please choose a whole number greater than or equal 0 and  less than or equal to 10000"
         }
         id="item-quantity"
         label="Quantity"
@@ -195,7 +194,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         onChange={(event) => {
           inputTracker(event);
         }}
-        inputProps={{ max: 10000, autoComplete: "off" }}
+        inputProps={{ autoComplete: "off" }}
         value={inputs.quantityInput[0]}
         size="small"
       />
@@ -207,7 +206,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         helperText={
           inputs.costInput[1]
             ? ""
-            : "Please choose a number between 0 and 10000"
+            : "Please choose a number greater than or equal 0 and  less than or equal to 10000"
         }
         id="Cost"
         label="Cost"
@@ -218,7 +217,7 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
         onChange={(event) => {
           inputTracker(event);
         }}
-        inputProps={{ max: 10000, autoComplete: "off" }}
+        inputProps={{ autoComplete: "off" }}
         value={inputs.costInput[0]}
         size="small"
       />
@@ -275,6 +274,17 @@ function AddComponent({ data, dataMapByName, dataMapByCode }) {
           boxShadow:
             "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
         }}
+      />
+      <TextField
+        variant="outlined"
+        required
+        id="Cost"
+        type="number"
+        color="secondary"
+        onChange={(event) => {
+          console.log("type:", typeof event.target.value);
+        }}
+        // inputProps={{ max: 10000, autoComplete: "off" }}
       />
     </div>
   );

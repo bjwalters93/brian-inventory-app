@@ -256,8 +256,8 @@ function App() {
   const [searchResults, setSearchResults] = useState({
     name: "ITEM NAME",
     code: "00000000",
-    quantity: 10,
-    cost: 1.99,
+    quantity: "10",
+    cost: "1.99",
   });
   const [searchTruth, setSearchTruth] = useState("false");
 

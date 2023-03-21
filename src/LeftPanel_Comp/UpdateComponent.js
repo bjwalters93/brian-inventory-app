@@ -42,18 +42,18 @@ function UpdateComponent({
 }) {
   const defaultUpdateFormValues = {
     quantityRadioField: "add",
-    quantityInputField: 100,
+    quantityInputField: "100",
     quantityTruth: true,
     costRadioField: "add",
-    costInputField: 10,
+    costInputField: "10",
     costTruth: true,
   };
 
   const defaultValues = {
     name: "ITEM NAME",
     code: "00000000",
-    quantity: 10,
-    cost: 1.99,
+    quantity: "10",
+    cost: "1.99",
   };
 
   const [searchName, setSearchName] = useState("");
@@ -72,21 +72,29 @@ function UpdateComponent({
       let addOrsubtract_cost = updateForm.costRadioField;
       let newQuantity;
       if (addOrsubtract_quantity === "add") {
-        newQuantity = prevQuantity + updateForm.quantityInputField;
+        newQuantity =
+          Number(prevQuantity) +
+          Number(Number(updateForm.quantityInputField).toFixed(0));
       } else if (updateForm.quantityRadioField === "subtract") {
-        newQuantity = prevQuantity - updateForm.quantityInputField;
+        newQuantity =
+          Number(prevQuantity) -
+          Number(Number(updateForm.quantityInputField).toFixed(0));
       } else console.log("Quantity radio group error!");
       let newCost;
       if (addOrsubtract_cost === "add") {
-        newCost = prevCost + updateForm.costInputField;
+        newCost =
+          Number(prevCost) +
+          Number(Number(updateForm.costInputField).toFixed(2));
       } else if (updateForm.costRadioField === "subtract") {
-        newCost = prevCost - updateForm.costInputField;
+        newCost =
+          Number(prevCost) -
+          Number(Number(updateForm.costInputField).toFixed(2));
       } else console.log("Cost radio group error!");
       let item = {
         name: name,
         code: code,
-        quantity: newQuantity,
-        cost: Math.round(newCost * 100) / 100,
+        quantity: newQuantity.toFixed(0),
+        cost: newCost.toFixed(2),
       };
       setSearchResults(item);
       setDataMapByName((prevState) => new Map(prevState.set(item.name, item)));
@@ -384,9 +392,11 @@ function UpdateComponent({
         onChange={(e) => {
           setUpdateForm((prevState) => ({
             ...prevState,
-            [e.target.name]: Number(Math.round(e.target.value)),
+            [e.target.name]: e.target.value,
           }));
-          e.target.value > 0 && e.target.value <= 10000 && e.target.value !== ""
+          e.target.value >= 0 &&
+          e.target.value <= 10000 &&
+          e.target.value !== ""
             ? setUpdateForm((prevState) => ({
                 ...prevState,
                 quantityTruth: true,
@@ -397,12 +407,12 @@ function UpdateComponent({
               }));
         }}
         type="number"
-        inputProps={{ max: 10000, autoComplete: "off" }}
+        inputProps={{ autoComplete: "off" }}
         error={updateForm.quantityTruth ? false : true}
         helperText={
           updateForm.quantityTruth
             ? ""
-            : "Please choose a number between 0 and 10000"
+            : "Please choose a whole number greater than or equal 0 and  less than or equal to 10000"
         }
       />
       <RadioGroup
@@ -475,9 +485,11 @@ function UpdateComponent({
         onChange={(e) => {
           setUpdateForm((prevState) => ({
             ...prevState,
-            [e.target.name]: Number(e.target.value),
+            [e.target.name]: e.target.value,
           }));
-          e.target.value > 0 && e.target.value <= 10000 && e.target.value !== ""
+          e.target.value >= 0 &&
+          e.target.value <= 10000 &&
+          e.target.value !== ""
             ? setUpdateForm((prevState) => ({ ...prevState, costTruth: true }))
             : setUpdateForm((prevState) => ({
                 ...prevState,
@@ -485,12 +497,12 @@ function UpdateComponent({
               }));
         }}
         type="number"
-        inputProps={{ max: 10000, autoComplete: "off" }}
+        inputProps={{ autoComplete: "off" }}
         error={updateForm.costTruth ? false : true}
         helperText={
           updateForm.costTruth
             ? ""
-            : "Please choose a number between 0 and 10000"
+            : "Please choose a number greater than or equal 0 and  less than or equal to 10000"
         }
       />
       <Box

@@ -51,8 +51,8 @@ function LeftPanel({
               setSearchResults({
                 name: "ITEM NAME",
                 code: "00000000",
-                quantity: 10,
-                cost: 1.99,
+                quantity: "10",
+                cost: "1.99",
               });
             }}
           />
