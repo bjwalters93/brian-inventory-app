@@ -201,7 +201,16 @@ function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <Typography
-          sx={{ flex: "1 1 100%", color: "white", fontSize: "14px" }}
+          //   sx={{ flex: "1 1 100%", color: "white", fontSize: "14px" }}
+          sx={
+            !props.filterTruth
+              ? { flex: "1 1 100%", color: "white", fontSize: "14px" }
+              : {
+                  flex: "1 1 100%",
+                  color: darkTheme.palette.error.main,
+                  fontSize: "14px",
+                }
+          }
           variant="h6"
           id="tableTitle"
           component="div"
@@ -227,7 +236,13 @@ function EnhancedTableToolbar(props) {
               props.setFilterTruth((prev) => !prev);
             }}
           >
-            <FilterListIcon sx={{ color: "white" }} />
+            <FilterListIcon
+              sx={
+                !props.filterTruth
+                  ? { color: "white" }
+                  : { color: darkTheme.palette.error.main }
+              }
+            />
           </IconButton>
         </Tooltip>
       )}
@@ -358,6 +373,7 @@ export default function DataTableBeta({
           sx={{ color: "white" }}
         />
         <EnhancedTableToolbar
+          filterTruth={filterTruth}
           setFilterTruth={setFilterTruth}
           deleteAlert={setOpenDeleteAlert}
           numSelected={selected.length}
