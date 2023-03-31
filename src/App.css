@@ -1,1 +1,47 @@
+:root {
+  --mainBackgroundColorLight: #32363e;
+  --mainBackgroundColorDark: #16181d;
+  --selectedPaginationBackground: #ff8c00;
+  --selectedPaginationColor: black;
+}
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--scrollBarColor);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollBarColorHover);
+}
+
+::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track:horizontal {
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb:horizontal {
+  background: var(--scrollBarColor);
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:horizontal:hover {
+  background: var(--scrollBarColorHover);
+}

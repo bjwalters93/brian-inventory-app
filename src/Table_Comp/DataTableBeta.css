@@ -1,0 +1,112 @@
+.table-container-main {
+  margin: 52px 20px 0 420px;
+  padding: 0 20px;
+  /* border: 1px solid green; */
+  /* max-width: 1000px; */
+  /* padding: 0 0 20px 0; */
+  height: calc(100vh - 52px);
+  /* box-shadow: 4px 4px 4px 0px var(--dropShadowColor); */
+  /* background-color: var(--compTwoBackground); */
+  overflow-y: scroll;
+  min-height: 500px;
+  z-index: 0;
+  position: relative;
+}
+
+.table-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border-bottom: 3px solid var(--compOneFontColor); */
+  padding: 20px 20px 0 20px;
+  background-color: var(--headerBackground);
+  /* margin: 30px 0 0 0; */
+}
+
+.table-title {
+  font-family: "Mitr", sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  margin: 0 0 0 10px;
+  padding: 0;
+  color: white;
+}
+
+.table-container {
+  /* max-width: 1000px; */
+  height: calc(100% - 84px);
+  box-sizing: border-box;
+  /* border: 1px solid blue; */
+  padding: 0 30px;
+  overflow-y: scroll;
+}
+
+.title-icon-flex {
+  display: flex;
+}
+
+.css-1ws511x-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected {
+  background-color: var(--selectedPaginationBackground);
+  color: var(--selectedPaginationColor);
+}
+
+.css-1ws511x-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected:hover {
+  background-color: var(--selectedPaginationBackground);
+  color: var(--selectedPaginationColor);
+}
+
+.css-1ws511x-MuiButtonBase-root-MuiMenuItem-root-MuiTablePagination-menuItem.Mui-selected:focus {
+  background-color: var(--selectedPaginationBackground);
+  color: var(--selectedPaginationColor);
+}
+
+@media screen and (max-width: 1032px) {
+  .table-container-main {
+    margin: 0;
+    padding: 0 20px 100px 20px;
+    height: initial;
+    min-height: initial;
+    position: relative;
+    top: 52px;
+  }
+  .table-container {
+    overflow-y: initial;
+  }
+  .table-title-container {
+    overflow-x: scroll;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .table-container-main {
+    margin: 0;
+    padding: 0 20px 100px 20px;
+    height: initial;
+    min-height: initial;
+    position: relative;
+    top: 84px;
+  }
+  .table-container {
+    overflow-y: initial;
+  }
+  .table-title-container {
+    overflow-x: scroll;
+  }
+}
+
+@media screen and (max-width: 336px) {
+  .table-container-main {
+    margin: 0;
+    padding: 0 20px 100px 20px;
+    height: initial;
+    min-height: initial;
+    position: relative;
+    top: 108px;
+  }
+  .table-container {
+    overflow-y: initial;
+  }
+  .table-title-container {
+    overflow-x: scroll;
+  }
+}

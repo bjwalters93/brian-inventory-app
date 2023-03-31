@@ -1,0 +1,84 @@
+.left-panel-container {
+  min-width: 400px;
+  position: fixed;
+  top: 52px;
+  background-color: var(--compOneBackground);
+  height: calc(100vh - 52px);
+  box-shadow: 4px 0px 4px 0px var(--dropShadowColor);
+}
+
+/* adding scroll bar or removing scroll bar changes max width because it adds extra padding. */
+.user-input-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0 50px;
+  max-width: calc(283px + 17px);
+  height: calc(100vh - 52px - 48px);
+  overflow-y: scroll;
+}
+
+.left-panel-navigation-tabs {
+  background-color: var(--headerBackground);
+  color: white;
+}
+
+@media screen and (max-width: 1032px) {
+  .left-panel-container {
+    /* max-width: 500px; */
+    /* margin: 0 auto; */
+    /* width: 100%; */
+    min-width: initial;
+    position: relative;
+    height: initial;
+    top: 52px;
+    z-index: 0;
+  }
+
+  .user-input-flex {
+    max-width: initial;
+    margin: 0 auto;
+    height: initial;
+    overflow-y: initial;
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .left-panel-container {
+    /* max-width: 500px; */
+    /* margin: 0 auto; */
+    /* width: 100%; */
+    min-width: initial;
+    position: relative;
+    height: initial;
+    top: 84px;
+    z-index: 0;
+  }
+
+  .user-input-flex {
+    max-width: initial;
+    margin: 0 auto;
+    height: initial;
+    overflow-y: initial;
+  }
+}
+
+@media screen and (max-width: 336px) {
+  .left-panel-container {
+    /* max-width: 500px; */
+    /* margin: 0 auto; */
+    /* width: 100%; */
+    min-width: initial;
+    position: relative;
+    height: initial;
+    top: 108px;
+    z-index: 0;
+  }
+
+  .user-input-flex {
+    max-width: initial;
+    margin: 0 auto;
+    height: initial;
+    overflow-y: initial;
+  }
+}
